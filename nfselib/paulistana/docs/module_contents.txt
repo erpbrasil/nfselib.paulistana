@@ -1,0 +1,39 @@
+Module contents
+=================
+
+.. automodule:: PedidoEnvioLoteRPS
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: PedidoConsultaLote
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: RetornoEnvioLoteRPS
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: RetornoConsulta
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: RetornoInformacoesLote
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: PedidoConsultaNFe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: PedidoCancelamentoLote
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: RetornoCancelamentoNFe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. automodule:: PedidoCancelamentoNFe
+    :members:
+    :undoc-members:
+    :show-inheritance:
