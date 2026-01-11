@@ -42,9 +42,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/nfselib.paulistana
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/nfselib.paulistana/v0.2.0.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/nfselib.paulistana/v0.3.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/erpbrasil/nfselib.paulistana/compare/v0.2.0...master
+    :target: https://github.com/erpbrasil/nfselib.paulistana/compare/v0.3.0...master
 
 .. end-badges
 
