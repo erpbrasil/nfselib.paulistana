@@ -829,6 +829,53 @@
 			<xs:element name="cPaisPrestacao" type="tipos:tpCodigoPaisISO" minOccurs="1" maxOccurs="1" />
 		</xs:choice>
 	</xs:group>
+	<xs:simpleType name="tpRetencaoPisCofins">
+		<xs:annotation>
+			<xs:documentation>Tipo referente ao indicador de retenção de PIS/COFINS/CSLL (NT-007).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS/CSLL Não Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="4">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS Retidos, CSLL Não Retido.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="5">
+				<xs:annotation>
+					<xs:documentation>PIS Retido, COFINS/CSLL Não Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="6">
+				<xs:annotation>
+					<xs:documentation>COFINS Retido, PIS/CSLL Não Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="7">
+				<xs:annotation>
+					<xs:documentation>PIS Não Retido, COFINS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="8">
+				<xs:annotation>
+					<xs:documentation>PIS/COFINS Não Retidos, CSLL Retido.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="9">
+				<xs:annotation>
+					<xs:documentation>COFINS Não Retido, PIS/CSLL Retidos.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
 	<!-- Tipos Complexos -->
 	<xs:complexType name="tpEvento">
 		<xs:sequence>
@@ -2018,6 +2065,11 @@
 			<xs:element name="Discriminacao" type="tipos:tpDiscriminacao" minOccurs="1" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Informe a discriminação dos serviços.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RetencaoPisCofins" type="tipos:tpRetencaoPisCofins" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indicador de retenção de PIS/COFINS/CSLL (NT-007).</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ValorCargaTributaria" type="tipos:tpValor" minOccurs="0" maxOccurs="1">
