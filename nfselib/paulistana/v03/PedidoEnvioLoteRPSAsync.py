@@ -11,13 +11,13 @@
 #   ('--member-specs', 'list')
 #   ('--use-getter-setter', 'none')
 #   ('-f', '')
-#   ('-o', 'nfselib/paulistana/v03/PedidoCancelamentoLote.py')
+#   ('-o', 'nfselib/paulistana/v03/PedidoEnvioLoteRPSAsync.py')
 #
 # Command line arguments:
-#   schemas/nfse/PedidoCancelamentoLote_v02.xsd
+#   schemas/nfse/PedidoEnvioLoteRPSAsync_v02.xsd
 #
 # Command line:
-#   /private/tmp/claude-501/-Users-mileo-Documents-kmee-projects-erpbrasil/c2d822bb-806b-4c8a-a82d-034786fd62d1/scratchpad/gds-venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoCancelamentoLote.py" schemas/nfse/PedidoCancelamentoLote_v02.xsd
+#   /private/tmp/claude-501/-Users-mileo-Documents-kmee-projects-erpbrasil/c2d822bb-806b-4c8a-a82d-034786fd62d1/scratchpad/gds-venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoEnvioLoteRPSAsync.py" schemas/nfse/PedidoEnvioLoteRPSAsync_v02.xsd
 #
 # Current working directory (os.getcwd()):
 #   nfselib.paulistana
@@ -1211,27 +1211,32 @@ class tpTipoRPS(str, Enum):
 #
 # Start data representation classes
 #
-class PedidoCancelamentoLote(GeneratedsSuper):
-    """PedidoCancelamentoLote -- Schema utilizado para PEDIDO de cancelamento de lote.
+class PedidoEnvioLoteRPS(GeneratedsSuper):
+    """PedidoEnvioLoteRPS -- Schema utilizado para PEDIDO de envio de lote de RPS.
     Este Schema XML
     é
     utilizado pelos prestadores de servi
     ç
-    os cancelarem as NFS-e geradas a partir de um lote de RPS.
+    os para substitui
+    ç
+    ã
+    o em lote de RPS por NFS-e.
     Cabecalho -- Cabe
     ç
-    alho do pedido de cancelamento de lote.
-    Signature -- Assinatura digital do CNPJ emissor dos RPS.
+    alho do pedido.
+    RPS -- Informe os RPS a serem substituidos por NFS-e.
+    Signature -- Assinatura digital do contribuinte que gerou os RPS contidos na mensagem XML.
     
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
         MemberSpec_('Cabecalho', 'CabecalhoType', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Cabecalho', 'type': 'CabecalhoType'}, None),
+        MemberSpec_('RPS', 'tpRPS', 1, 0, {'maxOccurs': 'unbounded', 'minOccurs': '1', 'name': 'RPS', 'type': 'tpRPS'}, None),
         MemberSpec_('Signature', 'SignatureType', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Signature', 'ref': 'Signature', 'type': 'Signature'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, Cabecalho=None, Signature=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Cabecalho=None, RPS=None, Signature=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1239,53 +1244,59 @@ class PedidoCancelamentoLote(GeneratedsSuper):
         self.ns_prefix_ = None
         self.Cabecalho = Cabecalho
         self.Cabecalho_nsprefix_ = None
+        if RPS is None:
+            self.RPS = []
+        else:
+            self.RPS = RPS
+        self.RPS_nsprefix_ = None
         self.Signature = Signature
         self.Signature_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, PedidoCancelamentoLote)
+                CurrentSubclassModule_, PedidoEnvioLoteRPS)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if PedidoCancelamentoLote.subclass:
-            return PedidoCancelamentoLote.subclass(*args_, **kwargs_)
+        if PedidoEnvioLoteRPS.subclass:
+            return PedidoEnvioLoteRPS.subclass(*args_, **kwargs_)
         else:
-            return PedidoCancelamentoLote(*args_, **kwargs_)
+            return PedidoEnvioLoteRPS(*args_, **kwargs_)
     factory = staticmethod(factory)
     def has__content(self):
         if (
             self.Cabecalho is not None or
+            self.RPS or
             self.Signature is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoCancelamentoLote', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('PedidoCancelamentoLote')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoEnvioLoteRPS', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('PedidoEnvioLoteRPS')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'PedidoCancelamentoLote':
+        if self.original_tagname_ is not None and name_ == 'PedidoEnvioLoteRPS':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='PedidoCancelamentoLote')
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='PedidoEnvioLoteRPS')
         if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='PedidoCancelamentoLote', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='PedidoEnvioLoteRPS', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='PedidoCancelamentoLote'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='PedidoEnvioLoteRPS'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoCancelamentoLote', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoEnvioLoteRPS', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1293,6 +1304,9 @@ class PedidoCancelamentoLote(GeneratedsSuper):
         if self.Cabecalho is not None:
             namespaceprefix_ = self.Cabecalho_nsprefix_ + ':' if (UseCapturedNS_ and self.Cabecalho_nsprefix_) else ''
             self.Cabecalho.export(outfile, level, namespaceprefix_, namespacedef_='', name_='Cabecalho', pretty_print=pretty_print)
+        for RPS_ in self.RPS:
+            namespaceprefix_ = self.RPS_nsprefix_ + ':' if (UseCapturedNS_ and self.RPS_nsprefix_) else ''
+            RPS_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='RPS', pretty_print=pretty_print)
         if self.Signature is not None:
             namespaceprefix_ = self.Signature_nsprefix_ + ':' if (UseCapturedNS_ and self.Signature_nsprefix_) else ''
             self.Signature.export(outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='Signature', pretty_print=pretty_print)
@@ -1315,12 +1329,17 @@ class PedidoCancelamentoLote(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Cabecalho = obj_
             obj_.original_tagname_ = 'Cabecalho'
+        elif nodeName_ == 'RPS':
+            obj_ = tpRPS.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.RPS.append(obj_)
+            obj_.original_tagname_ = 'RPS'
         elif nodeName_ == 'Signature':
             obj_ = SignatureType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Signature = obj_
             obj_.original_tagname_ = 'Signature'
-# end class PedidoCancelamentoLote
+# end class PedidoEnvioLoteRPS
 
 
 class tpEvento(GeneratedsSuper):
@@ -9424,10 +9443,10 @@ class tpRPS(GeneratedsSuper):
     ç
     o. O conte
     ú
-    do deste campo ser
+    do deste campo
+    ser
     á
-    ignorado caso o campo InscricaoMunicipalTomador esteja pre
-    enchido.
+    ignorado caso o campo InscricaoMunicipalTomador esteja preenchido.
     InscricaoMunicipalTomador -- Informe a Inscri
     ç
     ã
@@ -11766,25 +11785,56 @@ class X509DataType(GeneratedsSuper):
 class CabecalhoType(GeneratedsSuper):
     """CabecalhoType -- Cabe
     ç
-    alho do pedido de cancelamento de lote.
+    alho do pedido.
     Versao -- Informe a Vers
     ã
     o do Schema XML utilizado.
     CPFCNPJRemetente -- Informe o CPF/CNPJ do Remetente autorizado a transmitir a mensagem XML.
-    NumeroLote -- Informe o n
-    ú
-    mero do Lote a ser cancelado.
+    transacao -- Informe se os RPS a serem substitu
+    í
+    dos por NFS-e far
+    ã
+    o parte de uma mesma transa
+    ç
+    ã
+    o. True - Os RPS s
+    ó
+    ser
+    ã
+    o substitu
+    í
+    dos por NFS-e se n
+    ã
+    o ocorrer nenhum evento de erro durante o processamento de todo o lote; False - Os RPS v
+    á
+    lidos ser
+    ã
+    o substitu
+    í
+    dos por NFS-e, mesmo que ocorram eventos de erro durante processamento de outros RPS deste lote.
+    dtInicio -- Informe a data de in
+    í
+    cio do per
+    í
+    odo transmitido (AAAA-MM-DD).
+    dtFim -- Informe a data final do per
+    í
+    odo transmitido (AAAA-MM-DD).
+    QtdRPS -- Informe o total de RPS contidos na mensagem XML.
     
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
         MemberSpec_('Versao', 'tipos:tpVersao', 0, 0, {'use': 'required', 'name': 'Versao'}),
         MemberSpec_('CPFCNPJRemetente', 'tpCPFCNPJ', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPFCNPJRemetente', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('NumeroLote', ['tpNumero', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroLote', 'type': 'xs:long'}, None),
+        MemberSpec_('transacao', 'xs:boolean', 0, 1, {'default': 'true', 'maxOccurs': '1', 'minOccurs': '0', 'name': 'transacao', 'type': 'xs:boolean'}, None),
+        MemberSpec_('dtInicio', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtInicio', 'type': 'xs:date'}, None),
+        MemberSpec_('dtFim', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtFim', 'type': 'xs:date'}, None),
+        MemberSpec_('QtdRPS', ['tpQuantidade', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'QtdRPS', 'type': 'xs:long'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, Versao=None, CPFCNPJRemetente=None, NumeroLote=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Versao=None, CPFCNPJRemetente=None, transacao=True, dtInicio=None, dtFim=None, QtdRPS=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -11794,9 +11844,23 @@ class CabecalhoType(GeneratedsSuper):
         self.Versao_nsprefix_ = None
         self.CPFCNPJRemetente = CPFCNPJRemetente
         self.CPFCNPJRemetente_nsprefix_ = None
-        self.NumeroLote = NumeroLote
-        self.validate_tpNumero(self.NumeroLote)
-        self.NumeroLote_nsprefix_ = None
+        self.transacao = transacao
+        self.transacao_nsprefix_ = None
+        if isinstance(dtInicio, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(dtInicio, '%Y-%m-%d').date()
+        else:
+            initvalue_ = dtInicio
+        self.dtInicio = initvalue_
+        self.dtInicio_nsprefix_ = None
+        if isinstance(dtFim, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(dtFim, '%Y-%m-%d').date()
+        else:
+            initvalue_ = dtFim
+        self.dtFim = initvalue_
+        self.dtFim_nsprefix_ = None
+        self.QtdRPS = QtdRPS
+        self.validate_tpQuantidade(self.QtdRPS)
+        self.QtdRPS_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11808,20 +11872,20 @@ class CabecalhoType(GeneratedsSuper):
         else:
             return CabecalhoType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def validate_tpNumero(self, value):
+    def validate_tpQuantidade(self, value):
         result = True
-        # Validate type tpNumero, a restriction on xs:long.
+        # Validate type tpQuantidade, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, int):
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
                 return False
             if not self.gds_validate_simple_patterns(
-                    self.validate_tpNumero_patterns_, value):
-                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
+                    self.validate_tpQuantidade_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpQuantidade_patterns_, ))
                 result = False
         return result
-    validate_tpNumero_patterns_ = [['^([0-9]{1,12})$']]
+    validate_tpQuantidade_patterns_ = [['^([0-9]{1,15})$']]
     def validate_tpVersao(self, value):
         # Validate type tipos:tpVersao, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -11836,7 +11900,10 @@ class CabecalhoType(GeneratedsSuper):
     def has__content(self):
         if (
             self.CPFCNPJRemetente is not None or
-            self.NumeroLote is not None
+            not self.transacao or
+            self.dtInicio is not None or
+            self.dtFim is not None or
+            self.QtdRPS is not None
         ):
             return True
         else:
@@ -11876,10 +11943,22 @@ class CabecalhoType(GeneratedsSuper):
         if self.CPFCNPJRemetente is not None:
             namespaceprefix_ = self.CPFCNPJRemetente_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJRemetente_nsprefix_) else ''
             self.CPFCNPJRemetente.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJRemetente', pretty_print=pretty_print)
-        if self.NumeroLote is not None:
-            namespaceprefix_ = self.NumeroLote_nsprefix_ + ':' if (UseCapturedNS_ and self.NumeroLote_nsprefix_) else ''
+        if not self.transacao:
+            namespaceprefix_ = self.transacao_nsprefix_ + ':' if (UseCapturedNS_ and self.transacao_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNumeroLote>%s</%sNumeroLote>%s' % (namespaceprefix_ , self.gds_format_integer(self.NumeroLote, input_name='NumeroLote'), namespaceprefix_ , eol_))
+            outfile.write('<%stransacao>%s</%stransacao>%s' % (namespaceprefix_ , self.gds_format_boolean(self.transacao, input_name='transacao'), namespaceprefix_ , eol_))
+        if self.dtInicio is not None:
+            namespaceprefix_ = self.dtInicio_nsprefix_ + ':' if (UseCapturedNS_ and self.dtInicio_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sdtInicio>%s</%sdtInicio>%s' % (namespaceprefix_ , self.gds_format_date(self.dtInicio, input_name='dtInicio'), namespaceprefix_ , eol_))
+        if self.dtFim is not None:
+            namespaceprefix_ = self.dtFim_nsprefix_ + ':' if (UseCapturedNS_ and self.dtFim_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sdtFim>%s</%sdtFim>%s' % (namespaceprefix_ , self.gds_format_date(self.dtFim, input_name='dtFim'), namespaceprefix_ , eol_))
+        if self.QtdRPS is not None:
+            namespaceprefix_ = self.QtdRPS_nsprefix_ + ':' if (UseCapturedNS_ and self.QtdRPS_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sQtdRPS>%s</%sQtdRPS>%s' % (namespaceprefix_ , self.gds_format_integer(self.QtdRPS, input_name='QtdRPS'), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -11903,14 +11982,30 @@ class CabecalhoType(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.CPFCNPJRemetente = obj_
             obj_.original_tagname_ = 'CPFCNPJRemetente'
-        elif nodeName_ == 'NumeroLote' and child_.text:
+        elif nodeName_ == 'transacao':
             sval_ = child_.text
-            ival_ = self.gds_parse_integer(sval_, node, 'NumeroLote')
-            ival_ = self.gds_validate_integer(ival_, node, 'NumeroLote')
-            self.NumeroLote = ival_
-            self.NumeroLote_nsprefix_ = child_.prefix
-            # validate type tpNumero
-            self.validate_tpNumero(self.NumeroLote)
+            ival_ = self.gds_parse_boolean(sval_, node, 'transacao')
+            ival_ = self.gds_validate_boolean(ival_, node, 'transacao')
+            self.transacao = ival_
+            self.transacao_nsprefix_ = child_.prefix
+        elif nodeName_ == 'dtInicio':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.dtInicio = dval_
+            self.dtInicio_nsprefix_ = child_.prefix
+        elif nodeName_ == 'dtFim':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.dtFim = dval_
+            self.dtFim_nsprefix_ = child_.prefix
+        elif nodeName_ == 'QtdRPS' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'QtdRPS')
+            ival_ = self.gds_validate_integer(ival_, node, 'QtdRPS')
+            self.QtdRPS = ival_
+            self.QtdRPS_nsprefix_ = child_.prefix
+            # validate type tpQuantidade
+            self.validate_tpQuantidade(self.QtdRPS)
 # end class CabecalhoType
 
 
@@ -12342,8 +12437,8 @@ def parse(inFileName, silence=False, print_warnings=True):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoLote'
-        rootClass = PedidoCancelamentoLote
+        rootTag = 'PedidoEnvioLoteRPS'
+        rootClass = PedidoEnvioLoteRPS
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     CapturedNsmap_, namespacedefs = get_required_ns_prefix_defs(rootNode)
@@ -12374,8 +12469,8 @@ def parseEtree(inFileName, silence=False, print_warnings=True,
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoLote'
-        rootClass = PedidoCancelamentoLote
+        rootTag = 'PedidoEnvioLoteRPS'
+        rootClass = PedidoEnvioLoteRPS
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     if mapping is None:
@@ -12420,8 +12515,8 @@ def parseString(inString, silence=False, print_warnings=True):
     gds_collector = GdsCollector_()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoLote'
-        rootClass = PedidoCancelamentoLote
+        rootTag = 'PedidoEnvioLoteRPS'
+        rootClass = PedidoEnvioLoteRPS
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     if not SaveElementTreeNode:
@@ -12448,8 +12543,8 @@ def parseLiteral(inFileName, silence=False, print_warnings=True):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoLote'
-        rootClass = PedidoCancelamentoLote
+        rootTag = 'PedidoEnvioLoteRPS'
+        rootClass = PedidoEnvioLoteRPS
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     # Enable Python to collect the space used by the DOM.
@@ -12457,8 +12552,8 @@ def parseLiteral(inFileName, silence=False, print_warnings=True):
         doc = None
         rootNode = None
     if not silence:
-        sys.stdout.write('#from PedidoCancelamentoLote import *\n\n')
-        sys.stdout.write('import PedidoCancelamentoLote as model_\n\n')
+        sys.stdout.write('#from PedidoEnvioLoteRPSAsync import *\n\n')
+        sys.stdout.write('import PedidoEnvioLoteRPSAsync as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
@@ -12814,7 +12909,7 @@ __all__ = [
     "DigestMethodType",
     "KeyInfoType",
     "KeyValueType",
-    "PedidoCancelamentoLote",
+    "PedidoEnvioLoteRPS",
     "RSAKeyValueType",
     "ReferenceType",
     "SignatureMethodType",
