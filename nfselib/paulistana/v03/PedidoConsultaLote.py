@@ -112,7 +112,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 #
 
 try:
-    from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
+    from nfselib.paulistana.v03.generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
 except ModulenotfoundExp_ :
     GenerateDSNamespaceDefs_ = {}
 try:
