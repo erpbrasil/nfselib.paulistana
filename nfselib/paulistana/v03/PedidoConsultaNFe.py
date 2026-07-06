@@ -3,7 +3,7 @@
 
 #
 # Generated  by generateDS.py version 2.44.3.
-# Python 3.10.12 (main, Nov  4 2025, 08:48:33) [GCC 11.4.0]
+# Python 3.14.5 (main, May 10 2026, 10:21:34) [Clang 21.0.0 (clang-2100.0.123.102)]
 #
 # Command line options:
 #   ('--no-namespace-defs', '')
@@ -17,10 +17,10 @@
 #   schemas/nfse/PedidoConsultaNFe_v02.xsd
 #
 # Command line:
-#   /home/cristiano/nfse_paulistana/venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoConsultaNFe.py" schemas/nfse/PedidoConsultaNFe_v02.xsd
+#   /private/tmp/claude-501/-Users-mileo-Documents-kmee-projects-erpbrasil/c2d822bb-806b-4c8a-a82d-034786fd62d1/scratchpad/gds-venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoConsultaNFe.py" schemas/nfse/PedidoConsultaNFe_v02.xsd
 #
 # Current working directory (os.getcwd()):
-#   nfse_paulistana
+#   nfselib.paulistana
 #
 
 import sys
@@ -112,7 +112,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 #
 
 try:
-    from .generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
+    from nfselib.paulistana.v03.generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
 except ModulenotfoundExp_ :
     GenerateDSNamespaceDefs_ = {}
 try:
@@ -180,7 +180,7 @@ except ModulenotfoundExp_ as exp:
     except ModulenotfoundExp_ as exp:
         class GeneratedsSuperSuper(object):
             pass
-
+    
     class GeneratedsSuper(GeneratedsSuperSuper):
         __hash__ = object.__hash__
         tzoff_pattern = re_.compile('(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)$')
@@ -266,7 +266,7 @@ except ModulenotfoundExp_ as exp:
             if value.endswith('.'):
                 value += '0'
             return value
-
+    
         def gds_parse_float(self, input_data, node=None, input_name=''):
             try:
                 fval_ = float(input_data)
@@ -696,8 +696,8 @@ except ModulenotfoundExp_ as exp:
                     self.gds_elementtree_node_.sourceline)
             else:
                 return ""
-
-
+    
+    
     def getSubclassFromModule_(module, class_):
         '''Get the subclass of a class from a specific module.'''
         name = class_.__name__ + 'Sub'
@@ -1010,7 +1010,7 @@ def _cast(typ, value):
 #
 class tpEnteGov(str, Enum):
     """tpEnteGov -- Tipo do ente da compra governamental.
-
+    
     """
     _1='1' # União.
     _2='2' # Estados.
@@ -1022,7 +1022,7 @@ class tpFinNFSe(str, Enum):
     """tpFinNFSe -- Indicador da finalidade da emiss
     ã
     o de NFS-e.
-
+    
     """
     _0='0' # 0 = NFS-e regular.
 
@@ -1033,7 +1033,7 @@ class tpIndDest(str, Enum):
     rio dos servi
     ç
     os.
-
+    
     """
     _0='0' # O destinatário é o próprio tomador/adquirente identificado na NFS-e (tomador = adquirente = destinatário).
     _1='1' # O destinatário não é o próprio adquirente, podendo ser outra pessoa, física ou jurídica (ou equiparada), ou um estabelecimento diferente do indicado como tomador (tomador = adquirente ≠ destinatário).
@@ -1046,7 +1046,7 @@ class tpNaoNIF(str, Enum):
     ç
     ã
     o do NIF.
-
+    
     """
     _0='0' # 0 - Não informado na nota de origem;
     _1='1' # 1 - Dispensado do NIF;
@@ -1057,7 +1057,7 @@ class tpNaoSim(str, Enum):
     """tpNaoSim -- Tipo de N
     ã
     o ou Sim.
-
+    
     """
     _0='0' # Não.
     _1='1' # Sim.
@@ -1072,7 +1072,7 @@ class tpOpcaoSimples(str, Enum):
     ç
     õ
     es de escolha pelo Simples.
-
+    
     """
     _0='0' # Não-optante pelo Simples Federal nem Municipal.
     _1='1' # Optante pelo Simples Federal (Alíquota de 1,0%).
@@ -1091,7 +1091,7 @@ class tpOper(str, Enum):
     os sobre bens im
     ó
     veis.
-
+    
     """
     _1='1' # Fornecimento com pagamento posterior.
     _2='2' # Recebimento do pagamento com fornecimento já realizado.
@@ -1143,12 +1143,12 @@ class tpReeRepRes(str, Enum):
     ç
     õ
     es por conta e ordem de terceiro.
-
+    
     """
-    _0_1='01' # 01 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação
-    _0_2='02' # 02 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo.
-    _0_3='03' # 03 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro.
-    _0_4='04' # 04 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro.
+    _1='1' # 01 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação
+    _2='2' # 02 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo.
+    _3='3' # 03 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro.
+    _4='4' # 04 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro.
     _9_9='99' # 99 = Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro
 
 
@@ -1156,7 +1156,7 @@ class tpReferencia(str, Enum):
     """tpReferencia -- Tipo de refer
     ê
     ncia da nota.
-
+    
     """
     _0='0' # Nota fiscal referenciada para emissão de nota de multa e juros.
     _1='1' # Nota fiscal de pagamento parcelado antecipado.
@@ -1166,7 +1166,7 @@ class tpStatusNFe(str, Enum):
     """tpStatusNFe -- Tipo referente aos poss
     í
     veis status de NFS-e.
-
+    
     """
     N='N' # Normal.
     C='C' # Cancelada.
@@ -1181,7 +1181,7 @@ class tpTipoChaveDFE(str, Enum):
     2 - NF-e.
     3 - CT-e.
     9 - Outro.
-
+    
     """
     _1='1' # NFS-e.
     _2='2' # NF-e.
@@ -1191,7 +1191,7 @@ class tpTipoChaveDFE(str, Enum):
 
 class tpTipoNotaReferenciada(str, Enum):
     """tpTipoNotaReferenciada -- Tipo de nota fiscal referenciada.
-
+    
     """
     _0='0' # NFS-e.
     _1='1' # NFTS.
@@ -1201,7 +1201,7 @@ class tpTipoRPS(str, Enum):
     """tpTipoRPS -- Tipo referente aos poss
     í
     veis tipos de RPS.
-
+    
     """
     RPS='RPS' # Recibo Provisório de Serviços.
     RPSM='RPS-M' # Recibo Provisório de Serviços proveniente de Nota Fiscal Conjugada (Mista).
@@ -1225,7 +1225,7 @@ class PedidoConsultaNFe(GeneratedsSuper):
     á
     conter a chave de uma NFS-e ou a chave de um RPS.
     Signature -- Assinatura digital do contribuinte que gerou as NFS-e/RPS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1356,7 +1356,7 @@ class tpEvento(GeneratedsSuper):
     o do evento.
     ChaveRPS -- Chave do RPS.
     ChaveNFe -- Chave da NFe.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1524,7 +1524,7 @@ class tpEvento(GeneratedsSuper):
 
 class tpCPFCNPJ(GeneratedsSuper):
     """tpCPFCNPJ -- Tipo que representa um CPF/CNPJ.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1665,7 +1665,7 @@ class tpCPFCNPJ(GeneratedsSuper):
 
 class tpCPFCNPJNIF(GeneratedsSuper):
     """tpCPFCNPJNIF -- Tipo que representa um CPF/CNPJ/NIF.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1876,7 +1876,7 @@ class tpChaveNFeRPS(GeneratedsSuper):
     ChaveRPS -- Chave do RPS substitu
     í
     do.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1998,7 +1998,7 @@ class tpChaveNFe(GeneratedsSuper):
     ã
     o da NFS-e.
     ChaveNotaNacional -- Chave da Nota Nacional.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2216,7 +2216,7 @@ class tpChaveRPS(GeneratedsSuper):
     NumeroRPS -- N
     ú
     mero do RPS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2419,7 +2419,7 @@ class tpEnderecoExterior(GeneratedsSuper):
     o da cidade no exterior do prestador do servi
     ç
     o.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2633,7 +2633,7 @@ class tpEnderecoNacional(GeneratedsSuper):
     """tpEnderecoNacional -- Tipo endere
     ç
     o no nacional.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2776,7 +2776,7 @@ class tpEndereco(GeneratedsSuper):
     """tpEndereco -- Tipo Endere
     ç
     o.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3135,7 +3135,7 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
     """tpEnderecoIBSCBS -- Tipo Endere
     ç
     o para o IBSCBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3376,7 +3376,7 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
     """tpEnderecoSimplesIBSCBS -- Tipo Endere
     ç
     o simplificado para o IBSCBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3655,7 +3655,7 @@ class tpInformacoesLote(GeneratedsSuper):
     ç
     õ
     es dos RPS contidos na mensagem XML.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3955,7 +3955,7 @@ class tpInformacoesPessoa(GeneratedsSuper):
     o eletr
     ô
     nico.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4242,7 +4242,7 @@ class tpInformacoesPessoa(GeneratedsSuper):
 
 class tpGRefNFSe(GeneratedsSuper):
     """tpGRefNFSe -- Grupo com Ids da nota nacional referenciadas, associadas a NFSE.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4366,7 +4366,7 @@ class tpGrupoReeRepRes(GeneratedsSuper):
     ressarcimento pelo recebedor, j
     á
     tributados e aqui referenciados.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4460,7 +4460,7 @@ class tpGrupoReeRepRes(GeneratedsSuper):
 
 class tpImovelObra(GeneratedsSuper):
     """tpImovelObra -- Tipo de imovel/obra.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4700,7 +4700,7 @@ class tpDocumento(GeneratedsSuper):
     lculo do ISS e do IBS e da CBS da NFS-e que est
     á
     sendo emitida (R$).
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4968,7 +4968,7 @@ class tpDFeNacional(GeneratedsSuper):
     """tpDFeNacional -- Tipo de documento do reposit
     ó
     rio nacional.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5178,7 +5178,7 @@ class tpDocFiscalOutro(GeneratedsSuper):
     ç
     ã
     o do documento fiscal.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5355,7 +5355,7 @@ class tpDocOutro(GeneratedsSuper):
     o do documento n
     ã
     o fiscal.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5489,7 +5489,7 @@ class tpFornecedor(GeneratedsSuper):
     õ
     es do fornecedor do documento referenciado.
     xNome -- Nome do fornecedor.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5749,7 +5749,7 @@ class tpAtividadeEvento(GeneratedsSuper):
     end -- Endere
     ç
     o do Evento.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5974,7 +5974,7 @@ class tpIBSCBS(GeneratedsSuper):
     es sobre o Tipo de Im
     ó
     vel/Obra.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6310,7 +6310,7 @@ class tpGIBSCBS(GeneratedsSuper):
     o Tribut
     á
     ria do IBS e da CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6448,7 +6448,7 @@ class tpGTribRegular(GeneratedsSuper):
     o Tribut
     á
     ria do IBS e da CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6706,7 +6706,7 @@ class tpRetornoComplementarIBSCBS(GeneratedsSuper):
     í
     quota da CBS, referente a compra governamental.
     ValorCBSCompraGov -- Valor da CBS referente a compra governamental
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7487,7 +7487,7 @@ class tpTrib(GeneratedsSuper):
     es relacionadas aos tributos IBS e
     à
     CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7602,7 +7602,7 @@ class tpValores(GeneratedsSuper):
     ç
     õ
     es relacionados aos tributos IBS e CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7949,7 +7949,7 @@ class tpNFe(GeneratedsSuper):
     es complementares referentes ao IBS e
     à
     CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -9670,7 +9670,7 @@ class tpRPS(GeneratedsSuper):
     es declaradas pelo emitente referentes ao IBS e
     à
     CBS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -11788,7 +11788,7 @@ class CabecalhoType(GeneratedsSuper):
     ã
     o do Schema XML utilizado.
     CPFCNPJRemetente -- Informe o CPF/CNPJ do Remetente autorizado a transmitir a mensagem XML.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -11901,7 +11901,7 @@ class DetalheType(GeneratedsSuper):
     """DetalheType -- Detalhe do pedido. Cada item de detalhe dever
     á
     conter a chave de uma NFS-e ou a chave de um RPS.
-
+    
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [

@@ -11,13 +11,13 @@
 #   ('--member-specs', 'list')
 #   ('--use-getter-setter', 'none')
 #   ('-f', '')
-#   ('-o', 'nfselib/paulistana/v03/PedidoCancelamentoNFe.py')
+#   ('-o', 'nfselib/paulistana/v03/EmissaoGuiaAsync.py')
 #
 # Command line arguments:
-#   schemas/nfse/PedidoCancelamentoNFe_v02.xsd
+#   schemas/nfse/EmissaoGuiaAsync_v02.xsd
 #
 # Command line:
-#   /private/tmp/claude-501/-Users-mileo-Documents-kmee-projects-erpbrasil/c2d822bb-806b-4c8a-a82d-034786fd62d1/scratchpad/gds-venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoCancelamentoNFe.py" schemas/nfse/PedidoCancelamentoNFe_v02.xsd
+#   /private/tmp/claude-501/-Users-mileo-Documents-kmee-projects-erpbrasil/c2d822bb-806b-4c8a-a82d-034786fd62d1/scratchpad/gds-venv/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/EmissaoGuiaAsync.py" schemas/nfse/EmissaoGuiaAsync_v02.xsd
 #
 # Current working directory (os.getcwd()):
 #   nfselib.paulistana
@@ -112,7 +112,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 #
 
 try:
-    from nfselib.paulistana.v03.generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
+    from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
 except ModulenotfoundExp_ :
     GenerateDSNamespaceDefs_ = {}
 try:
@@ -1008,6 +1008,17 @@ def _cast(typ, value):
 #
 # Start enum classes
 #
+class tpEmissaoGuia(str, Enum):
+    _1='1' # Guia de NFS-e emitidas
+    _2='2' # Guia de NFS-e recebidas (exceto rejeitadas)
+    _3='3' # Guia de NFS-e Emitidas e Recebidas (exceto rejeitadas)
+    _4='4' # Guia de NFS-e recebidas aceitas
+    _5='5' # Guia de NFS-e recebidas sem manifestação do tomador
+    _6='6' # Guia de NFS-e recebidas rejeitadas
+    _7='7' # Guia de NFTS emitidas
+    _8='8' # Todas (NFS-e emitidas, NFTS emitidas e NFS-e recebidas, exceto rejeitadas)
+
+
 class tpEnteGov(str, Enum):
     """tpEnteGov -- Tipo do ente da compra governamental.
     
@@ -1128,7 +1139,8 @@ class tpReeRepRes(str, Enum):
     ê
     ncia de propaganda e publicidade por valores pagos relativos a servi
     ç
-    os de produ
+    os de p
+    rodu
     ç
     ã
     o externa por conta e ordem de terceiro.
@@ -1160,6 +1172,42 @@ class tpReferencia(str, Enum):
     """
     _0='0' # Nota fiscal referenciada para emissão de nota de multa e juros.
     _1='1' # Nota fiscal de pagamento parcelado antecipado.
+
+
+class tpSituacaoGuia(str, Enum):
+    """tpSituacaoGuia -- Tipo referente as poss
+    í
+    veis situa
+    ç
+    õ
+    es da emiss
+    ã
+    o de guia ass
+    í
+    ncrona.
+    
+    """
+    SOLICITADA='solicitada' # Emissao solicitada (0).
+    INVALIDADA='invalidada' # Emissao invalidada (1).
+    VERIFICADA='verificada' # Emissao verificada (2).
+    PROCESSADA='processada' # Emissao processada (3).
+
+
+class tpSituacaoLote(str, Enum):
+    """tpSituacaoLote -- Tipo referente as poss
+    í
+    veis situa
+    ç
+    õ
+    es do lote ass
+    í
+    ncrono.
+    
+    """
+    ENVIADO='enviado' # Lote enviado (0).
+    INVALIDADO='invalidado' # Lote invalidado (1).
+    VERIFICADO='verificado' # Lote verificado (2).
+    PROCESSADO='processado' # Lote processado (3).
 
 
 class tpStatusNFe(str, Enum):
@@ -1211,31 +1259,222 @@ class tpTipoRPS(str, Enum):
 #
 # Start data representation classes
 #
-class PedidoCancelamentoNFe(GeneratedsSuper):
-    """PedidoCancelamentoNFe -- Schema utilizado para PEDIDO de Cancelamento de NFS-e.
-    Este Schema XML
-    é
-    utilizado pelos Prestadores de servi
-    ç
-    os cancelarem NFS-e emitidas por eles.
-    Cabecalho -- Cabe
-    ç
-    alho do pedido.
-    Detalhe -- Detalhe do pedido de cancelamento de NFS-e. Cada detalhe dever
-    á
-    conter a Chave de uma NFS-e e sua respectiva assinatura de cancelamento.
-    Signature -- Assinatura digital do CNPJ emissor das NFS-e
-    
-    """
+class PedidoEmissaoGuiaAsync(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Cabecalho', 'CabecalhoType', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Cabecalho', 'type': 'CabecalhoType'}, None),
-        MemberSpec_('Detalhe', 'DetalheType', 1, 0, {'maxOccurs': '50', 'minOccurs': '1', 'name': 'Detalhe', 'type': 'DetalheType'}, None),
+        MemberSpec_('CPFCNPJRemetente', 'tpCPFCNPJ', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPFCNPJRemetente', 'type': 'tpCPFCNPJ'}, None),
+        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xsd:long'}, None),
+        MemberSpec_('TipoEmissaoGuia', ['tpEmissaoGuia', 'xsd:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TipoEmissaoGuia', 'type': 'xsd:int'}, None),
+        MemberSpec_('Incidencia', ['tpIncidencia', 'xsd:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Incidencia', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataPagamento', 'xsd:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataPagamento', 'type': 'xsd:date'}, None),
         MemberSpec_('Signature', 'SignatureType', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Signature', 'ref': 'Signature', 'type': 'Signature'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, Cabecalho=None, Detalhe=None, Signature=None, gds_collector_=None, **kwargs_):
+    def __init__(self, CPFCNPJRemetente=None, InscricaoPrestador=None, TipoEmissaoGuia=None, Incidencia=None, DataPagamento=None, Signature=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.CPFCNPJRemetente = CPFCNPJRemetente
+        self.CPFCNPJRemetente_nsprefix_ = None
+        self.InscricaoPrestador = InscricaoPrestador
+        self.validate_tpInscricaoMunicipal(self.InscricaoPrestador)
+        self.InscricaoPrestador_nsprefix_ = None
+        self.TipoEmissaoGuia = TipoEmissaoGuia
+        self.validate_tpEmissaoGuia(self.TipoEmissaoGuia)
+        self.TipoEmissaoGuia_nsprefix_ = None
+        self.Incidencia = Incidencia
+        self.validate_tpIncidencia(self.Incidencia)
+        self.Incidencia_nsprefix_ = None
+        if isinstance(DataPagamento, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(DataPagamento, '%Y-%m-%d').date()
+        else:
+            initvalue_ = DataPagamento
+        self.DataPagamento = initvalue_
+        self.DataPagamento_nsprefix_ = None
+        self.Signature = Signature
+        self.Signature_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, PedidoEmissaoGuiaAsync)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if PedidoEmissaoGuiaAsync.subclass:
+            return PedidoEmissaoGuiaAsync.subclass(*args_, **kwargs_)
+        else:
+            return PedidoEmissaoGuiaAsync(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def validate_tpInscricaoMunicipal(self, value):
+        result = True
+        # Validate type tpInscricaoMunicipal, a restriction on xs:long.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not self.gds_validate_simple_patterns(
+                    self.validate_tpInscricaoMunicipal_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
+                result = False
+        return result
+    validate_tpInscricaoMunicipal_patterns_ = [['^([0-9]{1,12})$']]
+    def validate_tpEmissaoGuia(self, value):
+        result = True
+        # Validate type tpEmissaoGuia, a restriction on xsd:int.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, int):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = [1, 2, 3, 4, 5, 6, 7, 8]
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpEmissaoGuia' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
+    def validate_tpIncidencia(self, value):
+        result = True
+        # Validate type tpIncidencia, a restriction on xsd:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if not self.gds_validate_simple_patterns(
+                    self.validate_tpIncidencia_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpIncidencia_patterns_, ))
+                result = False
+        return result
+    validate_tpIncidencia_patterns_ = [['^(^((19|20)\\d\\d)-(0?[1-9]|1[012])$)$']]
+    def has__content(self):
+        if (
+            self.CPFCNPJRemetente is not None or
+            self.InscricaoPrestador is not None or
+            self.TipoEmissaoGuia is not None or
+            self.Incidencia is not None or
+            self.DataPagamento is not None or
+            self.Signature is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoEmissaoGuiaAsync', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('PedidoEmissaoGuiaAsync')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'PedidoEmissaoGuiaAsync':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='PedidoEmissaoGuiaAsync')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='PedidoEmissaoGuiaAsync', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='PedidoEmissaoGuiaAsync'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoEmissaoGuiaAsync', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.CPFCNPJRemetente is not None:
+            namespaceprefix_ = self.CPFCNPJRemetente_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJRemetente_nsprefix_) else ''
+            self.CPFCNPJRemetente.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJRemetente', pretty_print=pretty_print)
+        if self.InscricaoPrestador is not None:
+            namespaceprefix_ = self.InscricaoPrestador_nsprefix_ + ':' if (UseCapturedNS_ and self.InscricaoPrestador_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sInscricaoPrestador>%s</%sInscricaoPrestador>%s' % (namespaceprefix_ , self.gds_format_integer(self.InscricaoPrestador, input_name='InscricaoPrestador'), namespaceprefix_ , eol_))
+        if self.TipoEmissaoGuia is not None:
+            namespaceprefix_ = self.TipoEmissaoGuia_nsprefix_ + ':' if (UseCapturedNS_ and self.TipoEmissaoGuia_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sTipoEmissaoGuia>%s</%sTipoEmissaoGuia>%s' % (namespaceprefix_ , self.gds_format_integer(self.TipoEmissaoGuia, input_name='TipoEmissaoGuia'), namespaceprefix_ , eol_))
+        if self.Incidencia is not None:
+            namespaceprefix_ = self.Incidencia_nsprefix_ + ':' if (UseCapturedNS_ and self.Incidencia_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sIncidencia>%s</%sIncidencia>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Incidencia), input_name='Incidencia')), namespaceprefix_ , eol_))
+        if self.DataPagamento is not None:
+            namespaceprefix_ = self.DataPagamento_nsprefix_ + ':' if (UseCapturedNS_ and self.DataPagamento_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDataPagamento>%s</%sDataPagamento>%s' % (namespaceprefix_ , self.gds_format_date(self.DataPagamento, input_name='DataPagamento'), namespaceprefix_ , eol_))
+        if self.Signature is not None:
+            namespaceprefix_ = self.Signature_nsprefix_ + ':' if (UseCapturedNS_ and self.Signature_nsprefix_) else ''
+            self.Signature.export(outfile, level, namespaceprefix_='sig:', namespacedef_='', name_='Signature', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'CPFCNPJRemetente':
+            obj_ = tpCPFCNPJ.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.CPFCNPJRemetente = obj_
+            obj_.original_tagname_ = 'CPFCNPJRemetente'
+        elif nodeName_ == 'InscricaoPrestador' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'InscricaoPrestador')
+            ival_ = self.gds_validate_integer(ival_, node, 'InscricaoPrestador')
+            self.InscricaoPrestador = ival_
+            self.InscricaoPrestador_nsprefix_ = child_.prefix
+            # validate type tpInscricaoMunicipal
+            self.validate_tpInscricaoMunicipal(self.InscricaoPrestador)
+        elif nodeName_ == 'TipoEmissaoGuia' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'TipoEmissaoGuia')
+            ival_ = self.gds_validate_integer(ival_, node, 'TipoEmissaoGuia')
+            self.TipoEmissaoGuia = ival_
+            self.TipoEmissaoGuia_nsprefix_ = child_.prefix
+            # validate type tpEmissaoGuia
+            self.validate_tpEmissaoGuia(self.TipoEmissaoGuia)
+        elif nodeName_ == 'Incidencia':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'Incidencia')
+            value_ = self.gds_validate_string(value_, node, 'Incidencia')
+            self.Incidencia = value_
+            self.Incidencia_nsprefix_ = child_.prefix
+            # validate type tpIncidencia
+            self.validate_tpIncidencia(self.Incidencia)
+        elif nodeName_ == 'DataPagamento':
+            sval_ = child_.text
+            dval_ = self.gds_parse_date(sval_)
+            self.DataPagamento = dval_
+            self.DataPagamento_nsprefix_ = child_.prefix
+        elif nodeName_ == 'Signature':
+            obj_ = SignatureType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.Signature = obj_
+            obj_.original_tagname_ = 'Signature'
+# end class PedidoEmissaoGuiaAsync
+
+
+class RetornoEmissaoGuiaAsync(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    member_data_items_ = [
+        MemberSpec_('Cabecalho', 'CabecalhoType', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Cabecalho', 'type': 'CabecalhoType'}, None),
+        MemberSpec_('Erro', 'tpEventoAsync', 1, 1, {'maxOccurs': 'unbounded', 'minOccurs': '0', 'name': 'Erro', 'type': 'tpEventoAsync'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, Cabecalho=None, Erro=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1243,59 +1482,56 @@ class PedidoCancelamentoNFe(GeneratedsSuper):
         self.ns_prefix_ = None
         self.Cabecalho = Cabecalho
         self.Cabecalho_nsprefix_ = None
-        if Detalhe is None:
-            self.Detalhe = []
+        if Erro is None:
+            self.Erro = []
         else:
-            self.Detalhe = Detalhe
-        self.Detalhe_nsprefix_ = None
-        self.Signature = Signature
-        self.Signature_nsprefix_ = None
+            self.Erro = Erro
+        self.Erro_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, PedidoCancelamentoNFe)
+                CurrentSubclassModule_, RetornoEmissaoGuiaAsync)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if PedidoCancelamentoNFe.subclass:
-            return PedidoCancelamentoNFe.subclass(*args_, **kwargs_)
+        if RetornoEmissaoGuiaAsync.subclass:
+            return RetornoEmissaoGuiaAsync.subclass(*args_, **kwargs_)
         else:
-            return PedidoCancelamentoNFe(*args_, **kwargs_)
+            return RetornoEmissaoGuiaAsync(*args_, **kwargs_)
     factory = staticmethod(factory)
     def has__content(self):
         if (
             self.Cabecalho is not None or
-            self.Detalhe or
-            self.Signature is not None
+            self.Erro
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoCancelamentoNFe', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('PedidoCancelamentoNFe')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RetornoEmissaoGuiaAsync', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('RetornoEmissaoGuiaAsync')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'PedidoCancelamentoNFe':
+        if self.original_tagname_ is not None and name_ == 'RetornoEmissaoGuiaAsync':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='PedidoCancelamentoNFe')
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='RetornoEmissaoGuiaAsync')
         if self.has__content():
             outfile.write('>%s' % (eol_, ))
-            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='PedidoCancelamentoNFe', pretty_print=pretty_print)
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='RetornoEmissaoGuiaAsync', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='PedidoCancelamentoNFe'):
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='RetornoEmissaoGuiaAsync'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='PedidoCancelamentoNFe', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RetornoEmissaoGuiaAsync', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1303,12 +1539,9 @@ class PedidoCancelamentoNFe(GeneratedsSuper):
         if self.Cabecalho is not None:
             namespaceprefix_ = self.Cabecalho_nsprefix_ + ':' if (UseCapturedNS_ and self.Cabecalho_nsprefix_) else ''
             self.Cabecalho.export(outfile, level, namespaceprefix_, namespacedef_='', name_='Cabecalho', pretty_print=pretty_print)
-        for Detalhe_ in self.Detalhe:
-            namespaceprefix_ = self.Detalhe_nsprefix_ + ':' if (UseCapturedNS_ and self.Detalhe_nsprefix_) else ''
-            Detalhe_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='Detalhe', pretty_print=pretty_print)
-        if self.Signature is not None:
-            namespaceprefix_ = self.Signature_nsprefix_ + ':' if (UseCapturedNS_ and self.Signature_nsprefix_) else ''
-            self.Signature.export(outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='Signature', pretty_print=pretty_print)
+        for Erro_ in self.Erro:
+            namespaceprefix_ = self.Erro_nsprefix_ + ':' if (UseCapturedNS_ and self.Erro_nsprefix_) else ''
+            Erro_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='Erro', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1328,17 +1561,12 @@ class PedidoCancelamentoNFe(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Cabecalho = obj_
             obj_.original_tagname_ = 'Cabecalho'
-        elif nodeName_ == 'Detalhe':
-            obj_ = DetalheType.factory(parent_object_=self)
+        elif nodeName_ == 'Erro':
+            obj_ = tpEventoAsync.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.Detalhe.append(obj_)
-            obj_.original_tagname_ = 'Detalhe'
-        elif nodeName_ == 'Signature':
-            obj_ = SignatureType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.Signature = obj_
-            obj_.original_tagname_ = 'Signature'
-# end class PedidoCancelamentoNFe
+            self.Erro.append(obj_)
+            obj_.original_tagname_ = 'Erro'
+# end class RetornoEmissaoGuiaAsync
 
 
 class tpEvento(GeneratedsSuper):
@@ -1360,8 +1588,8 @@ class tpEvento(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Codigo', ['tpCodigoEvento', 'xs:short'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Codigo', 'type': 'xs:short'}, None),
-        MemberSpec_('Descricao', ['tpDescricaoEvento', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Descricao', 'type': 'xs:string'}, None),
+        MemberSpec_('Codigo', ['tpCodigoEvento', 'xs:short'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Codigo', 'type': 'xsd:short'}, None),
+        MemberSpec_('Descricao', ['tpDescricaoEvento', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Descricao', 'type': 'xsd:string'}, None),
         MemberSpec_('ChaveRPS', 'tpChaveRPS', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ChaveRPS', 'type': 'tpChaveRPS'}, 3),
         MemberSpec_('ChaveNFe', 'tpChaveNFe', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ChaveNFe', 'type': 'tpChaveNFe'}, 3),
     ]
@@ -1398,10 +1626,6 @@ class tpEvento(GeneratedsSuper):
         result = True
         # Validate type tpCodigoEvento, a restriction on xs:short.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoEvento_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoEvento_patterns_, ))
@@ -1412,10 +1636,6 @@ class tpEvento(GeneratedsSuper):
         result = True
         # Validate type tpDescricaoEvento, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 300:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpDescricaoEvento' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1523,14 +1743,13 @@ class tpEvento(GeneratedsSuper):
 
 
 class tpCPFCNPJ(GeneratedsSuper):
-    """tpCPFCNPJ -- Tipo que represent
-    a um CPF/CNPJ.
+    """tpCPFCNPJ -- Tipo que representa um CPF/CNPJ.
     
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xs:string'}, 4),
-        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xs:string'}, 4),
+        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xsd:string'}, 4),
+        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xsd:string'}, 4),
     ]
     subclass = None
     superclass = None
@@ -1561,10 +1780,6 @@ class tpCPFCNPJ(GeneratedsSuper):
         result = True
         # Validate type tpCPF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCPF_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCPF_patterns_, ))
@@ -1575,10 +1790,6 @@ class tpCPFCNPJ(GeneratedsSuper):
         result = True
         # Validate type tpCNPJ, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCNPJ_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCNPJ_patterns_, ))
@@ -1670,10 +1881,10 @@ class tpCPFCNPJNIF(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xs:string'}, None),
-        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xs:string'}, None),
-        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xs:string'}, None),
-        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xs:int'}, None),
+        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xsd:string'}, None),
+        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xsd:string'}, None),
+        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xsd:string'}, None),
+        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xsd:int'}, None),
     ]
     subclass = None
     superclass = None
@@ -1710,10 +1921,6 @@ class tpCPFCNPJNIF(GeneratedsSuper):
         result = True
         # Validate type tpCPF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCPF_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCPF_patterns_, ))
@@ -1724,10 +1931,6 @@ class tpCPFCNPJNIF(GeneratedsSuper):
         result = True
         # Validate type tpCNPJ, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCNPJ_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCNPJ_patterns_, ))
@@ -1738,10 +1941,6 @@ class tpCPFCNPJNIF(GeneratedsSuper):
         result = True
         # Validate type tpNIF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 40:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1755,12 +1954,8 @@ class tpCPFCNPJNIF(GeneratedsSuper):
         result = True
         # Validate type tpNaoNIF, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1, 2]
+            enumerations = ['0', '1', '2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2003,10 +2198,10 @@ class tpChaveNFe(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xs:long'}, None),
-        MemberSpec_('NumeroNFe', ['tpNumero', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroNFe', 'type': 'xs:long'}, None),
-        MemberSpec_('CodigoVerificacao', ['tpCodigoVerificacao', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoVerificacao', 'type': 'xs:string'}, None),
-        MemberSpec_('ChaveNotaNacional', ['tpChaveNotaNacional', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ChaveNotaNacional', 'type': 'xs:string'}, None),
+        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xsd:long'}, None),
+        MemberSpec_('NumeroNFe', ['tpNumero', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroNFe', 'type': 'xsd:long'}, None),
+        MemberSpec_('CodigoVerificacao', ['tpCodigoVerificacao', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoVerificacao', 'type': 'xsd:string'}, None),
+        MemberSpec_('ChaveNotaNacional', ['tpChaveNotaNacional', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ChaveNotaNacional', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -2043,10 +2238,6 @@ class tpChaveNFe(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoMunicipal, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoMunicipal_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
@@ -2057,10 +2248,6 @@ class tpChaveNFe(GeneratedsSuper):
         result = True
         # Validate type tpNumero, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpNumero_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
@@ -2071,10 +2258,6 @@ class tpChaveNFe(GeneratedsSuper):
         result = True
         # Validate type tpCodigoVerificacao, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 8:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpCodigoVerificacao' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2088,10 +2271,6 @@ class tpChaveNFe(GeneratedsSuper):
         result = True
         # Validate type tpChaveNotaNacional, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpChaveNotaNacional_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpChaveNotaNacional_patterns_, ))
@@ -2221,9 +2400,9 @@ class tpChaveRPS(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xs:long'}, None),
-        MemberSpec_('SerieRPS', ['tpSerieRPS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'SerieRPS', 'type': 'xs:string'}, None),
-        MemberSpec_('NumeroRPS', ['tpNumero', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroRPS', 'type': 'xs:long'}, None),
+        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xsd:long'}, None),
+        MemberSpec_('SerieRPS', ['tpSerieRPS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'SerieRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('NumeroRPS', ['tpNumero', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroRPS', 'type': 'xsd:long'}, None),
     ]
     subclass = None
     superclass = None
@@ -2257,10 +2436,6 @@ class tpChaveRPS(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoMunicipal, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoMunicipal_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
@@ -2271,10 +2446,6 @@ class tpChaveRPS(GeneratedsSuper):
         result = True
         # Validate type tpSerieRPS, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 5:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpSerieRPS' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2288,10 +2459,6 @@ class tpChaveRPS(GeneratedsSuper):
         result = True
         # Validate type tpNumero, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpNumero_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
@@ -2424,10 +2591,10 @@ class tpEnderecoExterior(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('cPais', ['tpCodigoPaisISO', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cPais', 'type': 'xs:string'}, None),
-        MemberSpec_('cEndPost', ['tpCodigoEndPostal', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cEndPost', 'type': 'xs:string'}, None),
-        MemberSpec_('xCidade', ['tpNomeCidade', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xCidade', 'type': 'xs:string'}, None),
-        MemberSpec_('xEstProvReg', ['tpEstadoProvinciaRegiao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xEstProvReg', 'type': 'xs:string'}, None),
+        MemberSpec_('cPais', ['tpCodigoPaisISO', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cPais', 'type': 'xsd:string'}, None),
+        MemberSpec_('cEndPost', ['tpCodigoEndPostal', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cEndPost', 'type': 'xsd:string'}, None),
+        MemberSpec_('xCidade', ['tpNomeCidade', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xCidade', 'type': 'xsd:string'}, None),
+        MemberSpec_('xEstProvReg', ['tpEstadoProvinciaRegiao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xEstProvReg', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -2464,10 +2631,6 @@ class tpEnderecoExterior(GeneratedsSuper):
         result = True
         # Validate type tpCodigoPaisISO, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoPaisISO_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoPaisISO_patterns_, ))
@@ -2478,10 +2641,6 @@ class tpEnderecoExterior(GeneratedsSuper):
         result = True
         # Validate type tpCodigoEndPostal, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 11:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpCodigoEndPostal' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2495,10 +2654,6 @@ class tpEnderecoExterior(GeneratedsSuper):
         result = True
         # Validate type tpNomeCidade, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNomeCidade' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2512,10 +2667,6 @@ class tpEnderecoExterior(GeneratedsSuper):
         result = True
         # Validate type tpEstadoProvinciaRegiao, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 60:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpEstadoProvinciaRegiao' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2638,8 +2789,8 @@ class tpEnderecoNacional(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('cMun', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cMun', 'type': 'xs:int'}, None),
-        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CEP', 'type': 'xs:int'}, None),
+        MemberSpec_('cMun', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cMun', 'type': 'xsd:int'}, None),
+        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CEP', 'type': 'xsd:int'}, None),
     ]
     subclass = None
     superclass = None
@@ -2670,10 +2821,6 @@ class tpEnderecoNacional(GeneratedsSuper):
         result = True
         # Validate type tpCidade, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCidade_patterns_, ))
@@ -2684,10 +2831,6 @@ class tpEnderecoNacional(GeneratedsSuper):
         result = True
         # Validate type tpCEP, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCEP_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCEP_patterns_, ))
@@ -2781,14 +2924,14 @@ class tpEndereco(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('TipoLogradouro', ['tpTipoLogradouro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'TipoLogradouro', 'type': 'xs:string'}, None),
-        MemberSpec_('Logradouro', ['tpLogradouro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Logradouro', 'type': 'xs:string'}, None),
-        MemberSpec_('NumeroEndereco', ['tpNumeroEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEndereco', 'type': 'xs:string'}, None),
-        MemberSpec_('ComplementoEndereco', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ComplementoEndereco', 'type': 'xs:string'}, None),
-        MemberSpec_('Bairro', ['tpBairro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Bairro', 'type': 'xs:string'}, None),
-        MemberSpec_('Cidade', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Cidade', 'type': 'xs:int'}, None),
-        MemberSpec_('UF', ['tpUF', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'UF', 'type': 'xs:string'}, None),
-        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CEP', 'type': 'xs:int'}, None),
+        MemberSpec_('TipoLogradouro', ['tpTipoLogradouro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'TipoLogradouro', 'type': 'xsd:string'}, None),
+        MemberSpec_('Logradouro', ['tpLogradouro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Logradouro', 'type': 'xsd:string'}, None),
+        MemberSpec_('NumeroEndereco', ['tpNumeroEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEndereco', 'type': 'xsd:string'}, None),
+        MemberSpec_('ComplementoEndereco', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ComplementoEndereco', 'type': 'xsd:string'}, None),
+        MemberSpec_('Bairro', ['tpBairro', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Bairro', 'type': 'xsd:string'}, None),
+        MemberSpec_('Cidade', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Cidade', 'type': 'xsd:int'}, None),
+        MemberSpec_('UF', ['tpUF', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'UF', 'type': 'xsd:string'}, None),
+        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CEP', 'type': 'xsd:int'}, None),
         MemberSpec_('EnderecoExterior', 'tpEnderecoExterior', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EnderecoExterior', 'type': 'tpEnderecoExterior'}, None),
     ]
     subclass = None
@@ -2840,10 +2983,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpTipoLogradouro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 3:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpTipoLogradouro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2857,10 +2996,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpLogradouro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 50:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpLogradouro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2874,10 +3009,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpNumeroEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 10:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2891,10 +3022,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpComplementoEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpComplementoEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2908,10 +3035,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpBairro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpBairro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2925,10 +3048,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpCidade, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCidade_patterns_, ))
@@ -2939,10 +3058,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpUF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 2:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpUF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2956,10 +3071,6 @@ class tpEndereco(GeneratedsSuper):
         result = True
         # Validate type tpCEP, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCEP_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCEP_patterns_, ))
@@ -3142,10 +3253,10 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('endNac', 'tpEnderecoNacional', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'endNac', 'type': 'tpEnderecoNacional'}, 5),
         MemberSpec_('endExt', 'tpEnderecoExterior', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'endExt', 'type': 'tpEnderecoExterior'}, 5),
-        MemberSpec_('xLgr', ['tpLogradouro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xLgr', 'type': 'xs:string'}, None),
-        MemberSpec_('nro', ['tpNumeroEndereco', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nro', 'type': 'xs:string'}, None),
-        MemberSpec_('xCpl', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xCpl', 'type': 'xs:string'}, None),
-        MemberSpec_('xBairro', ['tpBairro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xBairro', 'type': 'xs:string'}, None),
+        MemberSpec_('xLgr', ['tpLogradouro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xLgr', 'type': 'xsd:string'}, None),
+        MemberSpec_('nro', ['tpNumeroEndereco', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nro', 'type': 'xsd:string'}, None),
+        MemberSpec_('xCpl', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xCpl', 'type': 'xsd:string'}, None),
+        MemberSpec_('xBairro', ['tpBairro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xBairro', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -3186,10 +3297,6 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpLogradouro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 50:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpLogradouro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3203,10 +3310,6 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpNumeroEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 10:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3220,10 +3323,6 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpComplementoEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpComplementoEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3237,10 +3336,6 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpBairro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpBairro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3381,12 +3476,12 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CEP', 'type': 'xs:int'}, 6),
+        MemberSpec_('CEP', ['tpCEP', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CEP', 'type': 'xsd:int'}, 6),
         MemberSpec_('endExt', 'tpEnderecoExterior', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'endExt', 'type': 'tpEnderecoExterior'}, 6),
-        MemberSpec_('xLgr', ['tpLogradouro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xLgr', 'type': 'xs:string'}, None),
-        MemberSpec_('nro', ['tpNumeroEndereco', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nro', 'type': 'xs:string'}, None),
-        MemberSpec_('xCpl', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xCpl', 'type': 'xs:string'}, None),
-        MemberSpec_('xBairro', ['tpBairro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xBairro', 'type': 'xs:string'}, None),
+        MemberSpec_('xLgr', ['tpLogradouro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xLgr', 'type': 'xsd:string'}, None),
+        MemberSpec_('nro', ['tpNumeroEndereco', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nro', 'type': 'xsd:string'}, None),
+        MemberSpec_('xCpl', ['tpComplementoEndereco', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xCpl', 'type': 'xsd:string'}, None),
+        MemberSpec_('xBairro', ['tpBairro', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xBairro', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -3428,10 +3523,6 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpCEP, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCEP_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCEP_patterns_, ))
@@ -3442,10 +3533,6 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpLogradouro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 50:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpLogradouro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3459,10 +3546,6 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpNumeroEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 10:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3476,10 +3559,6 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpComplementoEndereco, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpComplementoEndereco' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3493,10 +3572,6 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpBairro, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpBairro' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3660,14 +3735,14 @@ class tpInformacoesLote(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('NumeroLote', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroLote', 'type': 'xs:long'}, None),
-        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xs:long'}, None),
+        MemberSpec_('NumeroLote', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroLote', 'type': 'xsd:long'}, None),
+        MemberSpec_('InscricaoPrestador', ['tpInscricaoMunicipal', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'InscricaoPrestador', 'type': 'xsd:long'}, None),
         MemberSpec_('CPFCNPJRemetente', 'tpCPFCNPJ', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPFCNPJRemetente', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('DataEnvioLote', 'xs:dateTime', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEnvioLote', 'type': 'xs:dateTime'}, None),
-        MemberSpec_('QtdNotasProcessadas', ['tpQuantidade', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'QtdNotasProcessadas', 'type': 'xs:long'}, None),
-        MemberSpec_('TempoProcessamento', ['tpTempoProcessamento', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TempoProcessamento', 'type': 'xs:long'}, None),
-        MemberSpec_('ValorTotalServicos', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorTotalServicos', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorTotalDeducoes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalDeducoes', 'type': 'xs:decimal'}, None),
+        MemberSpec_('DataEnvioLote', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEnvioLote', 'type': 'xsd:string'}, None),
+        MemberSpec_('QtdNotasProcessadas', ['tpQuantidade', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'QtdNotasProcessadas', 'type': 'xsd:long'}, None),
+        MemberSpec_('TempoProcessamento', ['tpTempoProcessamento', 'xs:long'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TempoProcessamento', 'type': 'xsd:long'}, None),
+        MemberSpec_('ValorTotalServicos', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorTotalServicos', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorTotalDeducoes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalDeducoes', 'type': 'xsd:decimal'}, None),
     ]
     subclass = None
     superclass = None
@@ -3685,11 +3760,7 @@ class tpInformacoesLote(GeneratedsSuper):
         self.InscricaoPrestador_nsprefix_ = None
         self.CPFCNPJRemetente = CPFCNPJRemetente
         self.CPFCNPJRemetente_nsprefix_ = None
-        if isinstance(DataEnvioLote, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataEnvioLote, '%Y-%m-%dT%H:%M:%S')
-        else:
-            initvalue_ = DataEnvioLote
-        self.DataEnvioLote = initvalue_
+        self.DataEnvioLote = DataEnvioLote
         self.DataEnvioLote_nsprefix_ = None
         self.QtdNotasProcessadas = QtdNotasProcessadas
         self.validate_tpQuantidade(self.QtdNotasProcessadas)
@@ -3718,10 +3789,6 @@ class tpInformacoesLote(GeneratedsSuper):
         result = True
         # Validate type tpNumero, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpNumero_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
@@ -3732,10 +3799,6 @@ class tpInformacoesLote(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoMunicipal, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoMunicipal_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
@@ -3746,10 +3809,6 @@ class tpInformacoesLote(GeneratedsSuper):
         result = True
         # Validate type tpQuantidade, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpQuantidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpQuantidade_patterns_, ))
@@ -3760,10 +3819,6 @@ class tpInformacoesLote(GeneratedsSuper):
         result = True
         # Validate type tpTempoProcessamento, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpTempoProcessamento_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpTempoProcessamento_patterns_, ))
@@ -3774,10 +3829,6 @@ class tpInformacoesLote(GeneratedsSuper):
         result = True
         # Validate type tpValor, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpValor' % {"value": value, "lineno": lineno} )
@@ -3850,7 +3901,7 @@ class tpInformacoesLote(GeneratedsSuper):
         if self.DataEnvioLote is not None:
             namespaceprefix_ = self.DataEnvioLote_nsprefix_ + ':' if (UseCapturedNS_ and self.DataEnvioLote_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataEnvioLote>%s</%sDataEnvioLote>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataEnvioLote, input_name='DataEnvioLote'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataEnvioLote>%s</%sDataEnvioLote>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataEnvioLote), input_name='DataEnvioLote')), namespaceprefix_ , eol_))
         if self.QtdNotasProcessadas is not None:
             namespaceprefix_ = self.QtdNotasProcessadas_nsprefix_ + ':' if (UseCapturedNS_ and self.QtdNotasProcessadas_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -3903,9 +3954,10 @@ class tpInformacoesLote(GeneratedsSuper):
             self.CPFCNPJRemetente = obj_
             obj_.original_tagname_ = 'CPFCNPJRemetente'
         elif nodeName_ == 'DataEnvioLote':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_)
-            self.DataEnvioLote = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataEnvioLote')
+            value_ = self.gds_validate_string(value_, node, 'DataEnvioLote')
+            self.DataEnvioLote = value_
             self.DataEnvioLote_nsprefix_ = child_.prefix
         elif nodeName_ == 'QtdNotasProcessadas' and child_.text:
             sval_ = child_.text
@@ -3960,13 +4012,13 @@ class tpInformacoesPessoa(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xs:string'}, None),
-        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xs:string'}, None),
-        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xs:string'}, None),
-        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xs:int'}, None),
-        MemberSpec_('xNome', ['tpRazaoSocialObrigatorio', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNome', 'type': 'xs:string'}, None),
+        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xsd:string'}, None),
+        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xsd:string'}, None),
+        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xsd:string'}, None),
+        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xsd:int'}, None),
+        MemberSpec_('xNome', ['tpRazaoSocialObrigatorio', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNome', 'type': 'xsd:string'}, None),
         MemberSpec_('end', 'tpEnderecoIBSCBS', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'end', 'type': 'tpEnderecoIBSCBS'}, None),
-        MemberSpec_('email', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'email', 'type': 'xs:string'}, None),
+        MemberSpec_('email', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'email', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -4011,10 +4063,6 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpCPF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCPF_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCPF_patterns_, ))
@@ -4025,10 +4073,6 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpCNPJ, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCNPJ_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCNPJ_patterns_, ))
@@ -4039,10 +4083,6 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpNIF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 40:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4056,12 +4096,8 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpNaoNIF, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1, 2]
+            enumerations = ['0', '1', '2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4071,10 +4107,6 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpRazaoSocialObrigatorio, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpRazaoSocialObrigatorio' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4088,10 +4120,6 @@ class tpInformacoesPessoa(GeneratedsSuper):
         result = True
         # Validate type tpEmail, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpEmail' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4247,7 +4275,7 @@ class tpGRefNFSe(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('refNFSe', ['tpChaveNotaNacional', 'xs:string'], 1, 0, {'maxOccurs': '99', 'minOccurs': '1', 'name': 'refNFSe', 'type': 'xs:string'}, None),
+        MemberSpec_('refNFSe', ['tpChaveNotaNacional', 'xs:string'], 1, 0, {'maxOccurs': '99', 'minOccurs': '1', 'name': 'refNFSe', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -4277,10 +4305,6 @@ class tpGRefNFSe(GeneratedsSuper):
         result = True
         # Validate type tpChaveNotaNacional, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpChaveNotaNacional_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpChaveNotaNacional_patterns_, ))
@@ -4465,9 +4489,9 @@ class tpImovelObra(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('inscImobFisc', ['tpInscImobFisc', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'inscImobFisc', 'type': 'xs:string'}, None),
-        MemberSpec_('cCIB', ['tpCCIB', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cCIB', 'type': 'xs:string'}, 7),
-        MemberSpec_('cObra', ['tpCObra', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cObra', 'type': 'xs:string'}, 7),
+        MemberSpec_('inscImobFisc', ['tpInscImobFisc', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'inscImobFisc', 'type': 'xsd:string'}, None),
+        MemberSpec_('cCIB', ['tpCCIB', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cCIB', 'type': 'xsd:string'}, 7),
+        MemberSpec_('cObra', ['tpCObra', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cObra', 'type': 'xsd:string'}, 7),
         MemberSpec_('end', 'tpEnderecoSimplesIBSCBS', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'end', 'type': 'tpEnderecoSimplesIBSCBS'}, 7),
     ]
     subclass = None
@@ -4504,10 +4528,6 @@ class tpImovelObra(GeneratedsSuper):
         result = True
         # Validate type tpInscImobFisc, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpInscImobFisc' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4521,10 +4541,6 @@ class tpImovelObra(GeneratedsSuper):
         result = True
         # Validate type tpCCIB, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCCIB_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCCIB_patterns_, ))
@@ -4535,10 +4551,6 @@ class tpImovelObra(GeneratedsSuper):
         result = True
         # Validate type tpCObra, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 30:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpCObra' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4709,11 +4721,11 @@ class tpDocumento(GeneratedsSuper):
         MemberSpec_('docFiscalOutro', 'tpDocFiscalOutro', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'docFiscalOutro', 'type': 'tpDocFiscalOutro'}, 8),
         MemberSpec_('docOutro', 'tpDocOutro', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'docOutro', 'type': 'tpDocOutro'}, 8),
         MemberSpec_('fornec', 'tpFornecedor', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'fornec', 'type': 'tpFornecedor'}, None),
-        MemberSpec_('dtEmiDoc', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtEmiDoc', 'type': 'xs:date'}, None),
-        MemberSpec_('dtCompDoc', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtCompDoc', 'type': 'xs:date'}, None),
-        MemberSpec_('tpReeRepRes', ['tpReeRepRes', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'tpReeRepRes', 'type': 'xs:int'}, None),
-        MemberSpec_('xTpReeRepRes', ['tpXTpReeRepRes', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xTpReeRepRes', 'type': 'xs:string'}, None),
-        MemberSpec_('vlrReeRepRes', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'vlrReeRepRes', 'type': 'xs:decimal'}, None),
+        MemberSpec_('dtEmiDoc', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtEmiDoc', 'type': 'xsd:string'}, None),
+        MemberSpec_('dtCompDoc', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtCompDoc', 'type': 'xsd:string'}, None),
+        MemberSpec_('tpReeRepRes', ['tpReeRepRes', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'tpReeRepRes', 'type': 'xsd:int'}, None),
+        MemberSpec_('xTpReeRepRes', ['tpXTpReeRepRes', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xTpReeRepRes', 'type': 'xsd:string'}, None),
+        MemberSpec_('vlrReeRepRes', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'vlrReeRepRes', 'type': 'xsd:decimal'}, None),
     ]
     subclass = None
     superclass = None
@@ -4731,17 +4743,9 @@ class tpDocumento(GeneratedsSuper):
         self.docOutro_nsprefix_ = None
         self.fornec = fornec
         self.fornec_nsprefix_ = None
-        if isinstance(dtEmiDoc, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(dtEmiDoc, '%Y-%m-%d').date()
-        else:
-            initvalue_ = dtEmiDoc
-        self.dtEmiDoc = initvalue_
+        self.dtEmiDoc = dtEmiDoc
         self.dtEmiDoc_nsprefix_ = None
-        if isinstance(dtCompDoc, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(dtCompDoc, '%Y-%m-%d').date()
-        else:
-            initvalue_ = dtCompDoc
-        self.dtCompDoc = initvalue_
+        self.dtCompDoc = dtCompDoc
         self.dtCompDoc_nsprefix_ = None
         self.tpReeRepRes = tpReeRepRes
         self.validate_tpReeRepRes(self.tpReeRepRes)
@@ -4767,12 +4771,8 @@ class tpDocumento(GeneratedsSuper):
         result = True
         # Validate type tpReeRepRes, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [1, 2, 3, 4, 99]
+            enumerations = ['1', '2', '3', '4', '99']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpReeRepRes' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4782,10 +4782,6 @@ class tpDocumento(GeneratedsSuper):
         result = True
         # Validate type tpXTpReeRepRes, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 150:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpXTpReeRepRes' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -4799,10 +4795,6 @@ class tpDocumento(GeneratedsSuper):
         result = True
         # Validate type tpValor, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpValor' % {"value": value, "lineno": lineno} )
@@ -4877,11 +4869,11 @@ class tpDocumento(GeneratedsSuper):
         if self.dtEmiDoc is not None:
             namespaceprefix_ = self.dtEmiDoc_nsprefix_ + ':' if (UseCapturedNS_ and self.dtEmiDoc_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sdtEmiDoc>%s</%sdtEmiDoc>%s' % (namespaceprefix_ , self.gds_format_date(self.dtEmiDoc, input_name='dtEmiDoc'), namespaceprefix_ , eol_))
+            outfile.write('<%sdtEmiDoc>%s</%sdtEmiDoc>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.dtEmiDoc), input_name='dtEmiDoc')), namespaceprefix_ , eol_))
         if self.dtCompDoc is not None:
             namespaceprefix_ = self.dtCompDoc_nsprefix_ + ':' if (UseCapturedNS_ and self.dtCompDoc_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sdtCompDoc>%s</%sdtCompDoc>%s' % (namespaceprefix_ , self.gds_format_date(self.dtCompDoc, input_name='dtCompDoc'), namespaceprefix_ , eol_))
+            outfile.write('<%sdtCompDoc>%s</%sdtCompDoc>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.dtCompDoc), input_name='dtCompDoc')), namespaceprefix_ , eol_))
         if self.tpReeRepRes is not None:
             namespaceprefix_ = self.tpReeRepRes_nsprefix_ + ':' if (UseCapturedNS_ and self.tpReeRepRes_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -4929,14 +4921,16 @@ class tpDocumento(GeneratedsSuper):
             self.fornec = obj_
             obj_.original_tagname_ = 'fornec'
         elif nodeName_ == 'dtEmiDoc':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.dtEmiDoc = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'dtEmiDoc')
+            value_ = self.gds_validate_string(value_, node, 'dtEmiDoc')
+            self.dtEmiDoc = value_
             self.dtEmiDoc_nsprefix_ = child_.prefix
         elif nodeName_ == 'dtCompDoc':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.dtCompDoc = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'dtCompDoc')
+            value_ = self.gds_validate_string(value_, node, 'dtCompDoc')
+            self.dtCompDoc = value_
             self.dtCompDoc_nsprefix_ = child_.prefix
         elif nodeName_ == 'tpReeRepRes' and child_.text:
             sval_ = child_.text
@@ -4973,9 +4967,9 @@ class tpDFeNacional(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('tipoChaveDFe', ['tpTipoChaveDFE', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'tipoChaveDFe', 'type': 'xs:int'}, None),
-        MemberSpec_('xTipoChaveDFe', ['tpXTipoChaveDFe', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xTipoChaveDFe', 'type': 'xs:string'}, None),
-        MemberSpec_('chaveDFe', ['tpChaveDFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'chaveDFe', 'type': 'xs:string'}, None),
+        MemberSpec_('tipoChaveDFe', ['tpTipoChaveDFE', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'tipoChaveDFe', 'type': 'xsd:int'}, None),
+        MemberSpec_('xTipoChaveDFe', ['tpXTipoChaveDFe', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'xTipoChaveDFe', 'type': 'xsd:string'}, None),
+        MemberSpec_('chaveDFe', ['tpChaveDFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'chaveDFe', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -5009,12 +5003,8 @@ class tpDFeNacional(GeneratedsSuper):
         result = True
         # Validate type tpTipoChaveDFE, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [1, 2, 3, 9]
+            enumerations = ['1', '2', '3', '9']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpTipoChaveDFE' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5024,10 +5014,6 @@ class tpDFeNacional(GeneratedsSuper):
         result = True
         # Validate type tpXTipoChaveDFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 255:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpXTipoChaveDFe' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5041,10 +5027,6 @@ class tpDFeNacional(GeneratedsSuper):
         result = True
         # Validate type tpChaveDFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 50:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpChaveDFe' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5183,9 +5165,9 @@ class tpDocFiscalOutro(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('cMunDocFiscal', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cMunDocFiscal', 'type': 'xs:int'}, None),
-        MemberSpec_('nDocFiscal', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nDocFiscal', 'type': 'xs:string'}, None),
-        MemberSpec_('xDocFiscal', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xDocFiscal', 'type': 'xs:string'}, None),
+        MemberSpec_('cMunDocFiscal', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cMunDocFiscal', 'type': 'xsd:int'}, None),
+        MemberSpec_('nDocFiscal', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nDocFiscal', 'type': 'xsd:string'}, None),
+        MemberSpec_('xDocFiscal', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xDocFiscal', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -5219,10 +5201,6 @@ class tpDocFiscalOutro(GeneratedsSuper):
         result = True
         # Validate type tpCidade, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCidade_patterns_, ))
@@ -5233,10 +5211,6 @@ class tpDocFiscalOutro(GeneratedsSuper):
         result = True
         # Validate type tpNumeroDescricaoDocumento, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 255:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroDescricaoDocumento' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5360,8 +5334,8 @@ class tpDocOutro(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('nDoc', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nDoc', 'type': 'xs:string'}, None),
-        MemberSpec_('xDoc', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xDoc', 'type': 'xs:string'}, None),
+        MemberSpec_('nDoc', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'nDoc', 'type': 'xsd:string'}, None),
+        MemberSpec_('xDoc', ['tpNumeroDescricaoDocumento', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xDoc', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -5392,10 +5366,6 @@ class tpDocOutro(GeneratedsSuper):
         result = True
         # Validate type tpNumeroDescricaoDocumento, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 255:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroDescricaoDocumento' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5494,11 +5464,11 @@ class tpFornecedor(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xs:string'}, None),
-        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xs:string'}, None),
-        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xs:string'}, None),
-        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xs:int'}, None),
-        MemberSpec_('xNome', ['tpRazaoSocialObrigatorio', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNome', 'type': 'xs:string'}, None),
+        MemberSpec_('CPF', ['tpCPF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPF', 'type': 'xsd:string'}, None),
+        MemberSpec_('CNPJ', ['tpCNPJ', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CNPJ', 'type': 'xsd:string'}, None),
+        MemberSpec_('NIF', ['tpNIF', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NIF', 'type': 'xsd:string'}, None),
+        MemberSpec_('NaoNIF', ['tpNaoNIF', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NaoNIF', 'type': 'xsd:int'}, None),
+        MemberSpec_('xNome', ['tpRazaoSocialObrigatorio', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNome', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -5538,10 +5508,6 @@ class tpFornecedor(GeneratedsSuper):
         result = True
         # Validate type tpCPF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCPF_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCPF_patterns_, ))
@@ -5552,10 +5518,6 @@ class tpFornecedor(GeneratedsSuper):
         result = True
         # Validate type tpCNPJ, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCNPJ_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCNPJ_patterns_, ))
@@ -5566,10 +5528,6 @@ class tpFornecedor(GeneratedsSuper):
         result = True
         # Validate type tpNIF, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 40:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5583,12 +5541,8 @@ class tpFornecedor(GeneratedsSuper):
         result = True
         # Validate type tpNaoNIF, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1, 2]
+            enumerations = ['0', '1', '2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoNIF' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5598,10 +5552,6 @@ class tpFornecedor(GeneratedsSuper):
         result = True
         # Validate type tpRazaoSocialObrigatorio, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpRazaoSocialObrigatorio' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5754,9 +5704,9 @@ class tpAtividadeEvento(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('xNomeEvt', ['tpXNomeEvt', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNomeEvt', 'type': 'xs:string'}, None),
-        MemberSpec_('dtIniEvt', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtIniEvt', 'type': 'xs:date'}, None),
-        MemberSpec_('dtFimEvt', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtFimEvt', 'type': 'xs:date'}, None),
+        MemberSpec_('xNomeEvt', ['tpXNomeEvt', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'xNomeEvt', 'type': 'xsd:string'}, None),
+        MemberSpec_('dtIniEvt', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtIniEvt', 'type': 'xsd:string'}, None),
+        MemberSpec_('dtFimEvt', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'dtFimEvt', 'type': 'xsd:string'}, None),
         MemberSpec_('end', 'tpEnderecoSimplesIBSCBS', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'end', 'type': 'tpEnderecoSimplesIBSCBS'}, None),
     ]
     subclass = None
@@ -5770,17 +5720,9 @@ class tpAtividadeEvento(GeneratedsSuper):
         self.xNomeEvt = xNomeEvt
         self.validate_tpXNomeEvt(self.xNomeEvt)
         self.xNomeEvt_nsprefix_ = None
-        if isinstance(dtIniEvt, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(dtIniEvt, '%Y-%m-%d').date()
-        else:
-            initvalue_ = dtIniEvt
-        self.dtIniEvt = initvalue_
+        self.dtIniEvt = dtIniEvt
         self.dtIniEvt_nsprefix_ = None
-        if isinstance(dtFimEvt, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(dtFimEvt, '%Y-%m-%d').date()
-        else:
-            initvalue_ = dtFimEvt
-        self.dtFimEvt = initvalue_
+        self.dtFimEvt = dtFimEvt
         self.dtFimEvt_nsprefix_ = None
         self.end = end
         self.end_nsprefix_ = None
@@ -5799,10 +5741,6 @@ class tpAtividadeEvento(GeneratedsSuper):
         result = True
         # Validate type tpXNomeEvt, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 255:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpXNomeEvt' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -5859,11 +5797,11 @@ class tpAtividadeEvento(GeneratedsSuper):
         if self.dtIniEvt is not None:
             namespaceprefix_ = self.dtIniEvt_nsprefix_ + ':' if (UseCapturedNS_ and self.dtIniEvt_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sdtIniEvt>%s</%sdtIniEvt>%s' % (namespaceprefix_ , self.gds_format_date(self.dtIniEvt, input_name='dtIniEvt'), namespaceprefix_ , eol_))
+            outfile.write('<%sdtIniEvt>%s</%sdtIniEvt>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.dtIniEvt), input_name='dtIniEvt')), namespaceprefix_ , eol_))
         if self.dtFimEvt is not None:
             namespaceprefix_ = self.dtFimEvt_nsprefix_ + ':' if (UseCapturedNS_ and self.dtFimEvt_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sdtFimEvt>%s</%sdtFimEvt>%s' % (namespaceprefix_ , self.gds_format_date(self.dtFimEvt, input_name='dtFimEvt'), namespaceprefix_ , eol_))
+            outfile.write('<%sdtFimEvt>%s</%sdtFimEvt>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.dtFimEvt), input_name='dtFimEvt')), namespaceprefix_ , eol_))
         if self.end is not None:
             namespaceprefix_ = self.end_nsprefix_ + ':' if (UseCapturedNS_ and self.end_nsprefix_) else ''
             self.end.export(outfile, level, namespaceprefix_, namespacedef_='', name_='end', pretty_print=pretty_print)
@@ -5890,14 +5828,16 @@ class tpAtividadeEvento(GeneratedsSuper):
             # validate type tpXNomeEvt
             self.validate_tpXNomeEvt(self.xNomeEvt)
         elif nodeName_ == 'dtIniEvt':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.dtIniEvt = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'dtIniEvt')
+            value_ = self.gds_validate_string(value_, node, 'dtIniEvt')
+            self.dtIniEvt = value_
             self.dtIniEvt_nsprefix_ = child_.prefix
         elif nodeName_ == 'dtFimEvt':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.dtFimEvt = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'dtFimEvt')
+            value_ = self.gds_validate_string(value_, node, 'dtFimEvt')
+            self.dtFimEvt = value_
             self.dtFimEvt_nsprefix_ = child_.prefix
         elif nodeName_ == 'end':
             obj_ = tpEnderecoSimplesIBSCBS.factory(parent_object_=self)
@@ -5979,13 +5919,13 @@ class tpIBSCBS(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('finNFSe', ['tpFinNFSe', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'finNFSe', 'type': 'xs:int'}, None),
-        MemberSpec_('indFinal', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'indFinal', 'type': 'xs:int'}, None),
-        MemberSpec_('cIndOp', ['tpCIndOp', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cIndOp', 'type': 'xs:string'}, None),
-        MemberSpec_('tpOper', ['tpOper', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'tpOper', 'type': 'xs:int'}, None),
+        MemberSpec_('finNFSe', ['tpFinNFSe', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'finNFSe', 'type': 'xsd:int'}, None),
+        MemberSpec_('indFinal', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'indFinal', 'type': 'xsd:int'}, None),
+        MemberSpec_('cIndOp', ['tpCIndOp', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cIndOp', 'type': 'xsd:string'}, None),
+        MemberSpec_('tpOper', ['tpOper', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'tpOper', 'type': 'xsd:int'}, None),
         MemberSpec_('gRefNFSe', 'tpGRefNFSe', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'gRefNFSe', 'type': 'tpGRefNFSe'}, None),
-        MemberSpec_('tpEnteGov', ['tpEnteGov', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'tpEnteGov', 'type': 'xs:int'}, None),
-        MemberSpec_('indDest', ['tpIndDest', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'indDest', 'type': 'xs:int'}, None),
+        MemberSpec_('tpEnteGov', ['tpEnteGov', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'tpEnteGov', 'type': 'xsd:int'}, None),
+        MemberSpec_('indDest', ['tpIndDest', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'indDest', 'type': 'xsd:int'}, None),
         MemberSpec_('dest', 'tpInformacoesPessoa', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'dest', 'type': 'tpInformacoesPessoa'}, None),
         MemberSpec_('valores', 'tpValores', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'valores', 'type': 'tpValores'}, None),
         MemberSpec_('imovelobra', 'tpImovelObra', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'imovelobra', 'type': 'tpImovelObra'}, None),
@@ -6039,12 +5979,8 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpFinNFSe, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0]
+            enumerations = ['0']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpFinNFSe' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -6054,12 +5990,8 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpNaoSim, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1]
+            enumerations = ['0', '1']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoSim' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -6074,10 +6006,6 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpCIndOp, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCIndOp_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCIndOp_patterns_, ))
@@ -6088,12 +6016,8 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpOper, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [1, 2, 3, 4, 5]
+            enumerations = ['1', '2', '3', '4', '5']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpOper' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -6103,12 +6027,8 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpEnteGov, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [1, 2, 3, 4]
+            enumerations = ['1', '2', '3', '4']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpEnteGov' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -6118,12 +6038,8 @@ class tpIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpIndDest, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1]
+            enumerations = ['0', '1']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpIndDest' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -6315,7 +6231,7 @@ class tpGIBSCBS(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('cClassTrib', ['tpClassificacaoTributaria', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cClassTrib', 'type': 'xs:string'}, None),
+        MemberSpec_('cClassTrib', ['tpClassificacaoTributaria', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cClassTrib', 'type': 'xsd:string'}, None),
         MemberSpec_('gTribRegular', 'tpGTribRegular', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'gTribRegular', 'type': 'tpGTribRegular'}, None),
     ]
     subclass = None
@@ -6346,10 +6262,6 @@ class tpGIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpClassificacaoTributaria, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpClassificacaoTributaria_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpClassificacaoTributaria_patterns_, ))
@@ -6453,7 +6365,7 @@ class tpGTribRegular(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('cClassTribReg', ['tpClassificacaoTributaria', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cClassTribReg', 'type': 'xs:string'}, None),
+        MemberSpec_('cClassTribReg', ['tpClassificacaoTributaria', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cClassTribReg', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -6481,10 +6393,6 @@ class tpGTribRegular(GeneratedsSuper):
         result = True
         # Validate type tpClassificacaoTributaria, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpClassificacaoTributaria_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpClassificacaoTributaria_patterns_, ))
@@ -6712,45 +6620,45 @@ class tpRetornoComplementarIBSCBS(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
         MemberSpec_('Adquirente', 'tpInformacoesPessoa', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Adquirente', 'type': 'tpInformacoesPessoa'}, None),
-        MemberSpec_('ValorBCIBSCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorBCIBSCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercRedEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedEstadualIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEfetivaEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaEstadualIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercRedMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedMunicipalIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEfetivaMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaMunicipalIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercRedCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEfetivaCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercDiferimentoEstadual', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoEstadual', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorDiferimentoEstadual', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoEstadual', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercDiferimentoMunicipal', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoMunicipal', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorDiferimentoMunicipal', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoMunicipal', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercDiferimentoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorDiferimentoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('CodigoClassCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoClassCredPresumidoIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercCredPresumidoIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCredPresumidoIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('CodigoClassCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoClassCredPresumidoCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPercCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercCredPresumidoCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCredPresumidoCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEstadualRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualRegularIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqMunicipalRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalRegularIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqRegularCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqRegularCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorEstadualRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualRegularIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorMunicipalRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalRegularIBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorRegularCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorRegularCBS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorTotalReeRepRes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalReeRepRes', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqEstadualIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualIBSCompraGov', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorEstadualBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualBSCompraGov', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqMunicipalIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalIBSCompraGov', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorMunicipalIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalIBSCompraGov', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorAliqCBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqCBSCompraGov', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCBSCompraGov', 'type': 'xs:decimal'}, None),
+        MemberSpec_('ValorBCIBSCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorBCIBSCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercRedEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedEstadualIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEfetivaEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaEstadualIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorEstadualIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercRedMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedMunicipalIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEfetivaMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaMunicipalIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorMunicipalIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercRedCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercRedCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEfetivaCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEfetivaCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercDiferimentoEstadual', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoEstadual', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorDiferimentoEstadual', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoEstadual', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercDiferimentoMunicipal', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoMunicipal', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorDiferimentoMunicipal', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoMunicipal', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercDiferimentoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercDiferimentoCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorDiferimentoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDiferimentoCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('CodigoClassCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoClassCredPresumidoIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercCredPresumidoIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCredPresumidoIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCredPresumidoIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('CodigoClassCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoClassCredPresumidoCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPercCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPercCredPresumidoCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCredPresumidoCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCredPresumidoCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEstadualRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualRegularIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqMunicipalRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalRegularIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqRegularCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqRegularCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorEstadualRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualRegularIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorMunicipalRegularIBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalRegularIBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorRegularCBS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorRegularCBS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorTotalReeRepRes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalReeRepRes', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqEstadualIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqEstadualIBSCompraGov', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorEstadualBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorEstadualBSCompraGov', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqMunicipalIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqMunicipalIBSCompraGov', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorMunicipalIBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMunicipalIBSCompraGov', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorAliqCBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorAliqCBSCompraGov', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCBSCompraGov', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCBSCompraGov', 'type': 'xsd:decimal'}, None),
     ]
     subclass = None
     superclass = None
@@ -6894,10 +6802,6 @@ class tpRetornoComplementarIBSCBS(GeneratedsSuper):
         result = True
         # Validate type tpValor, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpValor' % {"value": value, "lineno": lineno} )
@@ -7954,67 +7858,67 @@ class tpNFe(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Assinatura', ['tpAssinatura', 'xs:base64Binary'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Assinatura', 'type': 'xs:base64Binary'}, None),
+        MemberSpec_('Assinatura', ['tpAssinatura', 'xs:base64Binary'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Assinatura', 'type': 'xsd:base64Binary'}, None),
         MemberSpec_('ChaveNFe', 'tpChaveNFe', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ChaveNFe', 'type': 'tpChaveNFe'}, None),
-        MemberSpec_('DataEmissaoNFe', 'xs:dateTime', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEmissaoNFe', 'type': 'xs:dateTime'}, None),
-        MemberSpec_('NumeroLote', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroLote', 'type': 'xs:long'}, None),
+        MemberSpec_('DataEmissaoNFe', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEmissaoNFe', 'type': 'xsd:string'}, None),
+        MemberSpec_('NumeroLote', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroLote', 'type': 'xsd:long'}, None),
         MemberSpec_('ChaveRPS', 'tpChaveRPS', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ChaveRPS', 'type': 'tpChaveRPS'}, None),
-        MemberSpec_('TipoRPS', ['tpTipoRPS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'TipoRPS', 'type': 'xs:string'}, None),
-        MemberSpec_('DataEmissaoRPS', 'xs:date', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataEmissaoRPS', 'type': 'xs:date'}, None),
-        MemberSpec_('DataFatoGeradorNFe', 'xs:dateTime', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataFatoGeradorNFe', 'type': 'xs:dateTime'}, None),
+        MemberSpec_('TipoRPS', ['tpTipoRPS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'TipoRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataEmissaoRPS', 'xsd:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataEmissaoRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataFatoGeradorNFe', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataFatoGeradorNFe', 'type': 'xsd:string'}, None),
         MemberSpec_('CPFCNPJPrestador', 'tpCPFCNPJ', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPFCNPJPrestador', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('RazaoSocialPrestador', ['tpRazaoSocial', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'RazaoSocialPrestador', 'type': 'xs:string'}, None),
+        MemberSpec_('RazaoSocialPrestador', ['tpRazaoSocial', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'RazaoSocialPrestador', 'type': 'xsd:string'}, None),
         MemberSpec_('EnderecoPrestador', 'tpEndereco', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'EnderecoPrestador', 'type': 'tpEndereco'}, None),
-        MemberSpec_('EmailPrestador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailPrestador', 'type': 'xs:string'}, None),
-        MemberSpec_('StatusNFe', ['tpStatusNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'StatusNFe', 'type': 'xs:string'}, None),
-        MemberSpec_('DataCancelamento', 'xs:dateTime', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataCancelamento', 'type': 'xs:dateTime'}, None),
-        MemberSpec_('TributacaoNFe', ['tpTributacaoNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TributacaoNFe', 'type': 'xs:string'}, None),
-        MemberSpec_('OpcaoSimples', ['tpOpcaoSimples', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'OpcaoSimples', 'type': 'xs:string'}, None),
-        MemberSpec_('NumeroGuia', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroGuia', 'type': 'xs:long'}, None),
-        MemberSpec_('DataQuitacaoGuia', 'xs:date', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataQuitacaoGuia', 'type': 'xs:date'}, None),
-        MemberSpec_('ValorServicos', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorServicos', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorDeducoes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDeducoes', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPIS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPIS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCOFINS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCOFINS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorINSS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorINSS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorIR', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIR', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCSLL', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCSLL', 'type': 'xs:decimal'}, None),
-        MemberSpec_('CodigoServico', ['tpCodigoServico', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CodigoServico', 'type': 'xs:int'}, None),
-        MemberSpec_('AliquotaServicos', ['tpAliquota', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AliquotaServicos', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorISS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorISS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCredito', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCredito', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ISSRetido', 'xs:boolean', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ISSRetido', 'type': 'xs:boolean'}, None),
+        MemberSpec_('EmailPrestador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailPrestador', 'type': 'xsd:string'}, None),
+        MemberSpec_('StatusNFe', ['tpStatusNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'StatusNFe', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataCancelamento', 'xsd:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataCancelamento', 'type': 'xsd:string'}, None),
+        MemberSpec_('TributacaoNFe', ['tpTributacaoNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TributacaoNFe', 'type': 'xsd:string'}, None),
+        MemberSpec_('OpcaoSimples', ['tpOpcaoSimples', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'OpcaoSimples', 'type': 'xsd:string'}, None),
+        MemberSpec_('NumeroGuia', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroGuia', 'type': 'xsd:long'}, None),
+        MemberSpec_('DataQuitacaoGuia', 'xsd:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'DataQuitacaoGuia', 'type': 'xsd:string'}, None),
+        MemberSpec_('ValorServicos', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorServicos', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorDeducoes', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorDeducoes', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPIS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorPIS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCOFINS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCOFINS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorINSS', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorINSS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorIR', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIR', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCSLL', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCSLL', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('CodigoServico', ['tpCodigoServico', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CodigoServico', 'type': 'xsd:int'}, None),
+        MemberSpec_('AliquotaServicos', ['tpAliquota', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AliquotaServicos', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorISS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorISS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCredito', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCredito', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ISSRetido', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ISSRetido', 'type': 'xsd:string'}, None),
         MemberSpec_('CPFCNPJTomador', 'tpCPFCNPJNIF', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CPFCNPJTomador', 'type': 'tpCPFCNPJNIF'}, None),
-        MemberSpec_('InscricaoMunicipalTomador', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalTomador', 'type': 'xs:long'}, None),
-        MemberSpec_('InscricaoEstadualTomador', ['tpInscricaoEstadual', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoEstadualTomador', 'type': 'xs:long'}, None),
-        MemberSpec_('RazaoSocialTomador', ['tpRazaoSocial', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RazaoSocialTomador', 'type': 'xs:string'}, None),
+        MemberSpec_('InscricaoMunicipalTomador', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalTomador', 'type': 'xsd:long'}, None),
+        MemberSpec_('InscricaoEstadualTomador', ['tpInscricaoEstadual', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoEstadualTomador', 'type': 'xsd:long'}, None),
+        MemberSpec_('RazaoSocialTomador', ['tpRazaoSocial', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RazaoSocialTomador', 'type': 'xsd:string'}, None),
         MemberSpec_('EnderecoTomador', 'tpEndereco', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EnderecoTomador', 'type': 'tpEndereco'}, None),
-        MemberSpec_('EmailTomador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailTomador', 'type': 'xs:string'}, None),
+        MemberSpec_('EmailTomador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailTomador', 'type': 'xsd:string'}, None),
         MemberSpec_('CPFCNPJIntermediario', 'tpCPFCNPJ', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CPFCNPJIntermediario', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('InscricaoMunicipalIntermediario', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalIntermediario', 'type': 'xs:long'}, None),
-        MemberSpec_('ISSRetidoIntermediario', 'xs:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ISSRetidoIntermediario', 'type': 'xs:string'}, None),
-        MemberSpec_('EmailIntermediario', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailIntermediario', 'type': 'xs:string'}, None),
-        MemberSpec_('Discriminacao', ['tpDiscriminacao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Discriminacao', 'type': 'xs:string'}, None),
-        MemberSpec_('ValorCargaTributaria', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCargaTributaria', 'type': 'xs:decimal'}, None),
-        MemberSpec_('PercentualCargaTributaria', ['tpPercentualCargaTributaria', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PercentualCargaTributaria', 'type': 'xs:decimal'}, None),
-        MemberSpec_('FonteCargaTributaria', ['tpFonteCargaTributaria', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'FonteCargaTributaria', 'type': 'xs:string'}, None),
-        MemberSpec_('CodigoCEI', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoCEI', 'type': 'xs:long'}, None),
-        MemberSpec_('MatriculaObra', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MatriculaObra', 'type': 'xs:long'}, None),
-        MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xs:int'}, None),
-        MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xs:long'}, None),
-        MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xs:decimal'}, 9),
-        MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xs:decimal'}, 9),
-        MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIPI', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xs:int'}, None),
-        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
-        MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xs:string'}, None),
-        MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NBS', 'type': 'xs:string'}, None),
+        MemberSpec_('InscricaoMunicipalIntermediario', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalIntermediario', 'type': 'xsd:long'}, None),
+        MemberSpec_('ISSRetidoIntermediario', 'xsd:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ISSRetidoIntermediario', 'type': 'xsd:string'}, None),
+        MemberSpec_('EmailIntermediario', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailIntermediario', 'type': 'xsd:string'}, None),
+        MemberSpec_('Discriminacao', ['tpDiscriminacao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Discriminacao', 'type': 'xsd:string'}, None),
+        MemberSpec_('ValorCargaTributaria', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCargaTributaria', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('PercentualCargaTributaria', ['tpPercentualCargaTributaria', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PercentualCargaTributaria', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('FonteCargaTributaria', ['tpFonteCargaTributaria', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'FonteCargaTributaria', 'type': 'xsd:string'}, None),
+        MemberSpec_('CodigoCEI', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoCEI', 'type': 'xsd:long'}, None),
+        MemberSpec_('MatriculaObra', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MatriculaObra', 'type': 'xsd:long'}, None),
+        MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xsd:int'}, None),
+        MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xsd:long'}, None),
+        MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xsd:decimal'}, 9),
+        MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xsd:decimal'}, 9),
+        MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIPI', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xsd:int'}, None),
+        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xsd:int'}, None),
+        MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xsd:string'}, None),
+        MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NBS', 'type': 'xsd:string'}, None),
         MemberSpec_('atvEvento', 'tpAtividadeEvento', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'atvEvento', 'type': 'tpAtividadeEvento'}, None),
-        MemberSpec_('cLocPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'cLocPrestacao', 'type': 'xs:int'}, None),
-        MemberSpec_('cPaisPrestacao', ['tpCodigoPaisISO', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'cPaisPrestacao', 'type': 'xs:string'}, None),
+        MemberSpec_('cLocPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'cLocPrestacao', 'type': 'xsd:int'}, None),
+        MemberSpec_('cPaisPrestacao', ['tpCodigoPaisISO', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'cPaisPrestacao', 'type': 'xsd:string'}, None),
         MemberSpec_('IBSCBS', 'tpIBSCBS', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'IBSCBS', 'type': 'tpIBSCBS'}, None),
         MemberSpec_('RetornoComplementarIBSCBS', 'tpRetornoComplementarIBSCBS', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RetornoComplementarIBSCBS', 'type': 'tpRetornoComplementarIBSCBS'}, None),
     ]
@@ -8031,11 +7935,7 @@ class tpNFe(GeneratedsSuper):
         self.Assinatura_nsprefix_ = None
         self.ChaveNFe = ChaveNFe
         self.ChaveNFe_nsprefix_ = None
-        if isinstance(DataEmissaoNFe, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataEmissaoNFe, '%Y-%m-%dT%H:%M:%S')
-        else:
-            initvalue_ = DataEmissaoNFe
-        self.DataEmissaoNFe = initvalue_
+        self.DataEmissaoNFe = DataEmissaoNFe
         self.DataEmissaoNFe_nsprefix_ = None
         self.NumeroLote = NumeroLote
         self.validate_tpNumero(self.NumeroLote)
@@ -8045,17 +7945,9 @@ class tpNFe(GeneratedsSuper):
         self.TipoRPS = TipoRPS
         self.validate_tpTipoRPS(self.TipoRPS)
         self.TipoRPS_nsprefix_ = None
-        if isinstance(DataEmissaoRPS, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataEmissaoRPS, '%Y-%m-%d').date()
-        else:
-            initvalue_ = DataEmissaoRPS
-        self.DataEmissaoRPS = initvalue_
+        self.DataEmissaoRPS = DataEmissaoRPS
         self.DataEmissaoRPS_nsprefix_ = None
-        if isinstance(DataFatoGeradorNFe, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataFatoGeradorNFe, '%Y-%m-%dT%H:%M:%S')
-        else:
-            initvalue_ = DataFatoGeradorNFe
-        self.DataFatoGeradorNFe = initvalue_
+        self.DataFatoGeradorNFe = DataFatoGeradorNFe
         self.DataFatoGeradorNFe_nsprefix_ = None
         self.CPFCNPJPrestador = CPFCNPJPrestador
         self.CPFCNPJPrestador_nsprefix_ = None
@@ -8070,11 +7962,7 @@ class tpNFe(GeneratedsSuper):
         self.StatusNFe = StatusNFe
         self.validate_tpStatusNFe(self.StatusNFe)
         self.StatusNFe_nsprefix_ = None
-        if isinstance(DataCancelamento, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataCancelamento, '%Y-%m-%dT%H:%M:%S')
-        else:
-            initvalue_ = DataCancelamento
-        self.DataCancelamento = initvalue_
+        self.DataCancelamento = DataCancelamento
         self.DataCancelamento_nsprefix_ = None
         self.TributacaoNFe = TributacaoNFe
         self.validate_tpTributacaoNFe(self.TributacaoNFe)
@@ -8085,11 +7973,7 @@ class tpNFe(GeneratedsSuper):
         self.NumeroGuia = NumeroGuia
         self.validate_tpNumero(self.NumeroGuia)
         self.NumeroGuia_nsprefix_ = None
-        if isinstance(DataQuitacaoGuia, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataQuitacaoGuia, '%Y-%m-%d').date()
-        else:
-            initvalue_ = DataQuitacaoGuia
-        self.DataQuitacaoGuia = initvalue_
+        self.DataQuitacaoGuia = DataQuitacaoGuia
         self.DataQuitacaoGuia_nsprefix_ = None
         self.ValorServicos = ValorServicos
         self.validate_tpValor(self.ValorServicos)
@@ -8239,10 +8123,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpNumero, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpNumero_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
@@ -8253,10 +8133,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpTipoRPS, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
             enumerations = ['RPS', 'RPS-M', 'RPS-C']
             if value not in enumerations:
@@ -8268,10 +8144,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpRazaoSocial, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpRazaoSocial' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8285,10 +8157,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpEmail, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpEmail' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8302,10 +8170,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpStatusNFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
             enumerations = ['N', 'C', 'E']
             if value not in enumerations:
@@ -8317,10 +8181,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpTributacaoNFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 1:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpTributacaoNFe' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8334,10 +8194,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpOpcaoSimples, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
             enumerations = ['0', '1', '2', '3', '4', '6']
             if value not in enumerations:
@@ -8349,10 +8205,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpValor, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpValor' % {"value": value, "lineno": lineno} )
@@ -8371,10 +8223,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpCodigoServico, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoServico_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoServico_patterns_, ))
@@ -8385,10 +8233,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpAliquota, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpAliquota' % {"value": value, "lineno": lineno} )
@@ -8402,10 +8246,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoMunicipal, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoMunicipal_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
@@ -8416,10 +8256,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoEstadual, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoEstadual_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoEstadual_patterns_, ))
@@ -8430,10 +8266,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpDiscriminacao, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 2000:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpDiscriminacao' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8447,10 +8279,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpPercentualCargaTributaria, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpPercentualCargaTributaria' % {"value": value, "lineno": lineno} )
@@ -8464,10 +8292,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpFonteCargaTributaria, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 10:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpFonteCargaTributaria' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8481,10 +8305,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpCidade, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCidade_patterns_, ))
@@ -8495,12 +8315,8 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpNaoSim, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1]
+            enumerations = ['0', '1']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoSim' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -8515,10 +8331,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpCodigoNCM, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoNCM_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoNCM_patterns_, ))
@@ -8529,10 +8341,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpCodigoNBS, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoNBS_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoNBS_patterns_, ))
@@ -8543,10 +8351,6 @@ class tpNFe(GeneratedsSuper):
         result = True
         # Validate type tpCodigoPaisISO, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoPaisISO_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoPaisISO_patterns_, ))
@@ -8662,7 +8466,7 @@ class tpNFe(GeneratedsSuper):
         if self.DataEmissaoNFe is not None:
             namespaceprefix_ = self.DataEmissaoNFe_nsprefix_ + ':' if (UseCapturedNS_ and self.DataEmissaoNFe_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataEmissaoNFe>%s</%sDataEmissaoNFe>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataEmissaoNFe, input_name='DataEmissaoNFe'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataEmissaoNFe>%s</%sDataEmissaoNFe>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataEmissaoNFe), input_name='DataEmissaoNFe')), namespaceprefix_ , eol_))
         if self.NumeroLote is not None:
             namespaceprefix_ = self.NumeroLote_nsprefix_ + ':' if (UseCapturedNS_ and self.NumeroLote_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -8677,11 +8481,11 @@ class tpNFe(GeneratedsSuper):
         if self.DataEmissaoRPS is not None:
             namespaceprefix_ = self.DataEmissaoRPS_nsprefix_ + ':' if (UseCapturedNS_ and self.DataEmissaoRPS_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataEmissaoRPS>%s</%sDataEmissaoRPS>%s' % (namespaceprefix_ , self.gds_format_date(self.DataEmissaoRPS, input_name='DataEmissaoRPS'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataEmissaoRPS>%s</%sDataEmissaoRPS>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataEmissaoRPS), input_name='DataEmissaoRPS')), namespaceprefix_ , eol_))
         if self.DataFatoGeradorNFe is not None:
             namespaceprefix_ = self.DataFatoGeradorNFe_nsprefix_ + ':' if (UseCapturedNS_ and self.DataFatoGeradorNFe_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataFatoGeradorNFe>%s</%sDataFatoGeradorNFe>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataFatoGeradorNFe, input_name='DataFatoGeradorNFe'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataFatoGeradorNFe>%s</%sDataFatoGeradorNFe>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataFatoGeradorNFe), input_name='DataFatoGeradorNFe')), namespaceprefix_ , eol_))
         if self.CPFCNPJPrestador is not None:
             namespaceprefix_ = self.CPFCNPJPrestador_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJPrestador_nsprefix_) else ''
             self.CPFCNPJPrestador.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJPrestador', pretty_print=pretty_print)
@@ -8703,7 +8507,7 @@ class tpNFe(GeneratedsSuper):
         if self.DataCancelamento is not None:
             namespaceprefix_ = self.DataCancelamento_nsprefix_ + ':' if (UseCapturedNS_ and self.DataCancelamento_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataCancelamento>%s</%sDataCancelamento>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataCancelamento, input_name='DataCancelamento'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataCancelamento>%s</%sDataCancelamento>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataCancelamento), input_name='DataCancelamento')), namespaceprefix_ , eol_))
         if self.TributacaoNFe is not None:
             namespaceprefix_ = self.TributacaoNFe_nsprefix_ + ':' if (UseCapturedNS_ and self.TributacaoNFe_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -8719,7 +8523,7 @@ class tpNFe(GeneratedsSuper):
         if self.DataQuitacaoGuia is not None:
             namespaceprefix_ = self.DataQuitacaoGuia_nsprefix_ + ':' if (UseCapturedNS_ and self.DataQuitacaoGuia_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataQuitacaoGuia>%s</%sDataQuitacaoGuia>%s' % (namespaceprefix_ , self.gds_format_date(self.DataQuitacaoGuia, input_name='DataQuitacaoGuia'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataQuitacaoGuia>%s</%sDataQuitacaoGuia>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataQuitacaoGuia), input_name='DataQuitacaoGuia')), namespaceprefix_ , eol_))
         if self.ValorServicos is not None:
             namespaceprefix_ = self.ValorServicos_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorServicos_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -8767,7 +8571,7 @@ class tpNFe(GeneratedsSuper):
         if self.ISSRetido is not None:
             namespaceprefix_ = self.ISSRetido_nsprefix_ + ':' if (UseCapturedNS_ and self.ISSRetido_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sISSRetido>%s</%sISSRetido>%s' % (namespaceprefix_ , self.gds_format_boolean(self.ISSRetido, input_name='ISSRetido'), namespaceprefix_ , eol_))
+            outfile.write('<%sISSRetido>%s</%sISSRetido>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.ISSRetido), input_name='ISSRetido')), namespaceprefix_ , eol_))
         if self.CPFCNPJTomador is not None:
             namespaceprefix_ = self.CPFCNPJTomador_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJTomador_nsprefix_) else ''
             self.CPFCNPJTomador.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJTomador', pretty_print=pretty_print)
@@ -8928,9 +8732,10 @@ class tpNFe(GeneratedsSuper):
             self.ChaveNFe = obj_
             obj_.original_tagname_ = 'ChaveNFe'
         elif nodeName_ == 'DataEmissaoNFe':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_)
-            self.DataEmissaoNFe = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataEmissaoNFe')
+            value_ = self.gds_validate_string(value_, node, 'DataEmissaoNFe')
+            self.DataEmissaoNFe = value_
             self.DataEmissaoNFe_nsprefix_ = child_.prefix
         elif nodeName_ == 'NumeroLote' and child_.text:
             sval_ = child_.text
@@ -8954,14 +8759,16 @@ class tpNFe(GeneratedsSuper):
             # validate type tpTipoRPS
             self.validate_tpTipoRPS(self.TipoRPS)
         elif nodeName_ == 'DataEmissaoRPS':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.DataEmissaoRPS = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataEmissaoRPS')
+            value_ = self.gds_validate_string(value_, node, 'DataEmissaoRPS')
+            self.DataEmissaoRPS = value_
             self.DataEmissaoRPS_nsprefix_ = child_.prefix
         elif nodeName_ == 'DataFatoGeradorNFe':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_)
-            self.DataFatoGeradorNFe = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataFatoGeradorNFe')
+            value_ = self.gds_validate_string(value_, node, 'DataFatoGeradorNFe')
+            self.DataFatoGeradorNFe = value_
             self.DataFatoGeradorNFe_nsprefix_ = child_.prefix
         elif nodeName_ == 'CPFCNPJPrestador':
             obj_ = tpCPFCNPJ.factory(parent_object_=self)
@@ -8998,9 +8805,10 @@ class tpNFe(GeneratedsSuper):
             # validate type tpStatusNFe
             self.validate_tpStatusNFe(self.StatusNFe)
         elif nodeName_ == 'DataCancelamento':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_)
-            self.DataCancelamento = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataCancelamento')
+            value_ = self.gds_validate_string(value_, node, 'DataCancelamento')
+            self.DataCancelamento = value_
             self.DataCancelamento_nsprefix_ = child_.prefix
         elif nodeName_ == 'TributacaoNFe':
             value_ = child_.text
@@ -9027,9 +8835,10 @@ class tpNFe(GeneratedsSuper):
             # validate type tpNumero
             self.validate_tpNumero(self.NumeroGuia)
         elif nodeName_ == 'DataQuitacaoGuia':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.DataQuitacaoGuia = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataQuitacaoGuia')
+            value_ = self.gds_validate_string(value_, node, 'DataQuitacaoGuia')
+            self.DataQuitacaoGuia = value_
             self.DataQuitacaoGuia_nsprefix_ = child_.prefix
         elif nodeName_ == 'ValorServicos' and child_.text:
             sval_ = child_.text
@@ -9120,10 +8929,10 @@ class tpNFe(GeneratedsSuper):
             # validate type tpValor
             self.validate_tpValor(self.ValorCredito)
         elif nodeName_ == 'ISSRetido':
-            sval_ = child_.text
-            ival_ = self.gds_parse_boolean(sval_, node, 'ISSRetido')
-            ival_ = self.gds_validate_boolean(ival_, node, 'ISSRetido')
-            self.ISSRetido = ival_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'ISSRetido')
+            value_ = self.gds_validate_string(value_, node, 'ISSRetido')
+            self.ISSRetido = value_
             self.ISSRetido_nsprefix_ = child_.prefix
         elif nodeName_ == 'CPFCNPJTomador':
             obj_ = tpCPFCNPJNIF.factory(parent_object_=self)
@@ -9675,52 +9484,52 @@ class tpRPS(GeneratedsSuper):
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Assinatura', ['tpAssinatura', 'xs:base64Binary'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Assinatura', 'type': 'xs:base64Binary'}, None),
+        MemberSpec_('Assinatura', ['tpAssinatura', 'xs:base64Binary'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Assinatura', 'type': 'xsd:base64Binary'}, None),
         MemberSpec_('ChaveRPS', 'tpChaveRPS', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ChaveRPS', 'type': 'tpChaveRPS'}, None),
-        MemberSpec_('TipoRPS', ['tpTipoRPS', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TipoRPS', 'type': 'xs:string'}, None),
-        MemberSpec_('DataEmissao', 'xs:date', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEmissao', 'type': 'xs:date'}, None),
-        MemberSpec_('StatusRPS', ['tpStatusNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'StatusRPS', 'type': 'xs:string'}, None),
-        MemberSpec_('TributacaoRPS', ['tpTributacaoNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TributacaoRPS', 'type': 'xs:string'}, None),
-        MemberSpec_('ValorDeducoes', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorDeducoes', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorPIS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorPIS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCOFINS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCOFINS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorINSS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorINSS', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorIR', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIR', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorCSLL', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCSLL', 'type': 'xs:decimal'}, None),
-        MemberSpec_('CodigoServico', ['tpCodigoServico', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CodigoServico', 'type': 'xs:int'}, None),
-        MemberSpec_('AliquotaServicos', ['tpAliquota', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AliquotaServicos', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ISSRetido', 'xs:boolean', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ISSRetido', 'type': 'xs:boolean'}, None),
+        MemberSpec_('TipoRPS', ['tpTipoRPS', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TipoRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataEmissao', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataEmissao', 'type': 'xsd:string'}, None),
+        MemberSpec_('StatusRPS', ['tpStatusNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'StatusRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('TributacaoRPS', ['tpTributacaoNFe', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'TributacaoRPS', 'type': 'xsd:string'}, None),
+        MemberSpec_('ValorDeducoes', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorDeducoes', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorPIS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorPIS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCOFINS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCOFINS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorINSS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorINSS', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorIR', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIR', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorCSLL', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCSLL', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('CodigoServico', ['tpCodigoServico', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CodigoServico', 'type': 'xsd:int'}, None),
+        MemberSpec_('AliquotaServicos', ['tpAliquota', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AliquotaServicos', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ISSRetido', 'xsd:string', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ISSRetido', 'type': 'xsd:string'}, None),
         MemberSpec_('CPFCNPJTomador', 'tpCPFCNPJNIF', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CPFCNPJTomador', 'type': 'tpCPFCNPJNIF'}, None),
-        MemberSpec_('InscricaoMunicipalTomador', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalTomador', 'type': 'xs:long'}, None),
-        MemberSpec_('InscricaoEstadualTomador', ['tpInscricaoEstadual', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoEstadualTomador', 'type': 'xs:long'}, None),
-        MemberSpec_('RazaoSocialTomador', ['tpRazaoSocial', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RazaoSocialTomador', 'type': 'xs:string'}, None),
+        MemberSpec_('InscricaoMunicipalTomador', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalTomador', 'type': 'xsd:long'}, None),
+        MemberSpec_('InscricaoEstadualTomador', ['tpInscricaoEstadual', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoEstadualTomador', 'type': 'xsd:long'}, None),
+        MemberSpec_('RazaoSocialTomador', ['tpRazaoSocial', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RazaoSocialTomador', 'type': 'xsd:string'}, None),
         MemberSpec_('EnderecoTomador', 'tpEndereco', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EnderecoTomador', 'type': 'tpEndereco'}, None),
-        MemberSpec_('EmailTomador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailTomador', 'type': 'xs:string'}, None),
+        MemberSpec_('EmailTomador', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailTomador', 'type': 'xsd:string'}, None),
         MemberSpec_('CPFCNPJIntermediario', 'tpCPFCNPJ', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CPFCNPJIntermediario', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('InscricaoMunicipalIntermediario', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalIntermediario', 'type': 'xs:long'}, None),
-        MemberSpec_('ISSRetidoIntermediario', 'xs:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ISSRetidoIntermediario', 'type': 'xs:string'}, None),
-        MemberSpec_('EmailIntermediario', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailIntermediario', 'type': 'xs:string'}, None),
-        MemberSpec_('Discriminacao', ['tpDiscriminacao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Discriminacao', 'type': 'xs:string'}, None),
-        MemberSpec_('ValorCargaTributaria', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCargaTributaria', 'type': 'xs:decimal'}, None),
-        MemberSpec_('PercentualCargaTributaria', ['tpPercentualCargaTributaria', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PercentualCargaTributaria', 'type': 'xs:decimal'}, None),
-        MemberSpec_('FonteCargaTributaria', ['tpFonteCargaTributaria', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'FonteCargaTributaria', 'type': 'xs:string'}, None),
-        MemberSpec_('CodigoCEI', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoCEI', 'type': 'xs:long'}, None),
-        MemberSpec_('MatriculaObra', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MatriculaObra', 'type': 'xs:long'}, None),
-        MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xs:int'}, None),
-        MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xs:long'}, None),
-        MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xs:decimal'}, 10),
-        MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xs:decimal'}, 10),
-        MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIPI', 'type': 'xs:decimal'}, None),
-        MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xs:int'}, None),
-        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
-        MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xs:string'}, None),
-        MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NBS', 'type': 'xs:string'}, None),
+        MemberSpec_('InscricaoMunicipalIntermediario', ['tpInscricaoMunicipal', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InscricaoMunicipalIntermediario', 'type': 'xsd:long'}, None),
+        MemberSpec_('ISSRetidoIntermediario', 'xsd:string', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ISSRetidoIntermediario', 'type': 'xsd:string'}, None),
+        MemberSpec_('EmailIntermediario', ['tpEmail', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'EmailIntermediario', 'type': 'xsd:string'}, None),
+        MemberSpec_('Discriminacao', ['tpDiscriminacao', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Discriminacao', 'type': 'xsd:string'}, None),
+        MemberSpec_('ValorCargaTributaria', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorCargaTributaria', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('PercentualCargaTributaria', ['tpPercentualCargaTributaria', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PercentualCargaTributaria', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('FonteCargaTributaria', ['tpFonteCargaTributaria', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'FonteCargaTributaria', 'type': 'xsd:string'}, None),
+        MemberSpec_('CodigoCEI', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'CodigoCEI', 'type': 'xsd:long'}, None),
+        MemberSpec_('MatriculaObra', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MatriculaObra', 'type': 'xsd:long'}, None),
+        MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xsd:int'}, None),
+        MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xsd:long'}, None),
+        MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xsd:decimal'}, 10),
+        MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xsd:decimal'}, 10),
+        MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIPI', 'type': 'xsd:decimal'}, None),
+        MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xsd:int'}, None),
+        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xsd:int'}, None),
+        MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xsd:string'}, None),
+        MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NBS', 'type': 'xsd:string'}, None),
         MemberSpec_('atvEvento', 'tpAtividadeEvento', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'atvEvento', 'type': 'tpAtividadeEvento'}, None),
-        MemberSpec_('cLocPrestacao', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cLocPrestacao', 'type': 'xs:int'}, None),
-        MemberSpec_('cPaisPrestacao', ['tpCodigoPaisISO', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cPaisPrestacao', 'type': 'xs:string'}, None),
+        MemberSpec_('cLocPrestacao', ['tpCidade', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cLocPrestacao', 'type': 'xsd:int'}, None),
+        MemberSpec_('cPaisPrestacao', ['tpCodigoPaisISO', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'cPaisPrestacao', 'type': 'xsd:string'}, None),
         MemberSpec_('IBSCBS', 'tpIBSCBS', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'IBSCBS', 'type': 'tpIBSCBS'}, None),
     ]
     subclass = None
@@ -9739,11 +9548,7 @@ class tpRPS(GeneratedsSuper):
         self.TipoRPS = TipoRPS
         self.validate_tpTipoRPS(self.TipoRPS)
         self.TipoRPS_nsprefix_ = None
-        if isinstance(DataEmissao, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(DataEmissao, '%Y-%m-%d').date()
-        else:
-            initvalue_ = DataEmissao
-        self.DataEmissao = initvalue_
+        self.DataEmissao = DataEmissao
         self.DataEmissao_nsprefix_ = None
         self.StatusRPS = StatusRPS
         self.validate_tpStatusNFe(self.StatusRPS)
@@ -9888,10 +9693,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpTipoRPS, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
             enumerations = ['RPS', 'RPS-M', 'RPS-C']
             if value not in enumerations:
@@ -9903,10 +9704,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpStatusNFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
             enumerations = ['N', 'C', 'E']
             if value not in enumerations:
@@ -9918,10 +9715,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpTributacaoNFe, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 1:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpTributacaoNFe' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -9935,10 +9728,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpValor, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpValor' % {"value": value, "lineno": lineno} )
@@ -9957,10 +9746,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpCodigoServico, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoServico_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoServico_patterns_, ))
@@ -9971,10 +9756,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpAliquota, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpAliquota' % {"value": value, "lineno": lineno} )
@@ -9988,10 +9769,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoMunicipal, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoMunicipal_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoMunicipal_patterns_, ))
@@ -10002,10 +9779,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpInscricaoEstadual, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpInscricaoEstadual_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpInscricaoEstadual_patterns_, ))
@@ -10016,10 +9789,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpRazaoSocial, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpRazaoSocial' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -10033,10 +9802,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpEmail, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 75:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpEmail' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -10050,10 +9815,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpDiscriminacao, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 2000:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpDiscriminacao' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -10067,10 +9828,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpPercentualCargaTributaria, a restriction on xs:decimal.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, decimal_.Decimal):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (decimal_.Decimal)' % {"value": value, "lineno": lineno, })
-                return False
             if value < 0:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minInclusive restriction on tpPercentualCargaTributaria' % {"value": value, "lineno": lineno} )
@@ -10084,10 +9841,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpFonteCargaTributaria, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if len(value) > 10:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpFonteCargaTributaria' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -10101,10 +9854,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpNumero, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpNumero_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpNumero_patterns_, ))
@@ -10115,10 +9864,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpCidade, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCidade_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCidade_patterns_, ))
@@ -10129,12 +9874,8 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpNaoSim, a restriction on xs:int.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             value = value
-            enumerations = [0, 1]
+            enumerations = ['0', '1']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpNaoSim' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -10149,10 +9890,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpCodigoNCM, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoNCM_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoNCM_patterns_, ))
@@ -10163,10 +9900,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpCodigoNBS, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoNBS_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoNBS_patterns_, ))
@@ -10177,10 +9910,6 @@ class tpRPS(GeneratedsSuper):
         result = True
         # Validate type tpCodigoPaisISO, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpCodigoPaisISO_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoPaisISO_patterns_, ))
@@ -10284,7 +10013,7 @@ class tpRPS(GeneratedsSuper):
         if self.DataEmissao is not None:
             namespaceprefix_ = self.DataEmissao_nsprefix_ + ':' if (UseCapturedNS_ and self.DataEmissao_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDataEmissao>%s</%sDataEmissao>%s' % (namespaceprefix_ , self.gds_format_date(self.DataEmissao, input_name='DataEmissao'), namespaceprefix_ , eol_))
+            outfile.write('<%sDataEmissao>%s</%sDataEmissao>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.DataEmissao), input_name='DataEmissao')), namespaceprefix_ , eol_))
         if self.StatusRPS is not None:
             namespaceprefix_ = self.StatusRPS_nsprefix_ + ':' if (UseCapturedNS_ and self.StatusRPS_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -10328,7 +10057,7 @@ class tpRPS(GeneratedsSuper):
         if self.ISSRetido is not None:
             namespaceprefix_ = self.ISSRetido_nsprefix_ + ':' if (UseCapturedNS_ and self.ISSRetido_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sISSRetido>%s</%sISSRetido>%s' % (namespaceprefix_ , self.gds_format_boolean(self.ISSRetido, input_name='ISSRetido'), namespaceprefix_ , eol_))
+            outfile.write('<%sISSRetido>%s</%sISSRetido>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.ISSRetido), input_name='ISSRetido')), namespaceprefix_ , eol_))
         if self.CPFCNPJTomador is not None:
             namespaceprefix_ = self.CPFCNPJTomador_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJTomador_nsprefix_) else ''
             self.CPFCNPJTomador.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJTomador', pretty_print=pretty_print)
@@ -10494,9 +10223,10 @@ class tpRPS(GeneratedsSuper):
             # validate type tpTipoRPS
             self.validate_tpTipoRPS(self.TipoRPS)
         elif nodeName_ == 'DataEmissao':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_)
-            self.DataEmissao = dval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'DataEmissao')
+            value_ = self.gds_validate_string(value_, node, 'DataEmissao')
+            self.DataEmissao = value_
             self.DataEmissao_nsprefix_ = child_.prefix
         elif nodeName_ == 'StatusRPS':
             value_ = child_.text
@@ -10579,10 +10309,10 @@ class tpRPS(GeneratedsSuper):
             # validate type tpAliquota
             self.validate_tpAliquota(self.AliquotaServicos)
         elif nodeName_ == 'ISSRetido':
-            sval_ = child_.text
-            ival_ = self.gds_parse_boolean(sval_, node, 'ISSRetido')
-            ival_ = self.gds_validate_boolean(ival_, node, 'ISSRetido')
-            self.ISSRetido = ival_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'ISSRetido')
+            value_ = self.gds_validate_string(value_, node, 'ISSRetido')
+            self.ISSRetido = value_
             self.ISSRetido_nsprefix_ = child_.prefix
         elif nodeName_ == 'CPFCNPJTomador':
             obj_ = tpCPFCNPJNIF.factory(parent_object_=self)
@@ -10829,7 +10559,7 @@ class tpRPS(GeneratedsSuper):
 class SignatureType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Id', 'xs:string', 0, 1, {'use': 'optional', 'name': 'Id'}),
+        MemberSpec_('Id', 'xs:ID', 0, 1, {'use': 'optional', 'name': 'Id'}),
         MemberSpec_('SignedInfo', 'SignedInfoType', 0, 0, {'name': 'SignedInfo', 'type': 'SignedInfoType'}, None),
         MemberSpec_('SignatureValue', 'SignatureValueType', 0, 0, {'name': 'SignatureValue', 'type': 'SignatureValueType'}, None),
         MemberSpec_('KeyInfo', 'KeyInfoType', 0, 0, {'name': 'KeyInfo', 'type': 'KeyInfoType'}, None),
@@ -10896,7 +10626,7 @@ class SignatureType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='SignatureType'):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
-            outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
+            outfile.write(' Id=%s' % (quote_attrib(self.Id), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -10949,8 +10679,8 @@ class SignatureType(GeneratedsSuper):
 class SignatureValueType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Id', 'xs:string', 0, 1, {'use': 'optional', 'name': 'Id'}),
-        MemberSpec_('valueOf_', 'xs:base64Binary', 0),
+        MemberSpec_('Id', 'xs:ID', 0, 1, {'use': 'optional', 'name': 'Id'}),
+        MemberSpec_('valueOf_', 'base64Binary', 0),
     ]
     subclass = None
     superclass = None
@@ -11004,7 +10734,7 @@ class SignatureValueType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='SignatureValueType'):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
-            outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
+            outfile.write(' Id=%s' % (quote_attrib(self.Id), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureValueType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -11032,7 +10762,7 @@ class SignatureValueType(GeneratedsSuper):
 class SignedInfoType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Id', 'xs:string', 0, 1, {'use': 'optional', 'name': 'Id'}),
+        MemberSpec_('Id', 'xs:ID', 0, 1, {'use': 'optional', 'name': 'Id'}),
         MemberSpec_('CanonicalizationMethod', 'CanonicalizationMethodType', 0, 0, {'name': 'CanonicalizationMethod', 'type': 'CanonicalizationMethodType'}, None),
         MemberSpec_('SignatureMethod', 'SignatureMethodType', 0, 0, {'name': 'SignatureMethod', 'type': 'SignatureMethodType'}, None),
         MemberSpec_('Reference', 'ReferenceType', 1, 0, {'maxOccurs': 'unbounded', 'name': 'Reference', 'type': 'ReferenceType'}, None),
@@ -11102,7 +10832,7 @@ class SignedInfoType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='SignedInfoType'):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
-            outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
+            outfile.write(' Id=%s' % (quote_attrib(self.Id), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignedInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -11155,12 +10885,12 @@ class SignedInfoType(GeneratedsSuper):
 class ReferenceType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Id', 'xs:string', 0, 1, {'use': 'optional', 'name': 'Id'}),
+        MemberSpec_('Id', 'xs:ID', 0, 1, {'use': 'optional', 'name': 'Id'}),
         MemberSpec_('URI', 'xs:anyURI', 0, 1, {'use': 'optional', 'name': 'URI'}),
         MemberSpec_('Type', 'xs:anyURI', 0, 1, {'use': 'optional', 'name': 'Type'}),
         MemberSpec_('Transforms', 'TransformsType', 0, 0, {'name': 'Transforms', 'type': 'TransformsType'}, None),
         MemberSpec_('DigestMethod', 'DigestMethodType', 0, 0, {'name': 'DigestMethod', 'type': 'DigestMethodType'}, None),
-        MemberSpec_('DigestValue', ['DigestValueType', 'xs:base64Binary'], 0, 0, {'name': 'DigestValue', 'type': 'xs:base64Binary'}, None),
+        MemberSpec_('DigestValue', ['DigestValueType', 'xs:base64Binary'], 0, 0, {'name': 'DigestValue', 'type': 'xsd:base64Binary'}, None),
     ]
     subclass = None
     superclass = None
@@ -11235,13 +10965,13 @@ class ReferenceType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='ReferenceType'):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
-            outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
+            outfile.write(' Id=%s' % (quote_attrib(self.Id), ))
         if self.URI is not None and 'URI' not in already_processed:
             already_processed.add('URI')
-            outfile.write(' URI=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.URI), input_name='URI')), ))
+            outfile.write(' URI=%s' % (quote_attrib(self.URI), ))
         if self.Type is not None and 'Type' not in already_processed:
             already_processed.add('Type')
-            outfile.write(' Type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Type), input_name='Type')), ))
+            outfile.write(' Type=%s' % (quote_attrib(self.Type), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='ReferenceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -11404,7 +11134,7 @@ class TransformType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
         MemberSpec_('Algorithm', 'xs:anyURI', 0, 0, {'use': 'required', 'name': 'Algorithm'}),
-        MemberSpec_('XPath', 'xs:string', 1, 1, {'maxOccurs': 'unbounded', 'minOccurs': '0', 'name': 'XPath', 'type': 'xs:string'}, None),
+        MemberSpec_('XPath', 'xsd:string', 1, 1, {'maxOccurs': 'unbounded', 'minOccurs': '0', 'name': 'XPath', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -11420,7 +11150,7 @@ class TransformType(GeneratedsSuper):
             self.XPath = []
         else:
             self.XPath = XPath
-        self.XPath_nsprefix_ = None
+        self.XPath_nsprefix_ = "xs"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11465,7 +11195,7 @@ class TransformType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='TransformType'):
         if self.Algorithm is not None and 'Algorithm' not in already_processed:
             already_processed.add('Algorithm')
-            outfile.write(' Algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Algorithm), input_name='Algorithm')), ))
+            outfile.write(' Algorithm=%s' % (quote_attrib(self.Algorithm), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='TransformType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -11504,7 +11234,7 @@ class TransformType(GeneratedsSuper):
 class KeyInfoType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Id', 'xs:string', 0, 1, {'use': 'optional', 'name': 'Id'}),
+        MemberSpec_('Id', 'xs:ID', 0, 1, {'use': 'optional', 'name': 'Id'}),
         MemberSpec_('X509Data', 'X509DataType', 0, 0, {'name': 'X509Data', 'type': 'X509DataType'}, None),
     ]
     subclass = None
@@ -11563,7 +11293,7 @@ class KeyInfoType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='KeyInfoType'):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
-            outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
+            outfile.write(' Id=%s' % (quote_attrib(self.Id), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='KeyInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -11688,7 +11418,7 @@ class KeyValueType(GeneratedsSuper):
 class X509DataType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('X509Certificate', 'xs:base64Binary', 0, 0, {'name': 'X509Certificate', 'type': 'xs:base64Binary'}, None),
+        MemberSpec_('X509Certificate', 'xsd:string', 0, 0, {'name': 'X509Certificate', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
@@ -11699,7 +11429,7 @@ class X509DataType(GeneratedsSuper):
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
         self.X509Certificate = X509Certificate
-        self.X509Certificate_nsprefix_ = None
+        self.X509Certificate_nsprefix_ = "xs"
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11751,7 +11481,7 @@ class X509DataType(GeneratedsSuper):
         if self.X509Certificate is not None:
             namespaceprefix_ = self.X509Certificate_nsprefix_ + ':' if (UseCapturedNS_ and self.X509Certificate_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sX509Certificate>%s</%sX509Certificate>%s' % (namespaceprefix_ , self.gds_format_base64(self.X509Certificate, input_name='X509Certificate'), namespaceprefix_ , eol_))
+            outfile.write('<%sX509Certificate>%s</%sX509Certificate>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.X509Certificate), input_name='X509Certificate')), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -11767,53 +11497,430 @@ class X509DataType(GeneratedsSuper):
         pass
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'X509Certificate':
-            sval_ = child_.text
-            if sval_ is not None:
-                try:
-                    bval_ = base64.b64decode(sval_)
-                except (TypeError, ValueError) as exp:
-                    raise_parse_error(child_, 'requires base64 encoded string: %s' % exp)
-                bval_ = self.gds_validate_base64(bval_, node, 'X509Certificate')
-            else:
-                bval_ = None
-            self.X509Certificate = bval_
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'X509Certificate')
+            value_ = self.gds_validate_string(value_, node, 'X509Certificate')
+            self.X509Certificate = value_
             self.X509Certificate_nsprefix_ = child_.prefix
 # end class X509DataType
 
 
-class CabecalhoType(GeneratedsSuper):
-    """CabecalhoType -- Cabe
-    ç
-    alho do pedido.
-    Versao -- Informe a Vers
-    ã
-    o do Schema XML utilizado.
-    CPFCNPJRemetente -- Informe o CPF/CNPJ do Remetente autorizado a transmitir a mensagem XML.
-    transacao -- Informe se as NFS-e a serem canceladas far
-    ã
-    o parte de uma mesma transa
-    ç
-    ã
-    o. True - As NFS-e s
+class tpEventoAsync(GeneratedsSuper):
+    """Codigo -- C
     ó
-    ser
+    digo do evento.
+    Descricao -- Descri
+    ç
     ã
-    o canceladas se n
-    ã
-    o ocorrer nenhum evento de erro durante o processamento de todo o lote; False - As NFS-e aptas a serem canceladas ser
-    ã
-    o canceladas, mesmo que ocorram eventos de erro durante processamento do cancelamento de outras NFS-e deste lote.
+    o do evento.
     
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Versao', 'tipos:tpVersao', 0, 0, {'use': 'required', 'name': 'Versao'}),
-        MemberSpec_('CPFCNPJRemetente', 'tpCPFCNPJ', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CPFCNPJRemetente', 'type': 'tpCPFCNPJ'}, None),
-        MemberSpec_('transacao', 'xs:boolean', 0, 0, {'default': 'true', 'maxOccurs': '1', 'minOccurs': '1', 'name': 'transacao', 'type': 'xs:boolean'}, None),
+        MemberSpec_('Codigo', ['tpCodigoEvento', 'xs:short'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Codigo', 'type': 'xsd:short'}, None),
+        MemberSpec_('Descricao', ['tpDescricaoEvento', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'Descricao', 'type': 'xsd:string'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, Versao=None, CPFCNPJRemetente=None, transacao=True, gds_collector_=None, **kwargs_):
+    def __init__(self, Codigo=None, Descricao=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.Codigo = Codigo
+        self.validate_tpCodigoEvento(self.Codigo)
+        self.Codigo_nsprefix_ = None
+        self.Descricao = Descricao
+        self.validate_tpDescricaoEvento(self.Descricao)
+        self.Descricao_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, tpEventoAsync)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if tpEventoAsync.subclass:
+            return tpEventoAsync.subclass(*args_, **kwargs_)
+        else:
+            return tpEventoAsync(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def validate_tpCodigoEvento(self, value):
+        result = True
+        # Validate type tpCodigoEvento, a restriction on xs:short.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not self.gds_validate_simple_patterns(
+                    self.validate_tpCodigoEvento_patterns_, value):
+                self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpCodigoEvento_patterns_, ))
+                result = False
+        return result
+    validate_tpCodigoEvento_patterns_ = [['^([0-9]{3,4})$']]
+    def validate_tpDescricaoEvento(self, value):
+        result = True
+        # Validate type tpDescricaoEvento, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if len(value) > 300:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpDescricaoEvento' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 0:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on tpDescricaoEvento' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
+    def has__content(self):
+        if (
+            self.Codigo is not None or
+            self.Descricao is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpEventoAsync', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpEventoAsync')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'tpEventoAsync':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='tpEventoAsync')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='tpEventoAsync', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='tpEventoAsync'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpEventoAsync', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Codigo is not None:
+            namespaceprefix_ = self.Codigo_nsprefix_ + ':' if (UseCapturedNS_ and self.Codigo_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sCodigo>%s</%sCodigo>%s' % (namespaceprefix_ , self.gds_format_integer(self.Codigo, input_name='Codigo'), namespaceprefix_ , eol_))
+        if self.Descricao is not None:
+            namespaceprefix_ = self.Descricao_nsprefix_ + ':' if (UseCapturedNS_ and self.Descricao_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDescricao>%s</%sDescricao>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Descricao), input_name='Descricao')), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'Codigo' and child_.text:
+            sval_ = child_.text
+            ival_ = self.gds_parse_integer(sval_, node, 'Codigo')
+            ival_ = self.gds_validate_integer(ival_, node, 'Codigo')
+            self.Codigo = ival_
+            self.Codigo_nsprefix_ = child_.prefix
+            # validate type tpCodigoEvento
+            self.validate_tpCodigoEvento(self.Codigo)
+        elif nodeName_ == 'Descricao':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'Descricao')
+            value_ = self.gds_validate_string(value_, node, 'Descricao')
+            self.Descricao = value_
+            self.Descricao_nsprefix_ = child_.prefix
+            # validate type tpDescricaoEvento
+            self.validate_tpDescricaoEvento(self.Descricao)
+# end class tpEventoAsync
+
+
+class tpInformacoesLoteAsync(GeneratedsSuper):
+    """tpInformacoesLoteAsync -- Informa
+    ç
+    õ
+    es do lote processado.
+    NumeroProtocolo -- N
+    ú
+    mero do protocolo do lote.
+    DataRecebimento -- Data/hora de envio do lote.
+    
+    """
+    __hash__ = GeneratedsSuper.__hash__
+    member_data_items_ = [
+        MemberSpec_('NumeroProtocolo', ['tpNumeroProtocoloAsync', 'xsd:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroProtocolo', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataRecebimento', 'xsd:dateTime', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataRecebimento', 'type': 'xsd:dateTime'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, NumeroProtocolo=None, DataRecebimento=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.NumeroProtocolo = NumeroProtocolo
+        self.validate_tpNumeroProtocoloAsync(self.NumeroProtocolo)
+        self.NumeroProtocolo_nsprefix_ = None
+        if isinstance(DataRecebimento, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(DataRecebimento, '%Y-%m-%dT%H:%M:%S')
+        else:
+            initvalue_ = DataRecebimento
+        self.DataRecebimento = initvalue_
+        self.DataRecebimento_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, tpInformacoesLoteAsync)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if tpInformacoesLoteAsync.subclass:
+            return tpInformacoesLoteAsync.subclass(*args_, **kwargs_)
+        else:
+            return tpInformacoesLoteAsync(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def validate_tpNumeroProtocoloAsync(self, value):
+        result = True
+        # Validate type tpNumeroProtocoloAsync, a restriction on xsd:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if len(value) > 32:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroProtocoloAsync' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 32:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on tpNumeroProtocoloAsync' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
+    def has__content(self):
+        if (
+            self.NumeroProtocolo is not None or
+            self.DataRecebimento is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpInformacoesLoteAsync', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpInformacoesLoteAsync')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'tpInformacoesLoteAsync':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='tpInformacoesLoteAsync')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='tpInformacoesLoteAsync', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='tpInformacoesLoteAsync'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpInformacoesLoteAsync', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.NumeroProtocolo is not None:
+            namespaceprefix_ = self.NumeroProtocolo_nsprefix_ + ':' if (UseCapturedNS_ and self.NumeroProtocolo_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sNumeroProtocolo>%s</%sNumeroProtocolo>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.NumeroProtocolo), input_name='NumeroProtocolo')), namespaceprefix_ , eol_))
+        if self.DataRecebimento is not None:
+            namespaceprefix_ = self.DataRecebimento_nsprefix_ + ':' if (UseCapturedNS_ and self.DataRecebimento_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDataRecebimento>%s</%sDataRecebimento>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataRecebimento, input_name='DataRecebimento'), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'NumeroProtocolo':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'NumeroProtocolo')
+            value_ = self.gds_validate_string(value_, node, 'NumeroProtocolo')
+            self.NumeroProtocolo = value_
+            self.NumeroProtocolo_nsprefix_ = child_.prefix
+            # validate type tpNumeroProtocoloAsync
+            self.validate_tpNumeroProtocoloAsync(self.NumeroProtocolo)
+        elif nodeName_ == 'DataRecebimento':
+            sval_ = child_.text
+            dval_ = self.gds_parse_datetime(sval_)
+            self.DataRecebimento = dval_
+            self.DataRecebimento_nsprefix_ = child_.prefix
+# end class tpInformacoesLoteAsync
+
+
+class tpInformacoesGuiaAsync(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    member_data_items_ = [
+        MemberSpec_('NumeroProtocolo', ['tpNumeroProtocoloAsync', 'xsd:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NumeroProtocolo', 'type': 'xsd:string'}, None),
+        MemberSpec_('DataRecebimento', 'xsd:dateTime', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'DataRecebimento', 'type': 'xsd:dateTime'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, NumeroProtocolo=None, DataRecebimento=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.NumeroProtocolo = NumeroProtocolo
+        self.validate_tpNumeroProtocoloAsync(self.NumeroProtocolo)
+        self.NumeroProtocolo_nsprefix_ = None
+        if isinstance(DataRecebimento, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(DataRecebimento, '%Y-%m-%dT%H:%M:%S')
+        else:
+            initvalue_ = DataRecebimento
+        self.DataRecebimento = initvalue_
+        self.DataRecebimento_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, tpInformacoesGuiaAsync)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if tpInformacoesGuiaAsync.subclass:
+            return tpInformacoesGuiaAsync.subclass(*args_, **kwargs_)
+        else:
+            return tpInformacoesGuiaAsync(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def validate_tpNumeroProtocoloAsync(self, value):
+        result = True
+        # Validate type tpNumeroProtocoloAsync, a restriction on xsd:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            if len(value) > 32:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on tpNumeroProtocoloAsync' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+            if len(value) < 32:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd minLength restriction on tpNumeroProtocoloAsync' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
+    def has__content(self):
+        if (
+            self.NumeroProtocolo is not None or
+            self.DataRecebimento is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpInformacoesGuiaAsync', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpInformacoesGuiaAsync')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'tpInformacoesGuiaAsync':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='tpInformacoesGuiaAsync')
+        if self.has__content():
+            outfile.write('>%s' % (eol_, ))
+            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='tpInformacoesGuiaAsync', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='tpInformacoesGuiaAsync'):
+        pass
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='tpInformacoesGuiaAsync', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.NumeroProtocolo is not None:
+            namespaceprefix_ = self.NumeroProtocolo_nsprefix_ + ':' if (UseCapturedNS_ and self.NumeroProtocolo_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sNumeroProtocolo>%s</%sNumeroProtocolo>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.NumeroProtocolo), input_name='NumeroProtocolo')), namespaceprefix_ , eol_))
+        if self.DataRecebimento is not None:
+            namespaceprefix_ = self.DataRecebimento_nsprefix_ + ':' if (UseCapturedNS_ and self.DataRecebimento_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDataRecebimento>%s</%sDataRecebimento>%s' % (namespaceprefix_ , self.gds_format_datetime(self.DataRecebimento, input_name='DataRecebimento'), namespaceprefix_ , eol_))
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self._buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def _buildAttributes(self, node, attrs, already_processed):
+        pass
+    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'NumeroProtocolo':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'NumeroProtocolo')
+            value_ = self.gds_validate_string(value_, node, 'NumeroProtocolo')
+            self.NumeroProtocolo = value_
+            self.NumeroProtocolo_nsprefix_ = child_.prefix
+            # validate type tpNumeroProtocoloAsync
+            self.validate_tpNumeroProtocoloAsync(self.NumeroProtocolo)
+        elif nodeName_ == 'DataRecebimento':
+            sval_ = child_.text
+            dval_ = self.gds_parse_datetime(sval_)
+            self.DataRecebimento = dval_
+            self.DataRecebimento_nsprefix_ = child_.prefix
+# end class tpInformacoesGuiaAsync
+
+
+class CabecalhoType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    member_data_items_ = [
+        MemberSpec_('Versao', 'tipos:tpVersao', 0, 0, {'use': 'required', 'name': 'Versao'}),
+        MemberSpec_('Sucesso', ['tpSucesso', 'xs:boolean'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'Sucesso', 'type': 'xsd:boolean'}, None),
+        MemberSpec_('InformacoesGuia', 'tpInformacoesGuiaAsync', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'InformacoesGuia', 'type': 'tpInformacoesGuiaAsync'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, Versao=None, Sucesso=None, InformacoesGuia=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -11821,10 +11928,11 @@ class CabecalhoType(GeneratedsSuper):
         self.ns_prefix_ = None
         self.Versao = _cast(None, Versao)
         self.Versao_nsprefix_ = None
-        self.CPFCNPJRemetente = CPFCNPJRemetente
-        self.CPFCNPJRemetente_nsprefix_ = None
-        self.transacao = transacao
-        self.transacao_nsprefix_ = None
+        self.Sucesso = Sucesso
+        self.validate_tpSucesso(self.Sucesso)
+        self.Sucesso_nsprefix_ = None
+        self.InformacoesGuia = InformacoesGuia
+        self.InformacoesGuia_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11836,21 +11944,23 @@ class CabecalhoType(GeneratedsSuper):
         else:
             return CabecalhoType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def validate_tpSucesso(self, value):
+        result = True
+        # Validate type tpSucesso, a restriction on xs:boolean.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            pass
+        return result
     def validate_tpVersao(self, value):
         # Validate type tipos:tpVersao, a restriction on xs:long.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, int):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (int)' % {"value": value, "lineno": lineno, })
-                return False
             if not self.gds_validate_simple_patterns(
                     self.validate_tpVersao_patterns_, value):
                 self.gds_collector_.add_message('Value "%s" does not match xsd pattern restrictions: %s' % (encode_str_2_3(value), self.validate_tpVersao_patterns_, ))
     validate_tpVersao_patterns_ = [['^([0-9]{1,3})$']]
     def has__content(self):
         if (
-            self.CPFCNPJRemetente is not None or
-            not self.transacao
+            self.Sucesso is not None or
+            self.InformacoesGuia is not None
         ):
             return True
         else:
@@ -11881,23 +11991,19 @@ class CabecalhoType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='CabecalhoType'):
         if self.Versao is not None and 'Versao' not in already_processed:
             already_processed.add('Versao')
-            outfile.write(' Versao="%s"' % self.gds_format_integer(self.Versao, input_name='Versao'))
+            outfile.write(' Versao=%s' % (quote_attrib(self.Versao), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='CabecalhoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.CPFCNPJRemetente is not None:
-            namespaceprefix_ = self.CPFCNPJRemetente_nsprefix_ + ':' if (UseCapturedNS_ and self.CPFCNPJRemetente_nsprefix_) else ''
-            self.CPFCNPJRemetente.export(outfile, level, namespaceprefix_, namespacedef_='', name_='CPFCNPJRemetente', pretty_print=pretty_print)
-        if self.transacao is not None:
-            namespaceprefix_ = self.transacao_nsprefix_ + ':' if (UseCapturedNS_ and self.transacao_nsprefix_) else ''
+        if self.Sucesso is not None:
+            namespaceprefix_ = self.Sucesso_nsprefix_ + ':' if (UseCapturedNS_ and self.Sucesso_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%stransacao>%s</%stransacao>%s' % (namespaceprefix_ , self.gds_format_boolean(self.transacao, input_name='transacao'), namespaceprefix_ , eol_))
-        if self.transacao is None:
-            namespaceprefix_ = self.transacao_nsprefix_ + ':' if (UseCapturedNS_ and self.transacao_nsprefix_) else ''
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%stransacao>true</%stransacao/>%s' % (namespaceprefix_,namespace_prefix, eol_))
+            outfile.write('<%sSucesso>%s</%sSucesso>%s' % (namespaceprefix_ , self.gds_format_boolean(self.Sucesso, input_name='Sucesso'), namespaceprefix_ , eol_))
+        if self.InformacoesGuia is not None:
+            namespaceprefix_ = self.InformacoesGuia_nsprefix_ + ':' if (UseCapturedNS_ and self.InformacoesGuia_nsprefix_) else ''
+            self.InformacoesGuia.export(outfile, level, namespaceprefix_, namespacedef_='', name_='InformacoesGuia', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -11913,145 +12019,23 @@ class CabecalhoType(GeneratedsSuper):
         value = find_attr_value_('Versao', node)
         if value is not None and 'Versao' not in already_processed:
             already_processed.add('Versao')
-            self.Versao = self.gds_parse_integer(value, node, 'Versao')
+            self.Versao = value
             self.validate_tpVersao(self.Versao)    # validate type tpVersao
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'CPFCNPJRemetente':
-            obj_ = tpCPFCNPJ.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.CPFCNPJRemetente = obj_
-            obj_.original_tagname_ = 'CPFCNPJRemetente'
-        elif nodeName_ == 'transacao':
+        if nodeName_ == 'Sucesso':
             sval_ = child_.text
-            ival_ = self.gds_parse_boolean(sval_, node, 'transacao')
-            ival_ = self.gds_validate_boolean(ival_, node, 'transacao')
-            self.transacao = ival_
-            self.transacao_nsprefix_ = child_.prefix
+            ival_ = self.gds_parse_boolean(sval_, node, 'Sucesso')
+            ival_ = self.gds_validate_boolean(ival_, node, 'Sucesso')
+            self.Sucesso = ival_
+            self.Sucesso_nsprefix_ = child_.prefix
+            # validate type tpSucesso
+            self.validate_tpSucesso(self.Sucesso)
+        elif nodeName_ == 'InformacoesGuia':
+            obj_ = tpInformacoesGuiaAsync.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.InformacoesGuia = obj_
+            obj_.original_tagname_ = 'InformacoesGuia'
 # end class CabecalhoType
-
-
-class DetalheType(GeneratedsSuper):
-    """DetalheType -- Detalhe do pedido de cancelamento de NFS-e. Cada detalhe dever
-    á
-    conter a Chave de uma NFS-e e sua respectiva assinatura de cancelamento.
-    ChaveNFe -- Chave da NFS-e a ser cancelada.
-    AssinaturaCancelamento -- Assinatura da NFS-e a ser cancelada.
-    
-    """
-    __hash__ = GeneratedsSuper.__hash__
-    member_data_items_ = [
-        MemberSpec_('ChaveNFe', 'tpChaveNFe', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ChaveNFe', 'type': 'tpChaveNFe'}, None),
-        MemberSpec_('AssinaturaCancelamento', ['tpAssinaturaCancelamento', 'xs:base64Binary'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AssinaturaCancelamento', 'type': 'xs:base64Binary'}, None),
-    ]
-    subclass = None
-    superclass = None
-    def __init__(self, ChaveNFe=None, AssinaturaCancelamento=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.ChaveNFe = ChaveNFe
-        self.ChaveNFe_nsprefix_ = None
-        self.AssinaturaCancelamento = AssinaturaCancelamento
-        self.validate_tpAssinaturaCancelamento(self.AssinaturaCancelamento)
-        self.AssinaturaCancelamento_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, DetalheType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if DetalheType.subclass:
-            return DetalheType.subclass(*args_, **kwargs_)
-        else:
-            return DetalheType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def validate_tpAssinaturaCancelamento(self, value):
-        result = True
-        # Validate type tpAssinaturaCancelamento, a restriction on xs:base64Binary.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            pass
-        return result
-    def has__content(self):
-        if (
-            self.ChaveNFe is not None or
-            self.AssinaturaCancelamento is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DetalheType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('DetalheType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'DetalheType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='DetalheType')
-        if self.has__content():
-            outfile.write('>%s' % (eol_, ))
-            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='DetalheType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DetalheType'):
-        pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DetalheType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.ChaveNFe is not None:
-            namespaceprefix_ = self.ChaveNFe_nsprefix_ + ':' if (UseCapturedNS_ and self.ChaveNFe_nsprefix_) else ''
-            self.ChaveNFe.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ChaveNFe', pretty_print=pretty_print)
-        if self.AssinaturaCancelamento is not None:
-            namespaceprefix_ = self.AssinaturaCancelamento_nsprefix_ + ':' if (UseCapturedNS_ and self.AssinaturaCancelamento_nsprefix_) else ''
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAssinaturaCancelamento>%s</%sAssinaturaCancelamento>%s' % (namespaceprefix_ , self.gds_format_base64(self.AssinaturaCancelamento, input_name='AssinaturaCancelamento'), namespaceprefix_ , eol_))
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self._buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def _buildAttributes(self, node, attrs, already_processed):
-        pass
-    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'ChaveNFe':
-            obj_ = tpChaveNFe.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.ChaveNFe = obj_
-            obj_.original_tagname_ = 'ChaveNFe'
-        elif nodeName_ == 'AssinaturaCancelamento':
-            sval_ = child_.text
-            if sval_ is not None:
-                try:
-                    bval_ = base64.b64decode(sval_)
-                except (TypeError, ValueError) as exp:
-                    raise_parse_error(child_, 'requires base64 encoded string: %s' % exp)
-                bval_ = self.gds_validate_base64(bval_, node, 'AssinaturaCancelamento')
-            else:
-                bval_ = None
-            self.AssinaturaCancelamento = bval_
-            self.AssinaturaCancelamento_nsprefix_ = child_.prefix
-            # validate type tpAssinaturaCancelamento
-            self.validate_tpAssinaturaCancelamento(self.AssinaturaCancelamento)
-# end class DetalheType
 
 
 class CanonicalizationMethodType(GeneratedsSuper):
@@ -12112,7 +12096,7 @@ class CanonicalizationMethodType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='CanonicalizationMethodType'):
         if self.Algorithm is not None and 'Algorithm' not in already_processed:
             already_processed.add('Algorithm')
-            outfile.write(' Algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Algorithm), input_name='Algorithm')), ))
+            outfile.write(' Algorithm=%s' % (quote_attrib(self.Algorithm), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='CanonicalizationMethodType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -12194,7 +12178,7 @@ class SignatureMethodType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='SignatureMethodType'):
         if self.Algorithm is not None and 'Algorithm' not in already_processed:
             already_processed.add('Algorithm')
-            outfile.write(' Algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Algorithm), input_name='Algorithm')), ))
+            outfile.write(' Algorithm=%s' % (quote_attrib(self.Algorithm), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='SignatureMethodType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -12276,7 +12260,7 @@ class DigestMethodType(GeneratedsSuper):
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DigestMethodType'):
         if self.Algorithm is not None and 'Algorithm' not in already_processed:
             already_processed.add('Algorithm')
-            outfile.write(' Algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Algorithm), input_name='Algorithm')), ))
+            outfile.write(' Algorithm=%s' % (quote_attrib(self.Algorithm), ))
     def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DigestMethodType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -12303,8 +12287,8 @@ class DigestMethodType(GeneratedsSuper):
 class RSAKeyValueType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
-        MemberSpec_('Modulus', ['CryptoBinary', 'xs:base64Binary'], 0, 0, {'name': 'Modulus', 'type': 'xs:base64Binary'}, None),
-        MemberSpec_('Exponent', ['CryptoBinary', 'xs:base64Binary'], 0, 0, {'name': 'Exponent', 'type': 'xs:base64Binary'}, None),
+        MemberSpec_('Modulus', ['CryptoBinary', 'xs:base64Binary'], 0, 0, {'name': 'Modulus', 'type': 'xsd:base64Binary'}, None),
+        MemberSpec_('Exponent', ['CryptoBinary', 'xs:base64Binary'], 0, 0, {'name': 'Exponent', 'type': 'xsd:base64Binary'}, None),
     ]
     subclass = None
     superclass = None
@@ -12482,8 +12466,8 @@ def parse(inFileName, silence=False, print_warnings=True):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoNFe'
-        rootClass = PedidoCancelamentoNFe
+        rootTag = 'PedidoEmissaoGuiaAsync'
+        rootClass = PedidoEmissaoGuiaAsync
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     CapturedNsmap_, namespacedefs = get_required_ns_prefix_defs(rootNode)
@@ -12514,8 +12498,8 @@ def parseEtree(inFileName, silence=False, print_warnings=True,
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoNFe'
-        rootClass = PedidoCancelamentoNFe
+        rootTag = 'PedidoEmissaoGuiaAsync'
+        rootClass = PedidoEmissaoGuiaAsync
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     if mapping is None:
@@ -12560,8 +12544,8 @@ def parseString(inString, silence=False, print_warnings=True):
     gds_collector = GdsCollector_()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoNFe'
-        rootClass = PedidoCancelamentoNFe
+        rootTag = 'PedidoEmissaoGuiaAsync'
+        rootClass = PedidoEmissaoGuiaAsync
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     if not SaveElementTreeNode:
@@ -12570,7 +12554,7 @@ def parseString(inString, silence=False, print_warnings=True):
         sys.stdout.write('<?xml version="1.0" ?>\n')
         rootObj.export(
             sys.stdout, 0, name_=rootTag,
-            namespacedef_='')
+            namespacedef_='xmlns:tns="http://www.prefeitura.sp.gov.br/nfe"')
     if print_warnings and len(gds_collector.get_messages()) > 0:
         separator = ('-' * 50) + '\n'
         sys.stderr.write(separator)
@@ -12588,8 +12572,8 @@ def parseLiteral(inFileName, silence=False, print_warnings=True):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'PedidoCancelamentoNFe'
-        rootClass = PedidoCancelamentoNFe
+        rootTag = 'PedidoEmissaoGuiaAsync'
+        rootClass = PedidoEmissaoGuiaAsync
     rootObj = rootClass.factory()
     rootObj.build(rootNode, gds_collector_=gds_collector)
     # Enable Python to collect the space used by the DOM.
@@ -12597,8 +12581,8 @@ def parseLiteral(inFileName, silence=False, print_warnings=True):
         doc = None
         rootNode = None
     if not silence:
-        sys.stdout.write('#from PedidoCancelamentoNFe import *\n\n')
-        sys.stdout.write('import PedidoCancelamentoNFe as model_\n\n')
+        sys.stdout.write('#from EmissaoGuiaAsync import *\n\n')
+        sys.stdout.write('import EmissaoGuiaAsync as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
@@ -12913,6 +12897,30 @@ NamespaceToDefMappings_ = {'http://www.prefeitura.sp.gov.br/nfe': [],
                                                 'CT'),
                                                ('tpRPS',
                                                 'schemas/nfse/TiposNFe_v02.xsd',
+                                                'CT'),
+                                               ('tpNumeroProtocoloAsync',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'ST'),
+                                               ('tpIncidencia',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'ST'),
+                                               ('tpSituacaoLote',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'ST'),
+                                               ('tpSituacaoGuia',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'ST'),
+                                               ('tpEmissaoGuia',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'ST'),
+                                               ('tpEventoAsync',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'CT'),
+                                               ('tpInformacoesLoteAsync',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
+                                                'CT'),
+                                               ('tpInformacoesGuiaAsync',
+                                                'schemas/nfse/TiposNFeAsync_v02.xsd',
                                                 'CT')],
  'http://www.w3.org/2000/09/xmldsig#': [('CryptoBinary',
                                          'schemas/nfse/xmldsig-core-schema_v02.xsd',
@@ -12951,13 +12959,13 @@ NamespaceToDefMappings_ = {'http://www.prefeitura.sp.gov.br/nfe': [],
 __all__ = [
     "CabecalhoType",
     "CanonicalizationMethodType",
-    "DetalheType",
     "DigestMethodType",
     "KeyInfoType",
     "KeyValueType",
-    "PedidoCancelamentoNFe",
+    "PedidoEmissaoGuiaAsync",
     "RSAKeyValueType",
     "ReferenceType",
+    "RetornoEmissaoGuiaAsync",
     "SignatureMethodType",
     "SignatureType",
     "SignatureValueType",
@@ -12981,6 +12989,7 @@ __all__ = [
     "tpEnderecoNacional",
     "tpEnderecoSimplesIBSCBS",
     "tpEvento",
+    "tpEventoAsync",
     "tpFornecedor",
     "tpGIBSCBS",
     "tpGRefNFSe",
@@ -12988,7 +12997,9 @@ __all__ = [
     "tpGrupoReeRepRes",
     "tpIBSCBS",
     "tpImovelObra",
+    "tpInformacoesGuiaAsync",
     "tpInformacoesLote",
+    "tpInformacoesLoteAsync",
     "tpInformacoesPessoa",
     "tpNFe",
     "tpRPS",
