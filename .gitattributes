@@ -1,0 +1,13 @@
+# Classes geradas automaticamente pelo generateDS a partir dos XSDs em
+# schemas/ (ver scripts/generate.sh). Marcadas como "generated" para o
+# GitHub recolher esses arquivos por padrão nos diffs de PR e não tentar
+# pareá-los como renomeações de outros arquivos gerados com conteúdo
+# parecido, o que tornava os PRs quase ilegíveis para revisão.
+nfselib/paulistana/v02/*.py linguist-generated=true
+nfselib/paulistana/v03/*.py linguist-generated=true
+
+# Não são gerados pelo generateDS: mantidos fora da marcação acima.
+nfselib/paulistana/v02/__init__.py linguist-generated=false
+nfselib/paulistana/v03/__init__.py linguist-generated=false
+nfselib/paulistana/v02/generatedsnamespaces.py linguist-generated=false
+nfselib/paulistana/v03/generatedsnamespaces.py linguist-generated=false
