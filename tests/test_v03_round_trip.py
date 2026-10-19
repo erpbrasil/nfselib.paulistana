@@ -3,7 +3,7 @@ import io
 import pytest
 from lxml import etree
 
-from nfselib.paulistana.v03.PedidoCancelamentoNFe import (
+from nfselib.paulistana.v03.PedidoCancelamentoNFe_v02 import (
     tpCPFCNPJNIF,
     tpEnderecoNacional,
 )
