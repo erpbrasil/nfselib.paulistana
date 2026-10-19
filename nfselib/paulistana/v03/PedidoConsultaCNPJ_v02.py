@@ -3,7 +3,7 @@
 
 #
 # Generated  by generateDS.py version 2.44.3.
-# Python 3.10.20 (main, Jun 12 2026, 02:49:36) [GCC 13.3.0]
+# Python 3.10.20 (main, Mar 20 2026, 00:34:16) [Clang 22.1.1 ]
 #
 # Command line options:
 #   ('--no-namespace-defs', '')
@@ -17,10 +17,10 @@
 #   schemas/nfse/PedidoConsultaCNPJ_v02.xsd
 #
 # Command line:
-#   /home/kaynnan/.pyenv/versions/3.10.20/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoConsultaCNPJ_v02.py" schemas/nfse/PedidoConsultaCNPJ_v02.xsd
+#   /Users/mileo/.claude/jobs/119b1b1e/tmp/paulistana/gen310/bin/generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f -o "nfselib/paulistana/v03/PedidoConsultaCNPJ_v02.py" schemas/nfse/PedidoConsultaCNPJ_v02.xsd
 #
 # Current working directory (os.getcwd()):
-#   nfselib-paulistana
+#   paulistana
 #
 
 import sys
@@ -180,7 +180,7 @@ except ModulenotfoundExp_ as exp:
     except ModulenotfoundExp_ as exp:
         class GeneratedsSuperSuper(object):
             pass
-    
+
     class GeneratedsSuper(GeneratedsSuperSuper):
         __hash__ = object.__hash__
         tzoff_pattern = re_.compile('(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)$')
@@ -266,7 +266,7 @@ except ModulenotfoundExp_ as exp:
             if value.endswith('.'):
                 value += '0'
             return value
-    
+
         def gds_parse_float(self, input_data, node=None, input_name=''):
             try:
                 fval_ = float(input_data)
@@ -696,8 +696,8 @@ except ModulenotfoundExp_ as exp:
                     self.gds_elementtree_node_.sourceline)
             else:
                 return ""
-    
-    
+
+
     def getSubclassFromModule_(module, class_):
         '''Get the subclass of a class from a specific module.'''
         name = class_.__name__ + 'Sub'
@@ -1010,7 +1010,7 @@ def _cast(typ, value):
 #
 class tpEnteGov(str, Enum):
     """tpEnteGov -- Tipo do ente da compra governamental.
-    
+
     """
     _1='1' # União.
     _2='2' # Estados.
@@ -1022,7 +1022,7 @@ class tpFinNFSe(str, Enum):
     """tpFinNFSe -- Indicador da finalidade da emiss
     ã
     o de NFS-e.
-    
+
     """
     _0='0' # 0 = NFS-e regular.
 
@@ -1033,7 +1033,7 @@ class tpIndDest(str, Enum):
     rio dos servi
     ç
     os.
-    
+
     """
     _0='0' # O destinatário é o próprio tomador/adquirente identificado na NFS-e (tomador = adquirente = destinatário).
     _1='1' # O destinatário não é o próprio adquirente, podendo ser outra pessoa, física ou jurídica (ou equiparada), ou um estabelecimento diferente do indicado como tomador (tomador = adquirente ≠ destinatário).
@@ -1046,7 +1046,7 @@ class tpNaoNIF(str, Enum):
     ç
     ã
     o do NIF.
-    
+
     """
     _0='0' # 0 - Não informado na nota de origem;
     _1='1' # 1 - Dispensado do NIF;
@@ -1057,7 +1057,7 @@ class tpNaoSim(str, Enum):
     """tpNaoSim -- Tipo de N
     ã
     o ou Sim.
-    
+
     """
     _0='0' # Não.
     _1='1' # Sim.
@@ -1072,7 +1072,7 @@ class tpOpcaoSimples(str, Enum):
     ç
     õ
     es de escolha pelo Simples.
-    
+
     """
     _0='0' # Não-optante pelo Simples Federal nem Municipal.
     _1='1' # Optante pelo Simples Federal (Alíquota de 1,0%).
@@ -1091,7 +1091,7 @@ class tpOper(str, Enum):
     os sobre bens im
     ó
     veis.
-    
+
     """
     _1='1' # Fornecimento com pagamento posterior.
     _2='2' # Recebimento do pagamento com fornecimento já realizado.
@@ -1143,12 +1143,12 @@ class tpReeRepRes(str, Enum):
     ç
     õ
     es por conta e ordem de terceiro.
-    
+
     """
-    _0_1='01' # 01 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação
-    _0_2='02' # 02 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo.
-    _0_3='03' # 03 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro.
-    _0_4='04' # 04 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro.
+    _1='1' # 01 = Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação
+    _2='2' # 02 = Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo.
+    _3='3' # 03 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro.
+    _4='4' # 04 = Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro.
     _9_9='99' # 99 = Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro
 
 
@@ -1156,30 +1156,35 @@ class tpReferencia(str, Enum):
     """tpReferencia -- Tipo de refer
     ê
     ncia da nota.
-    
+
     """
     _0='0' # Nota fiscal referenciada para emissão de nota de multa e juros.
     _1='1' # Nota fiscal de pagamento parcelado antecipado.
 
 
 class tpRetencaoPisCofins(str, Enum):
-    """Tipo referente ao indicador de reten
-    tpRetencaoPisCofins -- Tipo referente ao indicador de reten
+    """Tipo de reten
+    tpRetencaoPisCofins -- Tipo de reten
     ç
     ã
-    o de PIS/COFINS (NT-007).
-    
+    o para os tributos federais conforme numerados.
+
     """
-    _1='1' # Retenção somente de PIS.
-    _2='2' # Retenção somente de COFINS.
-    _3='3' # Retenção de PIS e COFINS.
+    _0='0' # PIS/COFINS/CSLL Não Retidos.
+    _3='3' # PIS/COFINS/CSLL Retidos.
+    _4='4' # PIS/COFINS Retidos, CSLL Não Retido.
+    _5='5' # PIS Retido, COFINS/CSLL Não Retido.
+    _6='6' # COFINS Retido, PIS/CSLL Não Retidos.
+    _7='7' # PIS Não Retido, COFINS/CSLL Retidos.
+    _8='8' # PIS/COFINS Não Retidos, CSLL Retido.
+    _9='9' # COFINS Não Retido, PIS/CSLL Retidos.
 
 
 class tpStatusNFe(str, Enum):
     """tpStatusNFe -- Tipo referente aos poss
     í
     veis status de NFS-e.
-    
+
     """
     N='N' # Normal.
     C='C' # Cancelada.
@@ -1194,7 +1199,7 @@ class tpTipoChaveDFE(str, Enum):
     2 - NF-e.
     3 - CT-e.
     9 - Outro.
-    
+
     """
     _1='1' # NFS-e.
     _2='2' # NF-e.
@@ -1204,7 +1209,7 @@ class tpTipoChaveDFE(str, Enum):
 
 class tpTipoNotaReferenciada(str, Enum):
     """tpTipoNotaReferenciada -- Tipo de nota fiscal referenciada.
-    
+
     """
     _0='0' # NFS-e.
     _1='1' # NFTS.
@@ -1214,7 +1219,7 @@ class tpTipoRPS(str, Enum):
     """tpTipoRPS -- Tipo referente aos poss
     í
     veis tipos de RPS.
-    
+
     """
     RPS='RPS' # Recibo Provisório de Serviços.
     RPSM='RPS-M' # Recibo Provisório de Serviços proveniente de Nota Fiscal Conjugada (Mista).
@@ -1243,7 +1248,7 @@ class PedidoConsultaCNPJ(GeneratedsSuper):
     alho do pedido.
     CNPJContribuinte -- Informe o CNPJ do Contribuinte que se deseja consultar.
     Signature -- Assinatura digital do CNPJ tomador/prestador que gerou a mensagem XML.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1370,7 +1375,7 @@ class tpEvento(GeneratedsSuper):
     o do evento.
     ChaveRPS -- Chave do RPS.
     ChaveNFe -- Chave da NFe.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1538,7 +1543,7 @@ class tpEvento(GeneratedsSuper):
 
 class tpCPFCNPJ(GeneratedsSuper):
     """tpCPFCNPJ -- Tipo que representa um CPF/CNPJ.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1679,7 +1684,7 @@ class tpCPFCNPJ(GeneratedsSuper):
 
 class tpCPFCNPJNIF(GeneratedsSuper):
     """tpCPFCNPJNIF -- Tipo que representa um CPF/CNPJ/NIF.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -1890,7 +1895,7 @@ class tpChaveNFeRPS(GeneratedsSuper):
     ChaveRPS -- Chave do RPS substitu
     í
     do.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2012,7 +2017,7 @@ class tpChaveNFe(GeneratedsSuper):
     ã
     o da NFS-e.
     ChaveNotaNacional -- Chave da Nota Nacional.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2230,7 +2235,7 @@ class tpChaveRPS(GeneratedsSuper):
     NumeroRPS -- N
     ú
     mero do RPS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2433,7 +2438,7 @@ class tpEnderecoExterior(GeneratedsSuper):
     o da cidade no exterior do prestador do servi
     ç
     o.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2647,7 +2652,7 @@ class tpEnderecoNacional(GeneratedsSuper):
     """tpEnderecoNacional -- Tipo endere
     ç
     o no nacional.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -2790,7 +2795,7 @@ class tpEndereco(GeneratedsSuper):
     """tpEndereco -- Tipo Endere
     ç
     o.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3149,7 +3154,7 @@ class tpEnderecoIBSCBS(GeneratedsSuper):
     """tpEnderecoIBSCBS -- Tipo Endere
     ç
     o para o IBSCBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3390,7 +3395,7 @@ class tpEnderecoSimplesIBSCBS(GeneratedsSuper):
     """tpEnderecoSimplesIBSCBS -- Tipo Endere
     ç
     o simplificado para o IBSCBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3669,7 +3674,7 @@ class tpInformacoesLote(GeneratedsSuper):
     ç
     õ
     es dos RPS contidos na mensagem XML.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -3969,7 +3974,7 @@ class tpInformacoesPessoa(GeneratedsSuper):
     o eletr
     ô
     nico.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4256,7 +4261,7 @@ class tpInformacoesPessoa(GeneratedsSuper):
 
 class tpGRefNFSe(GeneratedsSuper):
     """tpGRefNFSe -- Grupo com Ids da nota nacional referenciadas, associadas a NFSE.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4380,7 +4385,7 @@ class tpGrupoReeRepRes(GeneratedsSuper):
     ressarcimento pelo recebedor, j
     á
     tributados e aqui referenciados.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4474,7 +4479,7 @@ class tpGrupoReeRepRes(GeneratedsSuper):
 
 class tpImovelObra(GeneratedsSuper):
     """tpImovelObra -- Tipo de imovel/obra.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4714,7 +4719,7 @@ class tpDocumento(GeneratedsSuper):
     lculo do ISS e do IBS e da CBS da NFS-e que est
     á
     sendo emitida (R$).
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -4982,7 +4987,7 @@ class tpDFeNacional(GeneratedsSuper):
     """tpDFeNacional -- Tipo de documento do reposit
     ó
     rio nacional.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5192,7 +5197,7 @@ class tpDocFiscalOutro(GeneratedsSuper):
     ç
     ã
     o do documento fiscal.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5369,7 +5374,7 @@ class tpDocOutro(GeneratedsSuper):
     o do documento n
     ã
     o fiscal.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5503,7 +5508,7 @@ class tpFornecedor(GeneratedsSuper):
     õ
     es do fornecedor do documento referenciado.
     xNome -- Nome do fornecedor.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5763,7 +5768,7 @@ class tpAtividadeEvento(GeneratedsSuper):
     end -- Endere
     ç
     o do Evento.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -5988,7 +5993,7 @@ class tpIBSCBS(GeneratedsSuper):
     es sobre o Tipo de Im
     ó
     vel/Obra.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6324,7 +6329,7 @@ class tpGIBSCBS(GeneratedsSuper):
     o Tribut
     á
     ria do IBS e da CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6462,7 +6467,7 @@ class tpGTribRegular(GeneratedsSuper):
     o Tribut
     á
     ria do IBS e da CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -6720,7 +6725,7 @@ class tpRetornoComplementarIBSCBS(GeneratedsSuper):
     í
     quota da CBS, referente a compra governamental.
     ValorCBSCompraGov -- Valor da CBS referente a compra governamental
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7501,7 +7506,7 @@ class tpTrib(GeneratedsSuper):
     es relacionadas aos tributos IBS e
     à
     CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7616,7 +7621,7 @@ class tpValores(GeneratedsSuper):
     ç
     õ
     es relacionados aos tributos IBS e CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -7894,6 +7899,10 @@ class tpNFe(GeneratedsSuper):
     ú
     mero do encapsulamento da obra.
     ValorTotalRecebido -- Valor do total recebido.
+    RetencaoPisCofins -- Tipo de reten
+    ç
+    ã
+    o para os tributos federais PIS/COFINS e CSLL
     ValorInicialCobrado -- Valor inicial cobrado pela presta
     ç
     ã
@@ -7963,7 +7972,7 @@ class tpNFe(GeneratedsSuper):
     es complementares referentes ao IBS e
     à
     CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -8016,13 +8025,14 @@ class tpNFe(GeneratedsSuper):
         MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xs:int'}, None),
         MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xs:long'}, None),
         MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xs:decimal'}, None),
+        MemberSpec_('RetencaoPisCofins', ['tpRetencaoPisCofins', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RetencaoPisCofins', 'type': 'xs:string'}, None),
         MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xs:decimal'}, 9),
         MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xs:decimal'}, 9),
         MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorIPI', 'type': 'xs:decimal'}, None),
         MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xs:int'}, None),
-        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
+        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
         MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xs:string'}, None),
         MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NBS', 'type': 'xs:string'}, None),
         MemberSpec_('atvEvento', 'tpAtividadeEvento', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'atvEvento', 'type': 'tpAtividadeEvento'}, None),
@@ -8033,7 +8043,7 @@ class tpNFe(GeneratedsSuper):
     ]
     subclass = None
     superclass = None
-    def __init__(self, Assinatura=None, ChaveNFe=None, DataEmissaoNFe=None, NumeroLote=None, ChaveRPS=None, TipoRPS=None, DataEmissaoRPS=None, DataFatoGeradorNFe=None, CPFCNPJPrestador=None, RazaoSocialPrestador=None, EnderecoPrestador=None, EmailPrestador=None, StatusNFe=None, DataCancelamento=None, TributacaoNFe=None, OpcaoSimples=None, NumeroGuia=None, DataQuitacaoGuia=None, ValorServicos=None, ValorDeducoes=None, ValorPIS=None, ValorCOFINS=None, ValorINSS=None, ValorIR=None, ValorCSLL=None, CodigoServico=None, AliquotaServicos=None, ValorISS=None, ValorCredito=None, ISSRetido=None, CPFCNPJTomador=None, InscricaoMunicipalTomador=None, InscricaoEstadualTomador=None, RazaoSocialTomador=None, EnderecoTomador=None, EmailTomador=None, CPFCNPJIntermediario=None, InscricaoMunicipalIntermediario=None, ISSRetidoIntermediario=None, EmailIntermediario=None, Discriminacao=None, ValorCargaTributaria=None, PercentualCargaTributaria=None, FonteCargaTributaria=None, CodigoCEI=None, MatriculaObra=None, MunicipioPrestacao=None, NumeroEncapsulamento=None, ValorTotalRecebido=None, ValorInicialCobrado=None, ValorFinalCobrado=None, ValorMulta=None, ValorJuros=None, ValorIPI=None, ExigibilidadeSuspensa=None, PagamentoParceladoAntecipado=None, NCM=None, NBS=None, atvEvento=None, cLocPrestacao=None, cPaisPrestacao=None, IBSCBS=None, RetornoComplementarIBSCBS=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Assinatura=None, ChaveNFe=None, DataEmissaoNFe=None, NumeroLote=None, ChaveRPS=None, TipoRPS=None, DataEmissaoRPS=None, DataFatoGeradorNFe=None, CPFCNPJPrestador=None, RazaoSocialPrestador=None, EnderecoPrestador=None, EmailPrestador=None, StatusNFe=None, DataCancelamento=None, TributacaoNFe=None, OpcaoSimples=None, NumeroGuia=None, DataQuitacaoGuia=None, ValorServicos=None, ValorDeducoes=None, ValorPIS=None, ValorCOFINS=None, ValorINSS=None, ValorIR=None, ValorCSLL=None, CodigoServico=None, AliquotaServicos=None, ValorISS=None, ValorCredito=None, ISSRetido=None, CPFCNPJTomador=None, InscricaoMunicipalTomador=None, InscricaoEstadualTomador=None, RazaoSocialTomador=None, EnderecoTomador=None, EmailTomador=None, CPFCNPJIntermediario=None, InscricaoMunicipalIntermediario=None, ISSRetidoIntermediario=None, EmailIntermediario=None, Discriminacao=None, ValorCargaTributaria=None, PercentualCargaTributaria=None, FonteCargaTributaria=None, CodigoCEI=None, MatriculaObra=None, MunicipioPrestacao=None, NumeroEncapsulamento=None, ValorTotalRecebido=None, RetencaoPisCofins=None, ValorInicialCobrado=None, ValorFinalCobrado=None, ValorMulta=None, ValorJuros=None, ValorIPI=None, ExigibilidadeSuspensa=None, PagamentoParceladoAntecipado=None, NCM=None, NBS=None, atvEvento=None, cLocPrestacao=None, cPaisPrestacao=None, IBSCBS=None, RetornoComplementarIBSCBS=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -8192,6 +8202,9 @@ class tpNFe(GeneratedsSuper):
         self.ValorTotalRecebido = ValorTotalRecebido
         self.validate_tpValor(self.ValorTotalRecebido)
         self.ValorTotalRecebido_nsprefix_ = None
+        self.RetencaoPisCofins = RetencaoPisCofins
+        self.validate_tpRetencaoPisCofins(self.RetencaoPisCofins)
+        self.RetencaoPisCofins_nsprefix_ = None
         self.ValorInicialCobrado = ValorInicialCobrado
         self.validate_tpValor(self.ValorInicialCobrado)
         self.ValorInicialCobrado_nsprefix_ = None
@@ -8504,6 +8517,21 @@ class tpNFe(GeneratedsSuper):
                 result = False
         return result
     validate_tpCidade_patterns_ = [['^([0-9]{7})$']]
+    def validate_tpRetencaoPisCofins(self, value):
+        result = True
+        # Validate type tpRetencaoPisCofins, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = ['0', '3', '4', '5', '6', '7', '8', '9']
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpRetencaoPisCofins' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def validate_tpNaoSim(self, value):
         result = True
         # Validate type tpNaoSim, a restriction on xs:int.
@@ -8617,6 +8645,7 @@ class tpNFe(GeneratedsSuper):
             self.MunicipioPrestacao is not None or
             self.NumeroEncapsulamento is not None or
             self.ValorTotalRecebido is not None or
+            self.RetencaoPisCofins is not None or
             self.ValorInicialCobrado is not None or
             self.ValorFinalCobrado is not None or
             self.ValorMulta is not None or
@@ -8854,6 +8883,10 @@ class tpNFe(GeneratedsSuper):
             namespaceprefix_ = self.ValorTotalRecebido_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorTotalRecebido_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sValorTotalRecebido>%s</%sValorTotalRecebido>%s' % (namespaceprefix_ , self.gds_format_decimal(self.ValorTotalRecebido, input_name='ValorTotalRecebido'), namespaceprefix_ , eol_))
+        if self.RetencaoPisCofins is not None:
+            namespaceprefix_ = self.RetencaoPisCofins_nsprefix_ + ':' if (UseCapturedNS_ and self.RetencaoPisCofins_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sRetencaoPisCofins>%s</%sRetencaoPisCofins>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.RetencaoPisCofins), input_name='RetencaoPisCofins')), namespaceprefix_ , eol_))
         if self.ValorInicialCobrado is not None:
             namespaceprefix_ = self.ValorInicialCobrado_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorInicialCobrado_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -9279,6 +9312,14 @@ class tpNFe(GeneratedsSuper):
             self.ValorTotalRecebido_nsprefix_ = child_.prefix
             # validate type tpValor
             self.validate_tpValor(self.ValorTotalRecebido)
+        elif nodeName_ == 'RetencaoPisCofins':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'RetencaoPisCofins')
+            value_ = self.gds_validate_string(value_, node, 'RetencaoPisCofins')
+            self.RetencaoPisCofins = value_
+            self.RetencaoPisCofins_nsprefix_ = child_.prefix
+            # validate type tpRetencaoPisCofins
+            self.validate_tpRetencaoPisCofins(self.RetencaoPisCofins)
         elif nodeName_ == 'ValorInicialCobrado' and child_.text:
             sval_ = child_.text
             fval_ = self.gds_parse_decimal(sval_, node, 'ValorInicialCobrado')
@@ -9385,123 +9426,6 @@ class tpNFe(GeneratedsSuper):
 # end class tpNFe
 
 
-class RetencaoPisCofins(GeneratedsSuper):
-    """RetencaoPisCofins -- Grupo de reten
-    ç
-    ã
-    o de PIS/COFINS (NT-007, vig
-    ê
-    ncia 14/05/2026).
-    tpRetencaoPisCofins -- Indicador: 1=PIS, 2=COFINS, 3=PIS e COFINS.
-    
-    """
-    __hash__ = GeneratedsSuper.__hash__
-    member_data_items_ = [
-        MemberSpec_('tpRetencaoPisCofins', ['tpRetencaoPisCofins', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'tpRetencaoPisCofins', 'type': 'xs:string'}, None),
-    ]
-    subclass = None
-    superclass = None
-    def __init__(self, tpRetencaoPisCofins=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.tpRetencaoPisCofins = tpRetencaoPisCofins
-        self.validate_tpRetencaoPisCofins(self.tpRetencaoPisCofins)
-        self.tpRetencaoPisCofins_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, RetencaoPisCofins)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if RetencaoPisCofins.subclass:
-            return RetencaoPisCofins.subclass(*args_, **kwargs_)
-        else:
-            return RetencaoPisCofins(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def validate_tpRetencaoPisCofins(self, value):
-        result = True
-        # Validate type tpRetencaoPisCofins, a restriction on xs:string.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
-            value = value
-            enumerations = ['1', '2', '3']
-            if value not in enumerations:
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpRetencaoPisCofins' % {"value" : encode_str_2_3(value), "lineno": lineno} )
-                result = False
-        return result
-    def has__content(self):
-        if (
-            self.tpRetencaoPisCofins is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='RetencaoPisCofins', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('RetencaoPisCofins')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'RetencaoPisCofins':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='RetencaoPisCofins')
-        if self.has__content():
-            outfile.write('>%s' % (eol_, ))
-            self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='RetencaoPisCofins', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='RetencaoPisCofins'):
-        pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='RetencaoPisCofins', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.tpRetencaoPisCofins is not None:
-            namespaceprefix_ = self.tpRetencaoPisCofins_nsprefix_ + ':' if (UseCapturedNS_ and self.tpRetencaoPisCofins_nsprefix_) else ''
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%stpRetencaoPisCofins>%s</%stpRetencaoPisCofins>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.tpRetencaoPisCofins), input_name='tpRetencaoPisCofins')), namespaceprefix_ , eol_))
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self._buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def _buildAttributes(self, node, attrs, already_processed):
-        pass
-    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'tpRetencaoPisCofins':
-            value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'tpRetencaoPisCofins')
-            value_ = self.gds_validate_string(value_, node, 'tpRetencaoPisCofins')
-            self.tpRetencaoPisCofins = value_
-            self.tpRetencaoPisCofins_nsprefix_ = child_.prefix
-            # validate type tpRetencaoPisCofins
-            self.validate_tpRetencaoPisCofins(self.tpRetencaoPisCofins)
-# end class RetencaoPisCofins
-
-
 class tpRPS(GeneratedsSuper):
     """tpRPS -- Tipo que representa um RPS.
     Assinatura -- Assinatura digital do RPS.
@@ -9539,13 +9463,6 @@ class tpRPS(GeneratedsSuper):
     ç
     ã
     o do CSLL.
-    RetencaoPisCofins -- Grupo opcional de reten
-    ç
-    ã
-    o de PIS/COFINS (NT-007). Informar somente quando houver reten
-    ç
-    ã
-    o de PIS e/ou COFINS.
     CodigoServico -- Informe o c
     ó
     digo do servi
@@ -9737,6 +9654,10 @@ class tpRPS(GeneratedsSuper):
     ú
     mero do encapsulamento da obra.
     ValorTotalRecebido -- Valor do total recebido.
+    RetencaoPisCofins -- Tipo de reten
+    ç
+    ã
+    o para os tributos federais PIS/COFINS e CSLL
     ValorInicialCobrado -- Valor inicial cobrado pela presta
     ç
     ã
@@ -9808,7 +9729,7 @@ class tpRPS(GeneratedsSuper):
     es declaradas pelo emitente referentes ao IBS e
     à
     CBS.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -9824,7 +9745,6 @@ class tpRPS(GeneratedsSuper):
         MemberSpec_('ValorINSS', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorINSS', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorIR', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIR', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorCSLL', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorCSLL', 'type': 'xs:decimal'}, None),
-        MemberSpec_('RetencaoPisCofins', 'RetencaoPisCofins', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RetencaoPisCofins', 'type': 'RetencaoPisCofins'}, None),
         MemberSpec_('CodigoServico', ['tpCodigoServico', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'CodigoServico', 'type': 'xs:int'}, None),
         MemberSpec_('AliquotaServicos', ['tpAliquota', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'AliquotaServicos', 'type': 'xs:decimal'}, None),
         MemberSpec_('ISSRetido', 'xs:boolean', 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ISSRetido', 'type': 'xs:boolean'}, None),
@@ -9847,13 +9767,14 @@ class tpRPS(GeneratedsSuper):
         MemberSpec_('MunicipioPrestacao', ['tpCidade', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'MunicipioPrestacao', 'type': 'xs:int'}, None),
         MemberSpec_('NumeroEncapsulamento', ['tpNumero', 'xs:long'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NumeroEncapsulamento', 'type': 'xs:long'}, None),
         MemberSpec_('ValorTotalRecebido', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorTotalRecebido', 'type': 'xs:decimal'}, None),
+        MemberSpec_('RetencaoPisCofins', ['tpRetencaoPisCofins', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'RetencaoPisCofins', 'type': 'xs:string'}, None),
         MemberSpec_('ValorInicialCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorInicialCobrado', 'type': 'xs:decimal'}, 10),
         MemberSpec_('ValorFinalCobrado', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorFinalCobrado', 'type': 'xs:decimal'}, 10),
         MemberSpec_('ValorMulta', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorMulta', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorJuros', ['tpValor', 'xs:decimal'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'ValorJuros', 'type': 'xs:decimal'}, None),
         MemberSpec_('ValorIPI', ['tpValor', 'xs:decimal'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ValorIPI', 'type': 'xs:decimal'}, None),
         MemberSpec_('ExigibilidadeSuspensa', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'ExigibilidadeSuspensa', 'type': 'xs:int'}, None),
-        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
+        MemberSpec_('PagamentoParceladoAntecipado', ['tpNaoSim', 'xs:int'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'PagamentoParceladoAntecipado', 'type': 'xs:int'}, None),
         MemberSpec_('NCM', ['tpCodigoNCM', 'xs:string'], 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'NCM', 'type': 'xs:string'}, None),
         MemberSpec_('NBS', ['tpCodigoNBS', 'xs:string'], 0, 0, {'maxOccurs': '1', 'minOccurs': '1', 'name': 'NBS', 'type': 'xs:string'}, None),
         MemberSpec_('atvEvento', 'tpAtividadeEvento', 0, 1, {'maxOccurs': '1', 'minOccurs': '0', 'name': 'atvEvento', 'type': 'tpAtividadeEvento'}, None),
@@ -9863,7 +9784,7 @@ class tpRPS(GeneratedsSuper):
     ]
     subclass = None
     superclass = None
-    def __init__(self, Assinatura=None, ChaveRPS=None, TipoRPS=None, DataEmissao=None, StatusRPS=None, TributacaoRPS=None, ValorDeducoes=None, ValorPIS=None, ValorCOFINS=None, ValorINSS=None, ValorIR=None, ValorCSLL=None, RetencaoPisCofins=None, CodigoServico=None, AliquotaServicos=None, ISSRetido=None, CPFCNPJTomador=None, InscricaoMunicipalTomador=None, InscricaoEstadualTomador=None, RazaoSocialTomador=None, EnderecoTomador=None, EmailTomador=None, CPFCNPJIntermediario=None, InscricaoMunicipalIntermediario=None, ISSRetidoIntermediario=None, EmailIntermediario=None, Discriminacao=None, ValorCargaTributaria=None, PercentualCargaTributaria=None, FonteCargaTributaria=None, CodigoCEI=None, MatriculaObra=None, MunicipioPrestacao=None, NumeroEncapsulamento=None, ValorTotalRecebido=None, ValorInicialCobrado=None, ValorFinalCobrado=None, ValorMulta=None, ValorJuros=None, ValorIPI=None, ExigibilidadeSuspensa=None, PagamentoParceladoAntecipado=None, NCM=None, NBS=None, atvEvento=None, cLocPrestacao=None, cPaisPrestacao=None, IBSCBS=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Assinatura=None, ChaveRPS=None, TipoRPS=None, DataEmissao=None, StatusRPS=None, TributacaoRPS=None, ValorDeducoes=None, ValorPIS=None, ValorCOFINS=None, ValorINSS=None, ValorIR=None, ValorCSLL=None, CodigoServico=None, AliquotaServicos=None, ISSRetido=None, CPFCNPJTomador=None, InscricaoMunicipalTomador=None, InscricaoEstadualTomador=None, RazaoSocialTomador=None, EnderecoTomador=None, EmailTomador=None, CPFCNPJIntermediario=None, InscricaoMunicipalIntermediario=None, ISSRetidoIntermediario=None, EmailIntermediario=None, Discriminacao=None, ValorCargaTributaria=None, PercentualCargaTributaria=None, FonteCargaTributaria=None, CodigoCEI=None, MatriculaObra=None, MunicipioPrestacao=None, NumeroEncapsulamento=None, ValorTotalRecebido=None, RetencaoPisCofins=None, ValorInicialCobrado=None, ValorFinalCobrado=None, ValorMulta=None, ValorJuros=None, ValorIPI=None, ExigibilidadeSuspensa=None, PagamentoParceladoAntecipado=None, NCM=None, NBS=None, atvEvento=None, cLocPrestacao=None, cPaisPrestacao=None, IBSCBS=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -9907,8 +9828,6 @@ class tpRPS(GeneratedsSuper):
         self.ValorCSLL = ValorCSLL
         self.validate_tpValor(self.ValorCSLL)
         self.ValorCSLL_nsprefix_ = None
-        self.RetencaoPisCofins = RetencaoPisCofins
-        self.RetencaoPisCofins_nsprefix_ = None
         self.CodigoServico = CodigoServico
         self.validate_tpCodigoServico(self.CodigoServico)
         self.CodigoServico_nsprefix_ = None
@@ -9970,6 +9889,9 @@ class tpRPS(GeneratedsSuper):
         self.ValorTotalRecebido = ValorTotalRecebido
         self.validate_tpValor(self.ValorTotalRecebido)
         self.ValorTotalRecebido_nsprefix_ = None
+        self.RetencaoPisCofins = RetencaoPisCofins
+        self.validate_tpRetencaoPisCofins(self.RetencaoPisCofins)
+        self.RetencaoPisCofins_nsprefix_ = None
         self.ValorInicialCobrado = ValorInicialCobrado
         self.validate_tpValor(self.ValorInicialCobrado)
         self.ValorInicialCobrado_nsprefix_ = None
@@ -10265,6 +10187,21 @@ class tpRPS(GeneratedsSuper):
                 result = False
         return result
     validate_tpCidade_patterns_ = [['^([0-9]{7})$']]
+    def validate_tpRetencaoPisCofins(self, value):
+        result = True
+        # Validate type tpRetencaoPisCofins, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = ['0', '3', '4', '5', '6', '7', '8', '9']
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on tpRetencaoPisCofins' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+        return result
     def validate_tpNaoSim(self, value):
         result = True
         # Validate type tpNaoSim, a restriction on xs:int.
@@ -10341,7 +10278,6 @@ class tpRPS(GeneratedsSuper):
             self.ValorINSS is not None or
             self.ValorIR is not None or
             self.ValorCSLL is not None or
-            self.RetencaoPisCofins is not None or
             self.CodigoServico is not None or
             self.AliquotaServicos is not None or
             self.ISSRetido is not None or
@@ -10364,6 +10300,7 @@ class tpRPS(GeneratedsSuper):
             self.MunicipioPrestacao is not None or
             self.NumeroEncapsulamento is not None or
             self.ValorTotalRecebido is not None or
+            self.RetencaoPisCofins is not None or
             self.ValorInicialCobrado is not None or
             self.ValorFinalCobrado is not None or
             self.ValorMulta is not None or
@@ -10458,9 +10395,6 @@ class tpRPS(GeneratedsSuper):
             namespaceprefix_ = self.ValorCSLL_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorCSLL_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sValorCSLL>%s</%sValorCSLL>%s' % (namespaceprefix_ , self.gds_format_decimal(self.ValorCSLL, input_name='ValorCSLL'), namespaceprefix_ , eol_))
-        if self.RetencaoPisCofins is not None:
-            namespaceprefix_ = self.RetencaoPisCofins_nsprefix_ + ':' if (UseCapturedNS_ and self.RetencaoPisCofins_nsprefix_) else ''
-            self.RetencaoPisCofins.export(outfile, level, namespaceprefix_, namespacedef_='', name_='RetencaoPisCofins', pretty_print=pretty_print)
         if self.CodigoServico is not None:
             namespaceprefix_ = self.CodigoServico_nsprefix_ + ':' if (UseCapturedNS_ and self.CodigoServico_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -10546,6 +10480,10 @@ class tpRPS(GeneratedsSuper):
             namespaceprefix_ = self.ValorTotalRecebido_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorTotalRecebido_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sValorTotalRecebido>%s</%sValorTotalRecebido>%s' % (namespaceprefix_ , self.gds_format_decimal(self.ValorTotalRecebido, input_name='ValorTotalRecebido'), namespaceprefix_ , eol_))
+        if self.RetencaoPisCofins is not None:
+            namespaceprefix_ = self.RetencaoPisCofins_nsprefix_ + ':' if (UseCapturedNS_ and self.RetencaoPisCofins_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sRetencaoPisCofins>%s</%sRetencaoPisCofins>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.RetencaoPisCofins), input_name='RetencaoPisCofins')), namespaceprefix_ , eol_))
         if self.ValorInicialCobrado is not None:
             namespaceprefix_ = self.ValorInicialCobrado_nsprefix_ + ':' if (UseCapturedNS_ and self.ValorInicialCobrado_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -10706,11 +10644,6 @@ class tpRPS(GeneratedsSuper):
             self.ValorCSLL_nsprefix_ = child_.prefix
             # validate type tpValor
             self.validate_tpValor(self.ValorCSLL)
-        elif nodeName_ == 'RetencaoPisCofins':
-            obj_ = RetencaoPisCofins.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.RetencaoPisCofins = obj_
-            obj_.original_tagname_ = 'RetencaoPisCofins'
         elif nodeName_ == 'CodigoServico' and child_.text:
             sval_ = child_.text
             ival_ = self.gds_parse_integer(sval_, node, 'CodigoServico')
@@ -10874,6 +10807,14 @@ class tpRPS(GeneratedsSuper):
             self.ValorTotalRecebido_nsprefix_ = child_.prefix
             # validate type tpValor
             self.validate_tpValor(self.ValorTotalRecebido)
+        elif nodeName_ == 'RetencaoPisCofins':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'RetencaoPisCofins')
+            value_ = self.gds_validate_string(value_, node, 'RetencaoPisCofins')
+            self.RetencaoPisCofins = value_
+            self.RetencaoPisCofins_nsprefix_ = child_.prefix
+            # validate type tpRetencaoPisCofins
+            self.validate_tpRetencaoPisCofins(self.RetencaoPisCofins)
         elif nodeName_ == 'ValorInicialCobrado' and child_.text:
             sval_ = child_.text
             fval_ = self.gds_parse_decimal(sval_, node, 'ValorInicialCobrado')
@@ -11938,7 +11879,7 @@ class CabecalhoType(GeneratedsSuper):
     ã
     o do Schema XML utilizado.
     CPFCNPJRemetente -- Informe o CPF/CNPJ do Remetente autorizado a transmitir a mensagem XML.
-    
+
     """
     __hash__ = GeneratedsSuper.__hash__
     member_data_items_ = [
@@ -12907,9 +12848,6 @@ NamespaceToDefMappings_ = {'http://www.prefeitura.sp.gov.br/nfe': [],
                                                ('tpNFe',
                                                 'schemas/nfse/TiposNFe_v02.xsd',
                                                 'CT'),
-                                               ('RetencaoPisCofins',
-                                                'schemas/nfse/TiposNFe_v02.xsd',
-                                                'CT'),
                                                ('tpRPS',
                                                 'schemas/nfse/TiposNFe_v02.xsd',
                                                 'CT')],
@@ -12956,7 +12894,6 @@ __all__ = [
     "PedidoConsultaCNPJ",
     "RSAKeyValueType",
     "ReferenceType",
-    "RetencaoPisCofins",
     "SignatureMethodType",
     "SignatureType",
     "SignatureValueType",
