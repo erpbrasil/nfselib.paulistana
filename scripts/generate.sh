@@ -4,12 +4,14 @@ erpbrasil-edoc-gen-generate-python -m nfse -n paulistana -v v02 -i "PedidoEnvioL
 # não estava no arquivo de retorno.
 
 # v03: schemas da reforma tributária (NT-007), gerados diretamente com generateDS
-# a partir dos XSDs *_v02.xsd já versionados em schemas/nfse/.
+# a partir dos XSDs *_v02.xsd já versionados em schemas/nfse/. Os módulos gerados
+# mantêm o sufixo _v02 (nfselib/paulistana/v03/<Nome>_v02.py); os nomes sem sufixo
+# são módulos de compatibilidade escritos à mão (nfselib/paulistana/v03/<Nome>.py).
 # Requer: pip install generateDS lxml six
 V03_MODULES="PedidoCancelamentoLote PedidoCancelamentoNFe PedidoConsultaCNPJ PedidoConsultaLote PedidoConsultaNFe PedidoConsultaNFePeriodo PedidoEnvioLoteRPS PedidoEnvioRPS PedidoInformacoesLote RetornoCancelamentoNFe RetornoConsulta RetornoConsultaCNPJ RetornoEnvioLoteRPS RetornoEnvioRPS RetornoInformacoesLote"
 for module in $V03_MODULES; do
     generateDS --no-namespace-defs --no-dates --member-specs="list" --use-getter-setter="none" -f \
-        -o "nfselib/paulistana/v03/${module}.py" \
+        -o "nfselib/paulistana/v03/${module}_v02.py" \
         "schemas/nfse/${module}_v02.xsd"
 
     # generateDS importa o módulo irmão generatedsnamespaces de forma absoluta
@@ -26,5 +28,5 @@ for module in $V03_MODULES; do
     # ModuleNotFoundError) não capturado, quebrando o import do módulo.
     sed -i \
         's/^    from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_$/    from .generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_/' \
-        "nfselib/paulistana/v03/${module}.py"
+        "nfselib/paulistana/v03/${module}_v02.py"
 done
