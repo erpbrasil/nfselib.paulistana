@@ -2,8 +2,8 @@
 Changelog
 =========
 
-Não lançado
-~~~~~~~~~~~
+0.4.0 (2026-10-19)
+~~~~~~~~~~~~~~~~~~
 
 * NT-007: add optional RetencaoPisCofins/tpRetencaoPisCofins to tpRPS (XSD v01 and v02),
   com os schemas da prefeitura na versão 3.3.7.
