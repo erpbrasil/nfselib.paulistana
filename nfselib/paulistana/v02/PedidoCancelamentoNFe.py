@@ -7067,7 +7067,7 @@ class DetalheType(GeneratedsSuper):
         if self.AssinaturaCancelamento is not None:
             namespaceprefix_ = self.AssinaturaCancelamento_nsprefix_ + ':' if (UseCapturedNS_ and self.AssinaturaCancelamento_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAssinaturaCancelamento>%s</%sAssinaturaCancelamento>%s' % (namespaceprefix_ , self.gds_format_base64(self.AssinaturaCancelamento, input_name='AssinaturaCancelamento'), namespaceprefix_ , eol_))
+            outfile.write('<%sAssinaturaCancelamento>%s</%sAssinaturaCancelamento>%s' % (namespaceprefix_ , self.gds_format_string(self.AssinaturaCancelamento, input_name='AssinaturaCancelamento'), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
