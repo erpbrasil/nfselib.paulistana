@@ -2,6 +2,18 @@
 Changelog
 =========
 
+0.4.2 (2026-10-20)
+~~~~~~~~~~~~~~~~~~
+
+* Corrige regressão da 0.4.0 no pacote ``v02``: o ``export`` voltou a escrever os namespaces como
+  na 0.3.0. O generateDS 2.44.3 gera ``from generatedsnamespaces import ...`` absoluto, que falha
+  dentro do pacote e deixava ``GenerateDSNamespaceDefs`` vazio. Sem ele o ``PedidoEnvioLoteRPS``
+  saía com ``xmlns:tipos`` e ``xmlns:ds`` no lugar de ``xmlns:xsi``, ``xmlns:xsd`` e do ``xmlns``
+  padrão da prefeitura, sem o ``xmlns=""`` de ``Cabecalho`` e ``RPS``, e os pedidos de consulta e
+  cancelamento saíam sem o ``xmlns`` padrão. ``scripts/patch_v02_namespaces.py`` (chamado pelo
+  ``generate.sh``) volta o import para relativo e o ``namespacedef_`` padrão de ``export`` e
+  ``_exportChildren`` para vazio, como na 0.3.0.
+
 0.4.1 (2026-10-20)
 ~~~~~~~~~~~~~~~~~~
 
