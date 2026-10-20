@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='nfselib_paulistana',
-    version='0.4.1',
+    version='0.4.2',
     license='MIT',
     description='Python Library to genereate paulistana NFS-E',
     long_description='%s\n%s\n%s' % (
