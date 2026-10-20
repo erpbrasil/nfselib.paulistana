@@ -2,6 +2,14 @@
 Changelog
 =========
 
+0.4.2 (2026-10-20)
+~~~~~~~~~~~~~~~~~~
+
+* Corrige regressão da 0.4.0 no pacote ``v02``: os pedidos (``PedidoEnvioLoteRPS``,
+  ``PedidoConsultaLote``, ``PedidoConsultaNFe``, ``PedidoCancelamentoNFe``) voltam a sair com o
+  namespace ``http://www.prefeitura.sp.gov.br/nfe`` no elemento raiz, como na 0.3.0. A importação
+  de ``generatedsnamespaces`` tinha voltado a ser absoluta e falhava em silêncio.
+
 0.4.1 (2026-10-20)
 ~~~~~~~~~~~~~~~~~~
 
