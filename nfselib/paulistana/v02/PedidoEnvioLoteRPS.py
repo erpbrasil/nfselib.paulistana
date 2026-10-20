@@ -5276,7 +5276,7 @@ class tpRPS(GeneratedsSuper):
         if self.Assinatura is not None:
             namespaceprefix_ = self.Assinatura_nsprefix_ + ':' if (UseCapturedNS_ and self.Assinatura_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAssinatura>%s</%sAssinatura>%s' % (namespaceprefix_ , self.gds_format_base64(self.Assinatura, input_name='Assinatura'), namespaceprefix_ , eol_))
+            outfile.write('<%sAssinatura>%s</%sAssinatura>%s' % (namespaceprefix_ , self.gds_format_string(self.Assinatura, input_name='Assinatura'), namespaceprefix_ , eol_))
         if self.ChaveRPS is not None:
             namespaceprefix_ = self.ChaveRPS_nsprefix_ + ':' if (UseCapturedNS_ and self.ChaveRPS_nsprefix_) else ''
             self.ChaveRPS.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ChaveRPS', pretty_print=pretty_print)
@@ -5430,10 +5430,7 @@ class tpRPS(GeneratedsSuper):
         if nodeName_ == 'Assinatura':
             sval_ = child_.text
             if sval_ is not None:
-                try:
-                    bval_ = base64.b64decode(sval_)
-                except (TypeError, ValueError) as exp:
-                    raise_parse_error(child_, 'requires base64 encoded string: %s' % exp)
+                bval_ = sval_
                 bval_ = self.gds_validate_base64(bval_, node, 'Assinatura')
             else:
                 bval_ = None

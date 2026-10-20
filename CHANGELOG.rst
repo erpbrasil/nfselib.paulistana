@@ -2,6 +2,14 @@
 Changelog
 =========
 
+0.4.1 (2026-10-20)
+~~~~~~~~~~~~~~~~~~
+
+* Corrige regressão da 0.4.0 no pacote ``v02``: ``tpRPS.Assinatura`` (``PedidoEnvioLoteRPS``) e
+  ``DetalheType.AssinaturaCancelamento`` (``PedidoCancelamentoNFe``) voltam a ser escritos como
+  texto já em base64, como na 0.3.0. Na 0.4.0 a emissão e o cancelamento pelo ``erpbrasil.edoc``
+  falhavam com ``TypeError`` em ``base64.b64encode``.
+
 0.4.0 (2026-10-19)
 ~~~~~~~~~~~~~~~~~~
 
