@@ -14,8 +14,9 @@ ASSINATURA = "QUJDREVGR0hJSktMTU5PUA=="
 
 
 def _export(obj, name):
+    # sem prefixo, como o elemento pai exporta os filhos dentro do pedido
     buf = io.StringIO()
-    obj.export(buf, 0, name_=name, pretty_print=False)
+    obj.export(buf, 0, namespaceprefix_="", name_=name, pretty_print=False)
     return buf.getvalue()
 
 
