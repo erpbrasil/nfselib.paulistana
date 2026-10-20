@@ -11,6 +11,8 @@ erpbrasil-edoc-gen-download-schema -n paulistana -v v02 -u http://notadomilhao.p
 erpbrasil-edoc-gen-generate-python -m nfse -n paulistana -v v02 -i "PedidoEnvioLoteRPS_v01|PedidoConsultaLote_v01|RetornoEnvioLoteRPS_v01|RetornoConsulta_v01|RetornoInformacoesLote_v01|PedidoConsultaNFe_v01|PedidoCancelamentoLote_v01|RetornoCancelamentoNFe_v01|PedidoCancelamentoNFe_v01" -d .
 # Mantem o contrato das assinaturas do v02 (texto, como na 0.3.0) depois de regenerar:
 python scripts/patch_v02_assinaturas.py nfselib/paulistana/v02
+# Volta o import de generatedsnamespaces para relativo (sem ele o export perde os xmlns da 0.3.0):
+python scripts/patch_v02_namespaces.py nfselib/paulistana/v02
 # O servico_enviar_lote_rps_envio_v03 foi necessário pois a classe EnviarLoteRpsEnvio
 # não estava no arquivo de retorno.
 

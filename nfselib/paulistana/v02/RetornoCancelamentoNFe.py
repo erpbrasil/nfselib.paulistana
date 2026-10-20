@@ -111,7 +111,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 #
 
 try:
-    from generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
+    from .generatedsnamespaces import GenerateDSNamespaceDefs as GenerateDSNamespaceDefs_
 except ModulenotfoundExp_ :
     GenerateDSNamespaceDefs_ = {}
 try:
@@ -1160,7 +1160,7 @@ class RetornoCancelamentoNFe(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos" ', name_='RetornoCancelamentoNFe', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RetornoCancelamentoNFe', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('RetornoCancelamentoNFe')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1185,7 +1185,7 @@ class RetornoCancelamentoNFe(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='RetornoCancelamentoNFe'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos" ', name_='RetornoCancelamentoNFe', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RetornoCancelamentoNFe', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1344,7 +1344,7 @@ class tpEvento(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpEvento', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpEvento', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpEvento')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1369,7 +1369,7 @@ class tpEvento(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpEvento'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpEvento', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpEvento', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1513,7 +1513,7 @@ class tpCPFCNPJ(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpCPFCNPJ', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpCPFCNPJ', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpCPFCNPJ')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1538,7 +1538,7 @@ class tpCPFCNPJ(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpCPFCNPJ'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpCPFCNPJ', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpCPFCNPJ', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1640,7 +1640,7 @@ class tpChaveNFeRPS(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveNFeRPS', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveNFeRPS', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpChaveNFeRPS')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1665,7 +1665,7 @@ class tpChaveNFeRPS(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpChaveNFeRPS'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveNFeRPS', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveNFeRPS', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1829,7 +1829,7 @@ class tpChaveNFe(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveNFe', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveNFe', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpChaveNFe')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -1854,7 +1854,7 @@ class tpChaveNFe(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpChaveNFe'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveNFe', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveNFe', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2032,7 +2032,7 @@ class tpChaveRPS(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveRPS', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveRPS', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpChaveRPS')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -2057,7 +2057,7 @@ class tpChaveRPS(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpChaveRPS'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpChaveRPS', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpChaveRPS', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2355,7 +2355,7 @@ class tpEndereco(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpEndereco', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpEndereco', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpEndereco')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -2380,7 +2380,7 @@ class tpEndereco(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpEndereco'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpEndereco', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpEndereco', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2707,7 +2707,7 @@ class tpInformacoesLote(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpInformacoesLote', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpInformacoesLote', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpInformacoesLote')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -2732,7 +2732,7 @@ class tpInformacoesLote(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpInformacoesLote'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpInformacoesLote', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpInformacoesLote', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -3793,7 +3793,7 @@ class tpNFe(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpNFe', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpNFe', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpNFe')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -3818,7 +3818,7 @@ class tpNFe(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpNFe'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpNFe', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpNFe', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5253,7 +5253,7 @@ class tpRPS(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpRPS', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpRPS', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('tpRPS')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -5278,7 +5278,7 @@ class tpRPS(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='tipos:', name_='tpRPS'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos"', name_='tpRPS', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='tipos:', namespacedef_='', name_='tpRPS', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5779,7 +5779,7 @@ class SignatureType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignatureType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('SignatureType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -5806,7 +5806,7 @@ class SignatureType(GeneratedsSuper):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
             outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignatureType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -5900,7 +5900,7 @@ class SignatureValueType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignatureValueType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureValueType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('SignatureValueType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -5924,7 +5924,7 @@ class SignatureValueType(GeneratedsSuper):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
             outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignatureValueType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignatureValueType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -6021,7 +6021,7 @@ class SignedInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignedInfoType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignedInfoType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('SignedInfoType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6048,7 +6048,7 @@ class SignedInfoType(GeneratedsSuper):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
             outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='SignedInfoType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='SignedInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6182,7 +6182,7 @@ class ReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='ReferenceType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='ReferenceType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('ReferenceType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6215,7 +6215,7 @@ class ReferenceType(GeneratedsSuper):
         if self.Type is not None and 'Type' not in already_processed:
             already_processed.add('Type')
             outfile.write(' Type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Type), input_name='Type')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='ReferenceType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='ReferenceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6332,7 +6332,7 @@ class TransformsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='TransformsType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='TransformsType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('TransformsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6357,7 +6357,7 @@ class TransformsType(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='TransformsType'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='TransformsType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='TransformsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6444,7 +6444,7 @@ class TransformType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='TransformType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='TransformType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('TransformType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6471,7 +6471,7 @@ class TransformType(GeneratedsSuper):
         if self.Algorithm is not None and 'Algorithm' not in already_processed:
             already_processed.add('Algorithm')
             outfile.write(' Algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Algorithm), input_name='Algorithm')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='TransformType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='TransformType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6554,7 +6554,7 @@ class KeyInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='KeyInfoType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='KeyInfoType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('KeyInfoType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6581,7 +6581,7 @@ class KeyInfoType(GeneratedsSuper):
         if self.Id is not None and 'Id' not in already_processed:
             already_processed.add('Id')
             outfile.write(' Id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.Id), input_name='Id')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='KeyInfoType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='KeyInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6655,7 +6655,7 @@ class KeyValueType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='KeyValueType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='KeyValueType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('KeyValueType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6680,7 +6680,7 @@ class KeyValueType(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='KeyValueType'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='KeyValueType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='KeyValueType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6751,7 +6751,7 @@ class X509DataType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='X509DataType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='X509DataType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('X509DataType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6776,7 +6776,7 @@ class X509DataType(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='ds:', name_='X509DataType'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='xmlns:ds="http://www.w3.org/2000/09/xmldsig#"', name_='X509DataType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='ds:', namespacedef_='', name_='X509DataType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -6891,7 +6891,7 @@ class CabecalhoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos" ', name_='CabecalhoType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='CabecalhoType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('CabecalhoType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -6918,7 +6918,7 @@ class CabecalhoType(GeneratedsSuper):
         if self.Versao is not None and 'Versao' not in already_processed:
             already_processed.add('Versao')
             outfile.write(' Versao="%s"' % self.gds_format_integer(self.Versao, input_name='Versao'))
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:tipos="http://www.prefeitura.sp.gov.br/nfe/tipos" ', name_='CabecalhoType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='CabecalhoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7283,7 +7283,7 @@ class RSAKeyValueType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:ds="http://www.w3.org/2000/09/xmldsig#" ', name_='RSAKeyValueType', pretty_print=True):
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RSAKeyValueType', pretty_print=True):
         imported_ns_def_ = GenerateDSNamespaceDefs_.get('RSAKeyValueType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
@@ -7308,7 +7308,7 @@ class RSAKeyValueType(GeneratedsSuper):
             outfile.write('/>%s' % (eol_, ))
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='RSAKeyValueType'):
         pass
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_=' xmlns:ds="http://www.w3.org/2000/09/xmldsig#" ', name_='RSAKeyValueType', fromsubclass_=False, pretty_print=True):
+    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='RSAKeyValueType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:

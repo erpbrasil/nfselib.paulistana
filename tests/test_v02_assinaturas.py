@@ -13,9 +13,9 @@ from nfselib.paulistana.v02 import PedidoCancelamentoNFe, PedidoEnvioLoteRPS
 ASSINATURA = "QUJDREVGR0hJSktMTU5PUA=="
 
 
-def _export(obj, name):
+def _export(obj, name, **kwargs):
     buf = io.StringIO()
-    obj.export(buf, 0, name_=name, pretty_print=False)
+    obj.export(buf, 0, name_=name, pretty_print=False, **kwargs)
     return buf.getvalue()
 
 
@@ -25,7 +25,8 @@ def test_envio_rps_assinatura_is_exported_as_given():
 
 
 def test_envio_rps_assinatura_is_read_back_as_text():
-    xml = _export(PedidoEnvioLoteRPS.tpRPS(Assinatura=ASSINATURA), "RPS")
+    # sem prefixo: o tpRPS isolado sai como tipos:RPS sem declarar xmlns:tipos (como na 0.3.0)
+    xml = _export(PedidoEnvioLoteRPS.tpRPS(Assinatura=ASSINATURA), "RPS", namespaceprefix_="")
     rebuilt = PedidoEnvioLoteRPS.tpRPS.factory()
     rebuilt.build(etree.fromstring(xml.encode()))
     assert rebuilt.Assinatura == ASSINATURA
