@@ -2,6 +2,18 @@
 Changelog
 =========
 
+Unreleased
+~~~~~~~~~~
+
+* Atualiza o schema ``TiposNFe_v02.xsd`` para o pacote ``schemas-reformatributaria-v02-7`` (24/10/2026)
+  da Prefeitura de São Paulo e regenera os bindings ``v03`` a partir dele. Corresponde à "Adequação à
+  NT 9" do Manual de Utilização do Web Service de NFS-e v3.4 (Outubro/2026): acréscimo dos grupos
+  ``gEstornoCred``, ``vAjusteBC``, ``comExt``, ``gPgtoVinc`` e dos campos ``indDoacao``/``cPaisResult``,
+  que no XSD aparecem como os novos tipos ``tpComExt``, ``tpDocAjusteBC``/``tpAjusteBC``,
+  ``tpGEstornoCred``, ``tpGPgtoVinc``, ``tpMeioPgto``, ``tpMdic``, ``tpNDUE``, ``tpNDUIMP``,
+  ``tpFornecedor``, ``tpCNPJBase``, ``tpVincPrest``, ``tpIdTransacao``, entre outros. Os demais XSDs
+  do pacote não mudaram de conteúdo.
+
 0.4.2 (2026-10-20)
 ~~~~~~~~~~~~~~~~~~
 

@@ -3,9 +3,14 @@
 # atualizar, baixar o pacote novo e copiar por cima. Pacotes usados na versao atual:
 #   schemas-v01-2.zip (13/05/2026)                  sha256 2771f66408dc4bfa6a17c20cb14f6f98c89c63cc1be567264ee48945a62d6167
 #     https://notadomilhao.sf.prefeitura.sp.gov.br/wp-content/uploads/2026/05/schemas-v01-2.zip
-#   schemas-reformatributaria-v02-5.zip (11/05/2026) sha256 1726c42a9fb6d238ea98262a5f05ba960989824553a36975f37a7827485368e3
-#     https://notadomilhao.sf.prefeitura.sp.gov.br/wp-content/uploads/2026/05/schemas-reformatributaria-v02-5.zip
-# Referencia normativa: Manual de Utilizacao do Web Service de NFS-e v3.3.9 (01/10/2026).
+#   schemas-reformatributaria-v02-7.zip (24/10/2026) sha256 d2ea0e8ff29450ea70c6acea88a343355f7e46a64f6cea84e7b01de1e1889525
+#     (sha do TiposNFe_v02.xsd; zip em https://notadomilhao.sf.prefeitura.sp.gov.br/schemas-reformatributaria-v02-7/ )
+# Referencia normativa: Manual de Utilizacao do Web Service de NFS-e v3.4 (Outubro/2026), item 6 (Changelog):
+#   "Adequacao a NT 9: acrescimo dos grupos gEstornoCred, vAjusteBC, comExt, gPgtoVinc e dos campos
+#   indDoacao, cPaisResult" -- corresponde aos tipos novos vistos no diff do TiposNFe_v02.xsd (tpComExt,
+#   tpGEstornoCred, tpGPgtoVinc, tpAjusteBC/tpDocAjusteBC, tpMeioPgto, tpMoeda, tpMdPrestacao, tpVincPrest,
+#   tpMecAFComexP/T, tpMovTempBens, tpNDUE/tpNDUIMP, tpMdic, tpNContCambio, tpNPag, tpIdTransacao,
+#   tpCNPJBase, tpFornecedor etc). PDF: https://notadomilhao.sf.prefeitura.sp.gov.br/wp-content/uploads/2026/10/NFe_Web_Service.pdf
 # Os bindings v02 e v03 foram gerados com generateDS 2.44.3 (ver cabecalho de cada arquivo).
 erpbrasil-edoc-gen-download-schema -n paulistana -v v02 -u http://notadomilhao.prefeitura.sp.gov.br/arquivos/schemasv02.zip/@@download/file/schemasv02.zip
 erpbrasil-edoc-gen-generate-python -m nfse -n paulistana -v v02 -i "PedidoEnvioLoteRPS_v01|PedidoConsultaLote_v01|RetornoEnvioLoteRPS_v01|RetornoConsulta_v01|RetornoInformacoesLote_v01|PedidoConsultaNFe_v01|PedidoCancelamentoLote_v01|RetornoCancelamentoNFe_v01|PedidoCancelamentoNFe_v01" -d .
