@@ -1,13 +1,99 @@
-name: Publish Python 🐍 distributions 📦 to PyPI
+# Publica no PyPI toda versão do setup.py que ainda não está lá.
+#
+# Fluxo normal: o PR que faz o bump (bump2version) e fecha a seção do
+# CHANGELOG.rst entra no master_gen; este workflow vê que a versão não existe
+# no PyPI, roda os testes, publica e cria a tag vX.Y.Z e o release no GitHub
+# com as notas do CHANGELOG. Push sem bump não publica nada.
+#
+# Criar o release à mão continua funcionando (evento release), e o
+# workflow_dispatch serve para repetir uma publicação que falhou. Nos dois
+# casos, versão que já está no PyPI é pulada.
+#
+# O PyPI confia neste arquivo (publish.yml) e no environment "release" via
+# Trusted Publishing: não renomear nenhum dos dois.
+name: Publish to PyPI
 
 on:
+  push:
+    branches:
+      - master_gen
   release:
     types: [released]
   workflow_dispatch:
 
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
 jobs:
-  build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI
+  check:
+    name: Verifica se a versão já está no PyPI
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.pypi.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Lê a versão do setup.py
+        id: version
+        run: |
+          version=$(python3 -c "import re; print(re.search(r\"version='([^']+)'\", open('setup.py').read()).group(1))")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Versão no setup.py: $version"
+
+      - name: Consulta o PyPI
+        id: pypi
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          status=$(curl -s -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/nfselib-paulistana/$VERSION/json")
+          case "$status" in
+            200) echo "publish=false" >> "$GITHUB_OUTPUT"
+                 echo "::notice::$VERSION já está no PyPI, nada a publicar." ;;
+            404) echo "publish=true" >> "$GITHUB_OUTPUT"
+                 echo "::notice::$VERSION não está no PyPI, vai publicar." ;;
+            *)   echo "::error::PyPI respondeu HTTP $status"; exit 1 ;;
+          esac
+
+      - name: Exige seção da versão no CHANGELOG.rst
+        if: steps.pypi.outputs.publish == 'true'
+        run: python3 scripts/changelog_section.py "${{ steps.version.outputs.version }}"
+
+  build:
+    name: Testa e gera wheel e sdist
+    needs: check
+    if: needs.check.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Testes
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . pytest
+          pytest -q
+
+      - name: Build
+        run: |
+          pip install build
+          python -m build
+
+      - name: Confere a versão gerada
+        run: ls dist | grep -F -- "-${{ needs.check.outputs.version }}"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publica no PyPI
+    needs: [check, build]
     runs-on: ubuntu-latest
     environment:
       name: release
@@ -15,18 +101,36 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: Tag e release no GitHub
+    needs: [check, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: v${{ needs.check.outputs.version }}
+    steps:
       - uses: actions/checkout@v7
 
-      - name: Set up Python
-        uses: actions/setup-python@v7
+      - uses: actions/download-artifact@v8
         with:
-          python-version: "3.12"
+          name: dist
+          path: dist/
 
-      - name: Install pypa/build
-        run: python -m pip install build --user
-
-      - name: Build a binary wheel and a source tarball
-        run: python3 -m build
-
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Cria o release (ou anexa os pacotes ao que já existe)
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            python3 scripts/changelog_section.py "${{ needs.check.outputs.version }}" > notes.md
+            gh release create "$TAG" dist/* --target "$GITHUB_SHA" --title "$TAG" --notes-file notes.md
+          fi

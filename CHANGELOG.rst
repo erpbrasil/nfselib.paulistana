@@ -2,8 +2,8 @@
 Changelog
 =========
 
-Unreleased
-~~~~~~~~~~
+0.5.0 (2026-11-15)
+~~~~~~~~~~~~~~~~~~
 
 * Atualiza o schema ``TiposNFe_v02.xsd`` para o pacote ``schemas-reformatributaria-v02-7`` (24/10/2026)
   da Prefeitura de São Paulo e regenera os bindings ``v03`` a partir dele. Corresponde à "Adequação à
@@ -13,6 +13,10 @@ Unreleased
   ``tpGEstornoCred``, ``tpGPgtoVinc``, ``tpMeioPgto``, ``tpMdic``, ``tpNDUE``, ``tpNDUIMP``,
   ``tpFornecedor``, ``tpCNPJBase``, ``tpVincPrest``, ``tpIdTransacao``, entre outros. Os demais XSDs
   do pacote não mudaram de conteúdo.
+* CI passa a testar Python 3.10 a 3.13 (sai o 3.9).
+* Publicação automática: quando a versão do ``setup.py`` que chega ao ``master_gen`` ainda não está
+  no PyPI, o workflow ``publish.yml`` roda os testes, publica e cria a tag e o release no GitHub com
+  as notas desta seção do changelog. Versão sem seção no changelog não é publicada.
 
 0.4.2 (2026-10-20)
 ~~~~~~~~~~~~~~~~~~
